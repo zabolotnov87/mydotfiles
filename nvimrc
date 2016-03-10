@@ -1,11 +1,7 @@
-" TODO write README, how to setup (nvim, vim-plug)
-
-" TODO
-"  - working with buffers, tabs
-"  - plugins: snippets, gundo, ag.vim
-"  - backups and history: use -u and ctrl-r after rewrite and reopen file
-"  - search: ctags
-"  - view: airline
+" Config file for NeoVim
+"
+" author: Sergey Zabolotnov (sergey.zabolotnov@gmail.com)
+"
 
 " Basic {{{
   set nocompatible
@@ -22,13 +18,6 @@
 
   set autoread
   set autowriteall
-
-  " Folding {{{
-    set foldenable        " enable folding
-    set foldlevelstart=10 " open most folds by default
-    set foldnestmax=10    " 10 nested fold max
-    set foldmethod=indent " fold based on indent level
-  " }}}
 
   " Swap and Backups {{{
     set updatecount=0
@@ -47,21 +36,24 @@
 " Plugins {{{
   let g:plug_window='new'
 
-  call plug#begin('~/.nvim/plugged')
+  call plug#begin('~/.local/share/nvim/plugged')
 
-  Plug 'ctrlpvim/ctrlp.vim'
   Plug 'vim-scripts/vim-auto-save'
   Plug 'tpope/vim-commentary'
   Plug 'jiangmiao/auto-pairs'
-  Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-unimpaired'
   Plug 'scrooloose/nerdtree'
   Plug 'vim-easy-align'
-  Plug 'morhetz/gruvbox'
-  Plug 'easymotion/vim-easymotion'
-  Plug 'shime/vim-livedown'
   Plug 'DataWraith/auto_mkdir'
   Plug 'pangloss/vim-javascript'
+  Plug 'easymotion/vim-easymotion'
+  Plug 'tpope/vim-fugitive'
+  Plug 'chriskempson/base16-vim'
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+  Plug 'junegunn/fzf.vim'
+  Plug 'kana/vim-textobj-user'
+  Plug 'kana/vim-textobj-line'
+  Plug 'janko-m/vim-test'
 
   call plug#end()
 " }}}
@@ -80,17 +72,6 @@
     endif
   " }}}
 
-  " ctrlp {{{
-    let g:ctrlp_map='<leader>t'
-    let g:ctrlp_use_caching=0
-    " order matching files top to bottom with ttb (from top to bottom)
-    let g:ctrlp_match_window = 'bottom,order:ttb'
-    " always open files in new buffers
-    let g:ctrlp_switch_buffer = 0
-    " allow change the working directory during a vim session
-    let g:ctrlp_working_path_mode = 0
-  " }}}
-
   " netrw {{{
     let g:netrw_preview=1
     let g:netrw_alto=0
@@ -101,6 +82,14 @@
     let g:NERDTreeWinSize=40
   " }}}
 
+  " Vim Tests {{{
+    nmap <silent> <leader>r :TestNearest<CR>
+    nmap <silent> <leader>ar :TestFile<CR>
+
+    let test#strategy = "neovim"
+    let test#ruby#rspec#executable = 'env USE_SPRING=1 bin/rspec'
+  " }}}
+
 " }}}
 
 " Shortcuts {{{
@@ -109,8 +98,7 @@
 
   noremap <Leader>gs :Gstatus<CR>
   noremap <Leader>gb :Gblame<CR>
-
-  noremap <C-p> :LivedownToggle<CR>
+  noremap <Leader>gd :Gdiff<CR>
 
   xmap ga <Plug>(EasyAlign)
   nmap ga <Plug>(EasyAlign)
@@ -127,13 +115,21 @@
   noremap <C-k> <C-w>k
   noremap <C-l> <C-w>l
   noremap <C-h> <C-w>h
+  noremap <A-j> <C-w>j
+  noremap <A-k> <C-w>k
+  noremap <A-l> <C-w>l
+  noremap <A-h> <C-w>h
+  " in terminal mode (neovim specific)
+  tnoremap <A-h> <C-\><C-n><C-w>h
+  tnoremap <A-j> <C-\><C-n><C-w>j
+  tnoremap <A-k> <C-\><C-n><C-w>k
+  tnoremap <A-l> <C-\><C-n><C-w>l
 
-  " buffer navigation
-  noremap <leader>q :bp<CR>
-  noremap <leader>w :bn<CR>
+  nnoremap H :tabprevious<CR>
+  nnoremap L :tabnext<CR>
 
   " close buffer
-  noremap <leader>c :bd<CR>
+  noremap <leader>c :bd!<CR>
 
   " vmap for maintain Visual Mode after shifting > and <
   vmap < <gv
@@ -160,18 +156,36 @@
     nnoremap E $
   " }}}
 
-  nnoremap <silent> <leader><space> :nohlsearch<cr>
+  nnoremap <silent> <leader><SPace> :nohlsearch<cr>
 
   " autocomplete
   inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
   inoremap <S-Tab> <c-n>
+
+  " copy buffer path to clipboard
+  nmap cp :silent !echo '%:p' \| pbcopy<CR>
+
+  nmap <leader>w "zyiw:exe "F ".@z.""<CR>
+
+  " FZF (Fizzy Finder)
+  nmap <leader>f :Files<CR>
+  nmap <leader>s :BLines<CR>
+
+  " open terminal in current buffer
+  nmap <leader>t :edit term://fish<CR>
+
+  " exit from terminal mode
+  tnoremap <Esc> <C-\><C-n>
+  tnoremap <C-r> <C-\><C-n>
 " }}}
 
 " View {{{
   syntax enable
 
-  colorscheme gruvbox
+  let base16colorspace=256
   set background=dark
+  color base16-oceanicnext
+  " color base16-solarized-light
 
   set ruler       " show the cursor position all the time
   set cursorline  " color current line
@@ -184,7 +198,7 @@
   " display extra whitespace
   set listchars=tab:▸\ ,trail:·,extends:❯,precedes:❮,nbsp:×
 
-  set colorcolumn=80
+  set colorcolumn=100
 
   " numbers
   set number
@@ -218,10 +232,34 @@
 
   set hlsearch  " Enable search highlighting,
   nohlsearch    " but do not highlight last search on startup
+
+  " let g:rg_command = '
+  " \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
+  " \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
+  " \ -g "!{.git,node_modules,vendor}/*" '
+
+  " command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
+
+  " Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
+  command! -bang -nargs=* F
+    \ call fzf#vim#grep(
+    \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+    \   <bang>0 ? fzf#vim#with_preview('up:60%')
+    \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+    \   <bang>0)
+
+  " Likewise, Files command with preview window
+  command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
 " }}}
 
 " Functions {{{
   function! <SID>StripTrailingWhitespaces()
+    if exists('b:noStripWhiteSpaces')
+      return
+    endif
+
     " save last search & cursor position
     let _s=@/
     let l = line(".")
@@ -244,6 +282,7 @@
 " Autogroups {{{
   augroup configgroup
     autocmd!
+    autocmd BufWritePre *.sql let b:noStripWhiteSpaces=1
     autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
     " arbre (https://github.com/activeadmin/arbre) processing
@@ -251,10 +290,16 @@
 
     autocmd BufLeave * set norelativenumber number
     autocmd BufEnter * set relativenumber
+
+    autocmd Filetype gitcommit setlocal textwidth=72
+    autocmd FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
   augroup END
 " }}}
 
 " NeoVim Specific {{{
+  set termguicolors
+  let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
+
   " see https://github.com/neovim/neovim/issues/2048
   if has('nvim')
     nmap <BS> <C-W>h
@@ -271,4 +316,15 @@
   let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 " }}}
 
-" vim:foldmethod=marker:foldlevel=0
+" Vim Specific: cursor (tmux + iterm) {{{
+" tmux will only forward escape sequences to the terminal if surrounded by a DCS sequence
+  if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+  else
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+  endif
+" }}}
+
+" vim:foldmethod=marker:foldlevel=0:foldminlines=1

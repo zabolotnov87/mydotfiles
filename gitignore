@@ -1,0 +1,5 @@
+*.tmp
+*.sublime-project
+*.sublime-workspace
+tags
+.ruby-version
