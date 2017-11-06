@@ -315,6 +315,9 @@
 
   " Neo Vim cursor shape
   let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
+
+  " # Increase maximum amount of memory (in Kbyte) to use for pattern matching.
+  set maxmempattern=20000
 " }}}
 
 " Vim Specific: cursor (tmux + iterm) {{{
