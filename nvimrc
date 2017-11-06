@@ -54,6 +54,7 @@
   Plug 'kana/vim-textobj-user'
   Plug 'kana/vim-textobj-line'
   Plug 'janko-m/vim-test'
+  Plug 'dag/vim-fish'
 
   call plug#end()
 " }}}
