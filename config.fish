@@ -54,3 +54,6 @@ set -x FZF_DEFAULT_OPTS '--height 40% --reverse'
 set -x FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 
 status --is-interactive; and source (rbenv init -|psub)
+
+# Configure direnv
+eval (direnv hook fish)
