@@ -299,36 +299,12 @@
 
 " NeoVim Specific {{{
   set termguicolors
-  let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
-
-  " see https://github.com/neovim/neovim/issues/2048
-  if has('nvim')
-    nmap <BS> <C-W>h
-  endif
-
-  if !has('nvim')
-    set encoding=utf-8
-  endif
 
   " Disable vim auto visual mode using mouse
   set mouse-=a
 
-  " Neo Vim cursor shape
-  let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
-
   " # Increase maximum amount of memory (in Kbyte) to use for pattern matching.
   set maxmempattern=20000
-" }}}
-
-" Vim Specific: cursor (tmux + iterm) {{{
-" tmux will only forward escape sequences to the terminal if surrounded by a DCS sequence
-  if exists('$TMUX')
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-  else
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-  endif
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0:foldminlines=1
