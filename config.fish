@@ -9,7 +9,6 @@ alias tmux "env TERM=xterm-256color tmux"
 alias spec "bundle exec rescue rspec"
 alias vim  "nvim"
 alias vi   "nvim"
-alias als  "grep -nr alias ~/.config/fish/config.fish | cut -d ':' -f 3"
 alias lfc  "source ~/.config/fish/config.fish"
 
 # Git
