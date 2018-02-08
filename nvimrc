@@ -55,6 +55,8 @@
   Plug 'kana/vim-textobj-line'
   Plug 'janko-m/vim-test'
   Plug 'dag/vim-fish'
+  Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+  Plug 'SirVer/ultisnips'
 
   call plug#end()
 " }}}
@@ -89,6 +91,51 @@
 
     let test#strategy = "neovim"
     let test#ruby#rspec#executable = 'env USE_SPRING=1 bin/rspec'
+  " }}}
+
+  " Ale {{{
+    " Configure Ale (installed in ~/.local/share/nvim/site/pack/git-plugins/start/ale)
+    packloadall
+    silent! helptags ALL
+
+    let g:ale_linters = {
+    \   'ruby': ['rubocop'],
+    \   'go': [],
+    \   'json': ['fixjson'],
+    \}
+
+    let g:ale_fixers = {
+    \   'ruby': ['rubocop'],
+    \   'json': ['fixjson'],
+    \}
+
+    let g:ale_echo_msg_error_str = 'E'
+    let g:ale_echo_msg_warning_str = 'W'
+    let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+
+    nmap fix <Plug>(ale_fix)
+    nmap <silent> <C-n> <Plug>(ale_next_wrap)
+    nmap <silent> <C-p> <Plug>(ale_previous_wrap)
+  " }}}
+
+  " Vim Go {{{
+    let g:go_fmt_autosave = 0
+    let g:go_fmt_command = 'goimports'
+    let g:go_list_type = 'quickfix'
+    let g:go_fmt_fail_silently = 1
+    let g:go_highlight_types = 1
+    let g:go_highlight_fields = 1
+    let g:go_highlight_functions = 1
+    let g:go_highlight_methods = 1
+
+  " }}}
+
+  " Ultisnips {{{
+
+    let g:UltiSnipsJumpForwardTrigger='<c-n>'
+    let g:UltiSnipsExpandTrigger='<c-n>'
+    let g:UltiSnipsJumpBackwardTrigger='<c-b>'
+
   " }}}
 
 " }}}
@@ -132,6 +179,9 @@
   " close buffer
   noremap <leader>c :bd!<CR>
 
+  " close all buffer
+  noremap <leader>bdbd :bufdo: bd!<CR>
+
   " vmap for maintain Visual Mode after shifting > and <
   vmap < <gv
   vmap > >gv
@@ -164,13 +214,17 @@
   inoremap <S-Tab> <c-n>
 
   " copy buffer path to clipboard
-  nmap cp :silent !echo '%:p' \| pbcopy<CR>
+  nmap cp :silent !echo '%' \| tr -d '\n' \| pbcopy<CR>
 
   nmap <leader>w "zyiw:exe "F ".@z.""<CR>
 
   " FZF (Fizzy Finder)
   nmap <leader>f :Files<CR>
   nmap <leader>s :BLines<CR>
+  nmap <leader>b :Buffers<CR>
+  nmap <leader>gf :GFiles?<CR>
+
+  imap <C-f> <plug>(fzf-complete-line)
 
   " open terminal in current buffer
   nmap <leader>t :edit term://fish<CR>
@@ -185,8 +239,7 @@
 
   let base16colorspace=256
   set background=dark
-  color base16-oceanicnext
-  " color base16-solarized-light
+  color base16-eighties
 
   set ruler       " show the cursor position all the time
   set cursorline  " color current line
@@ -234,14 +287,8 @@
   set hlsearch  " Enable search highlighting,
   nohlsearch    " but do not highlight last search on startup
 
-  " let g:rg_command = '
-  " \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
-  " \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
-  " \ -g "!{.git,node_modules,vendor}/*" '
 
-  " command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
-
-  " Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
+  " To use ripgrep instead of ag:
   command! -bang -nargs=* F
     \ call fzf#vim#grep(
     \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
@@ -294,6 +341,13 @@
 
     autocmd Filetype gitcommit setlocal textwidth=72
     autocmd FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
+
+    autocmd FileType go nmap gob <Plug>(go-build)
+    autocmd FileType go nmap gor <Plug>(go-run)
+    autocmd FileType go nmap fix <Plug>(go-imports)
+    autocmd FileType go nmap <Leader>i <Plug>(go-info)
+    autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+    autocmd BufNewFile,BufRead *.go set nolist
   augroup END
 " }}}
 

@@ -46,12 +46,14 @@ end
 # Set environment variables
 ################################################################################
 set -x EDITOR nvim
-set -x PAGER most
-set -x PATH $PATH $HOME/bin
 set -x LC_ALL en_US.UTF-8
 set -x LANG en_US.UTF-8
-set -x FZF_DEFAULT_OPTS '--height 40% --reverse'
 set -x FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow --glob "!.git/*"'
+set -x FZF_DEFAULT_OPTS "--reverse $FZF_DEFAULT_OPTS"
+set -x GOPATH $HOME/go
+set -x GOBIN $GOPATH/bin
+set -x PATH $PATH $HOME/bin $GOBIN
+set -x GOROOT /Users/zabolotnov/.asdf/installs/golang/1.9.4/go
 
 # Configure direnv
 eval (direnv hook fish)
