@@ -26,11 +26,6 @@
     set nowritebackup
   " }}}
 
-  " Split {{{
-    " open new split panes to right and bottom, which feels more natural
-    set splitbelow
-    set splitright
-  " }}}
 " }}}
 
 " Plugins {{{
@@ -74,6 +69,10 @@
       set statusline+=%{fugitive#statusline()}
       let s:git_status_line_added=1
     endif
+
+    noremap <Leader>gs :Gstatus<CR>
+    noremap <Leader>gb :Gblame<CR>
+    noremap <Leader>gd :Gdiff<CR>
   " }}}
 
   " netrw {{{
@@ -84,6 +83,14 @@
   " NerdTREE {{{
     let NERDTreeShowHidden=1
     let g:NERDTreeWinSize=40
+
+    noremap <Leader>e :NERDTreeFind<CR>
+    noremap <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
+  " }}}
+
+  " Easy Align {{{
+    xmap ga <Plug>(EasyAlign)
+    nmap ga <Plug>(EasyAlign)
   " }}}
 
   " Vim Tests {{{
@@ -119,6 +126,15 @@
     nmap <silent> <C-p> <Plug>(ale_previous_wrap)
   " }}}
 
+  " Fizy Finder {{{
+    nmap <leader>w "zyiw:exe "F ".@z.""<CR>
+    nmap <leader>f :Files<CR>
+    nmap <leader>s :BLines<CR>
+    nmap <leader>b :Buffers<CR>
+    nmap <leader>gf :GFiles?<CR>
+    imap <C-f> <plug>(fzf-complete-line)
+  " }}}
+
   " Vim Go {{{
     let g:go_fmt_autosave = 0
     let g:go_fmt_command = 'goimports'
@@ -128,15 +144,12 @@
     let g:go_highlight_fields = 1
     let g:go_highlight_functions = 1
     let g:go_highlight_methods = 1
-
   " }}}
 
   " Ultisnips {{{
-
     let g:UltiSnipsJumpForwardTrigger='<c-n>'
     let g:UltiSnipsExpandTrigger='<c-n>'
     let g:UltiSnipsJumpBackwardTrigger='<c-b>'
-
   " }}}
 
   " Goyo {{{
@@ -147,15 +160,6 @@
 " }}}
 
 " Shortcuts {{{
-  noremap <Leader>e :NERDTreeFind<CR>
-  noremap <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
-
-  noremap <Leader>gs :Gstatus<CR>
-  noremap <Leader>gb :Gblame<CR>
-  noremap <Leader>gd :Gdiff<CR>
-
-  xmap ga <Plug>(EasyAlign)
-  nmap ga <Plug>(EasyAlign)
 
   " fast exit to normal mode
   inoremap jk <esc>
@@ -222,16 +226,6 @@
   " copy buffer path to clipboard
   nmap cp :silent !echo '%' \| tr -d '\n' \| pbcopy<CR>
 
-  nmap <leader>w "zyiw:exe "F ".@z.""<CR>
-
-  " FZF (Fizzy Finder)
-  nmap <leader>f :Files<CR>
-  nmap <leader>s :BLines<CR>
-  nmap <leader>b :Buffers<CR>
-  nmap <leader>gf :GFiles?<CR>
-
-  imap <C-f> <plug>(fzf-complete-line)
-
   " open terminal in current buffer
   nmap <leader>t :edit term://fish<CR>
 
@@ -293,7 +287,6 @@
   set hlsearch  " Enable search highlighting,
   nohlsearch    " but do not highlight last search on startup
 
-
   " To use ripgrep instead of ag:
   command! -bang -nargs=* F
     \ call fzf#vim#grep(
@@ -348,12 +341,14 @@
     autocmd Filetype gitcommit setlocal textwidth=72
     autocmd FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 
-    autocmd FileType go nmap gob <Plug>(go-build)
-    autocmd FileType go nmap gor <Plug>(go-run)
-    autocmd FileType go nmap fix <Plug>(go-imports)
-    autocmd FileType go nmap <Leader>i <Plug>(go-info)
-    autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
-    autocmd BufNewFile,BufRead *.go set nolist
+    " go {{{
+      autocmd FileType go nmap gob <Plug>(go-build)
+      autocmd FileType go nmap gor <Plug>(go-run)
+      autocmd FileType go nmap fix <Plug>(go-imports)
+      autocmd FileType go nmap <Leader>i <Plug>(go-info)
+      autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+      autocmd BufNewFile,BufRead *.go set nolist
+    " }}}
   augroup END
 " }}}
 
