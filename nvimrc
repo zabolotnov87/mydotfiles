@@ -43,7 +43,7 @@
   Plug 'jiangmiao/auto-pairs'
   Plug 'tpope/vim-unimpaired'
   Plug 'scrooloose/nerdtree'
-  Plug 'vim-easy-align'
+  Plug 'junegunn/vim-easy-align'
   Plug 'DataWraith/auto_mkdir'
   Plug 'pangloss/vim-javascript'
   Plug 'easymotion/vim-easymotion'
@@ -57,6 +57,7 @@
   Plug 'dag/vim-fish'
   Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
   Plug 'SirVer/ultisnips'
+  Plug 'junegunn/goyo.vim'
 
   call plug#end()
 " }}}
@@ -136,6 +137,11 @@
     let g:UltiSnipsExpandTrigger='<c-n>'
     let g:UltiSnipsJumpBackwardTrigger='<c-b>'
 
+  " }}}
+
+  " Goyo {{{
+    nmap <Leader>go :Goyo<CR>
+    let g:goyo_width = 150
   " }}}
 
 " }}}
