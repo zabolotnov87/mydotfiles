@@ -53,6 +53,7 @@
   Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
   Plug 'SirVer/ultisnips'
   Plug 'junegunn/goyo.vim'
+  Plug 'posva/vim-vue'
 
   call plug#end()
 " }}}
