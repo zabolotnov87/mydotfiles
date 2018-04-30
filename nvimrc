@@ -155,7 +155,7 @@
 
   " Goyo {{{
     nmap <Leader>go :Goyo<CR>
-    let g:goyo_width = 150
+    let g:goyo_width = 100
   " }}}
 
 " }}}
@@ -225,7 +225,9 @@
   inoremap <S-Tab> <c-n>
 
   " copy buffer path to clipboard
-  nmap cp :silent !echo '%' \| tr -d '\n' \| pbcopy<CR>
+  nmap cp :let @+=expand('%')<CR>
+  " copy buffer path with line number to clipboard
+  nmap cpn :let @+=printf('%s:%d', expand('%'), expand(line('.')))<CR>
 
   " open terminal in current buffer
   nmap <leader>t :edit term://fish<CR>
