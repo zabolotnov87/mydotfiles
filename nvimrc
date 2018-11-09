@@ -18,6 +18,7 @@
 
   set autoread
   set autowriteall
+  set foldmethod=indent
 
   " Swap and Backups {{{
     set updatecount=0
@@ -54,6 +55,8 @@
   Plug 'SirVer/ultisnips'
   Plug 'junegunn/goyo.vim'
   Plug 'posva/vim-vue'
+  Plug 'elixir-editors/vim-elixir'
+  Plug 'iamcco/markdown-preview.vim'
 
   call plug#end()
 " }}}
@@ -121,7 +124,10 @@
     let g:ale_echo_msg_error_str = 'E'
     let g:ale_echo_msg_warning_str = 'W'
     let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+    let g:ale_enabled = 0 " disabled by default
 
+    nmap aled <Plug>(ale_disable)
+    nmap ale <Plug>(ale_enable)
     nmap fix <Plug>(ale_fix)
     nmap <silent> <C-n> <Plug>(ale_next_wrap)
     nmap <silent> <C-p> <Plug>(ale_previous_wrap)
@@ -340,6 +346,7 @@
 
     autocmd BufLeave * set norelativenumber number
     autocmd BufEnter * set relativenumber
+    autocmd BufRead * normal zR
 
     autocmd Filetype gitcommit setlocal textwidth=72
     autocmd FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
