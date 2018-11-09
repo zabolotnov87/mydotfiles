@@ -41,6 +41,9 @@ function fco -d "Fuzzy-find and checkout a branch"
   git branch --all | grep -v HEAD | string trim | fzf | xargs git checkout
 end
 
+# Setup color scheme for Fuzzy Finder
+source ~/git/base16-fzf/fish/base16-eighties.fish
+
 ################################################################################
 # Set environment variables
 ################################################################################
