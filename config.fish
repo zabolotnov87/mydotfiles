@@ -56,9 +56,13 @@ set -x GOPATH $HOME/go
 set -x GOBIN $GOPATH/bin
 set -x PATH $PATH $HOME/bin $GOBIN
 set -x GOROOT /Users/zabolotnov/.asdf/installs/golang/1.9.4/go
+set -g fish_user_paths "/usr/local/opt/openssl/bin" $fish_user_paths
+set -x DIRENV_LOG_FORMAT ""
 
 # Configure direnv
 eval (direnv hook fish)
 
 # Setup asdf
 source ~/.asdf/asdf.fish
+
+set fish_greeting
