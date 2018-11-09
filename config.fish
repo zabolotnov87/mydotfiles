@@ -6,7 +6,6 @@
 alias ll   "ls -al"
 alias tls  "tmux list-sessions"
 alias tmux "env TERM=xterm-256color tmux"
-alias spec "bundle exec rescue rspec"
 alias vim  "nvim"
 alias vi   "nvim"
 alias lfc  "source ~/.config/fish/config.fish"
