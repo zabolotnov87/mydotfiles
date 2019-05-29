@@ -9,6 +9,7 @@ alias tmux "env TERM=xterm-256color tmux"
 alias vim  "nvim"
 alias vi   "nvim"
 alias lfc  "source ~/.config/fish/config.fish"
+alias ltc  "tmux source-file ~/.tmux.conf"
 
 # Git
 alias ga  "git a -p"
@@ -28,6 +29,9 @@ alias gm  "git merge"
 alias bi "bundle install"
 alias be "bundle exec"
 alias bo "bundle open"
+
+alias reload "lfc && ltc"
+alias edit-configs "nvim -p ~/.tmux.conf.local ~/.config.fish.local ~/.vimrc.local && reload"
 
 ################################################################################
 # Functions
@@ -62,4 +66,4 @@ eval (direnv hook fish)
 # Setup asdf
 source ~/.asdf/asdf.fish
 
-set fish_greeting
+source ~/.config.fish.local

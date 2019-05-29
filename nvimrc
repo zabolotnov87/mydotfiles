@@ -57,6 +57,7 @@
   Plug 'posva/vim-vue'
   Plug 'elixir-editors/vim-elixir'
   Plug 'iamcco/markdown-preview.vim'
+  Plug 'w0rp/ale'
 
   call plug#end()
 " }}}
@@ -106,7 +107,6 @@
   " }}}
 
   " Ale {{{
-    " Configure Ale (installed in ~/.local/share/nvim/site/pack/git-plugins/start/ale)
     packloadall
     silent! helptags ALL
 
@@ -371,5 +371,7 @@
   " # Increase maximum amount of memory (in Kbyte) to use for pattern matching.
   set maxmempattern=20000
 " }}}
+
+source ~/.vimrc.local
 
 " vim:foldmethod=marker:foldlevel=0:foldminlines=1

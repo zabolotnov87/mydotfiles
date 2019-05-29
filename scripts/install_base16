@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ ! -d ~/git/base16-fzf ]; then
+  git clone git@github.com:nicodebo/base16-fzf.git ~/git/base16-fzf
+fi
+
+if [ ! -d ~/git/base16-iterm2 ]; then
+  git clone git@github.com:chriskempson/base16-iterm2.git ~/git/base16-iterm2
+fi

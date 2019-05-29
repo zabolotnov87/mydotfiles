@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+# Example of usage:
+#   ./render_gitconfig_user 'Mike' 'mike@email.test'
+
+name = ENV['GIT_USER_NAME']
+email = ENV['GIT_USER_EAMIL']
+File.write("#{ENV['HOME']}/.gitconfig.user", <<~EOF)
+[user]
+  email = #{email}
+  name = #{name}
+EOF

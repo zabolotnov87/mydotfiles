@@ -1,0 +1,20 @@
+#!/bin/bash
+
+brew install neovim
+
+curl https://bootstrap.pypa.io/get-pip.py | python - --user
+# More info: https://github.com/deoplete-plugins/deoplete-jedi/wiki/Setting-up-Python-for-Neovim
+pip3 install --user neovim
+
+mkdir -p ~/.config/nvim
+ln -sf ~/mydotfiles/nvimrc ~/.config/nvim/init.vim
+
+cat << EOF > ~/.vimrc.local
+color base16-solarized-light
+EOF
+
+# About vim-plug: https://github.com/junegunn/vim-plug
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+nvim +PlugInstall +qall
