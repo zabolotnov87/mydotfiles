@@ -52,7 +52,7 @@ set -x LC_ALL en_US.UTF-8
 set -x LANG en_US.UTF-8
 set -x FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 set -x FZF_DEFAULT_OPTS "--reverse $FZF_DEFAULT_OPTS"
-set -x PATH $PATH $HOME/bin $GOBIN
+set -x PATH $PATH $HOME/bin
 set -g fish_user_paths "/usr/local/opt/openssl/bin" $fish_user_paths
 set -x DIRENV_LOG_FORMAT ""
 
