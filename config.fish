@@ -1,8 +1,4 @@
-################################################################################
-# Aliases
-################################################################################
-
-# Common
+# Common aliases
 alias ll   "ls -al"
 alias tls  "tmux list-sessions"
 alias tmux "env TERM=xterm-256color tmux"
@@ -33,10 +29,6 @@ alias bo "bundle open"
 alias reload "lfc && ltc"
 alias edit-configs "nvim -p ~/.tmux.conf.local ~/.config.fish.local ~/.vimrc.local && reload"
 
-################################################################################
-# Functions
-################################################################################
-
 function ta
   tmux attach-session -t $argv;
 end
@@ -48,14 +40,10 @@ end
 # Setup color scheme for Fuzzy Finder
 source ~/git/base16-fzf/fish/base16-eighties.fish
 
-################################################################################
-# Set environment variables
-################################################################################
 set -x EDITOR nvim
 set -x LC_ALL en_US.UTF-8
 set -x LANG en_US.UTF-8
 set -x FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow --glob "!.git/*"'
-set -x FZF_DEFAULT_OPTS "--reverse $FZF_DEFAULT_OPTS"
 set -x PATH $PATH $HOME/bin
 set -g fish_user_paths "/usr/local/opt/openssl/bin" $fish_user_paths
 set -x DIRENV_LOG_FORMAT ""
@@ -67,3 +55,5 @@ eval (direnv hook fish)
 source ~/.asdf/asdf.fish
 
 source ~/.config.fish.local
+
+set -x FZF_DEFAULT_OPTS "--reverse $FZF_DEFAULT_OPTS"
