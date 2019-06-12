@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# brew install git
+brew install git
 
 ln -sf ~/mydotfiles/gitignore ~/.gitignore
 ln -sf ~/mydotfiles/gitconfig ~/.gitconfig
