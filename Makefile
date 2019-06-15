@@ -8,7 +8,8 @@ default: packages git base16 vim fish tmux asdf
 packages:
 	brew install \
 		direnv \
-		rg
+		rg \
+		translate-shell
 
 git:
 	GIT_USER_NAME=$(GIT_USER_NAME) GIT_USER_EAMIL=$(GIT_USER_EAMIL) ./scripts/install_git

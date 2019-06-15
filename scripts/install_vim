@@ -9,6 +9,8 @@ pip3 install --user neovim
 mkdir -p ~/.config/nvim
 ln -sf ~/mydotfiles/nvimrc ~/.config/nvim/init.vim
 
+ln -sf ~/mydotfiles/vim-snippets ~/.vim-snippets
+
 cat << EOF > ~/.vimrc.local
 color base16-solarized-light
 EOF

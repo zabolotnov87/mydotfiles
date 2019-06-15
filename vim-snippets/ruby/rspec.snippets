@@ -1,0 +1,53 @@
+snippet rspec "RSpec.describe ..."
+require '${1:rails_helper}'
+
+RSpec.describe ${2:SomeClass} do
+	${3}
+end
+endsnippet
+
+snippet des "describe ..."
+describe '${1:description}' do
+	${2}
+end
+endsnippet
+
+snippet con "context ..."
+context '${1:description}' do
+	${2}
+end
+endsnippet
+
+snippet it "it ..."
+it '${1:description}' do
+	${2}
+end
+endsnippet
+
+snippet l "let(:name) { ... }"
+let(:${1}) { ${2} }
+endsnippet
+
+snippet ld "let(:name) do ..."
+let(:${1}) do
+	${2}
+end
+endsnippet
+
+snippet su "subject(:name) { ... }"
+subject(:${1}) { ${2} }
+endsnippet
+
+snippet dc "described_class" i
+described_class
+endsnippet
+
+snippet is "it { is_expected.to eq ... }"
+it { is_expected.to eq ${1} }
+endsnippet
+
+snippet be "before do ..."
+before do
+	${1}
+end
+endsnippet

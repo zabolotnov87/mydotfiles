@@ -58,6 +58,8 @@
   Plug 'elixir-editors/vim-elixir'
   Plug 'iamcco/markdown-preview.vim'
   Plug 'w0rp/ale'
+  Plug 'VincentCordobes/vim-translate'
+
 
   call plug#end()
 " }}}
@@ -157,6 +159,8 @@
     let g:UltiSnipsJumpForwardTrigger='<c-n>'
     let g:UltiSnipsExpandTrigger='<c-n>'
     let g:UltiSnipsJumpBackwardTrigger='<c-b>'
+    let g:UltiSnipsListSnippets='<c-l>'
+    let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim-snippets']
   " }}}
 
   " Goyo {{{
@@ -164,6 +168,13 @@
     let g:goyo_width = 100
   " }}}
 
+  " vim-translate {{{
+    let g:translate#default_languages = {
+      \ 'ru': 'en',
+      \ 'en': 'ru'
+      \ }
+    vnoremap <silent> <leader>t :TranslateVisual<CR>
+  " }}}
 " }}}
 
 " Shortcuts {{{
