@@ -12,12 +12,12 @@ if [ ! -d ~/.vim-snippets ]; then
   ln -sf ~/mydotfiles/vim-snippets ~/.vim-snippets
 fi
 
-cat << EOF > ~/.vimrc.local
-color base16-solarized-light
-EOF
-
 # About vim-plug: https://github.com/junegunn/vim-plug
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 nvim +PlugInstall +qall
+
+cat << EOF > ~/.vimrc.local
+color base16-solarized-light
+EOF

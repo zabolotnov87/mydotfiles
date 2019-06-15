@@ -6,7 +6,7 @@ ln -sf ~/mydotfiles/config.fish ~/.config/fish/config.fish
 
 # Make fish default shell
 if [ ! $(grep "fish" /etc/shells) ]; then
-  echo "/usr/local/bin/fish" >> /etc/shells
+  sudo echo "/usr/local/bin/fish" >> /etc/shells
 fi
 chsh -s /usr/local/bin/fish
 
