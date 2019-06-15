@@ -48,6 +48,8 @@ set -x PATH $PATH $HOME/bin
 set -g fish_user_paths "/usr/local/opt/openssl/bin" $fish_user_paths
 set -x DIRENV_LOG_FORMAT ""
 
+set fish_greeting
+
 # Configure direnv
 eval (direnv hook fish)
 

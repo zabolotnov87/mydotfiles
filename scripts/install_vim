@@ -2,14 +2,15 @@
 
 brew install neovim
 
-curl https://bootstrap.pypa.io/get-pip.py | python - --user
 # More info: https://github.com/deoplete-plugins/deoplete-jedi/wiki/Setting-up-Python-for-Neovim
 pip3 install --user neovim
 
 mkdir -p ~/.config/nvim
 ln -sf ~/mydotfiles/nvimrc ~/.config/nvim/init.vim
 
-ln -sf ~/mydotfiles/vim-snippets ~/.vim-snippets
+if [ ! -d ~/.vim-snippets ]; then
+  ln -sf ~/mydotfiles/vim-snippets ~/.vim-snippets
+fi
 
 cat << EOF > ~/.vimrc.local
 color base16-solarized-light

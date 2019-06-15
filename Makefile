@@ -9,7 +9,8 @@ packages:
 	brew install \
 		direnv \
 		rg \
-		translate-shell
+		translate-shell \
+		python3
 
 git:
 	GIT_USER_NAME=$(GIT_USER_NAME) GIT_USER_EAMIL=$(GIT_USER_EAMIL) ./scripts/install_git
