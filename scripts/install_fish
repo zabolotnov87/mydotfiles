@@ -2,7 +2,7 @@
 
 brew install fish
 
-ln -sf ~/mydotfiles/config.fish ~/.config/fish/config.fish
+ln -sf $(pwd)/config.fish ~/.config/fish/config.fish
 
 # Make fish default shell
 if [ ! $(grep "fish" /etc/shells) ]; then

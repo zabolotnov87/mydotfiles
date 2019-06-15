@@ -1,8 +1,8 @@
 #!/bin/bash
 
-brew install git
+brew install git || brew upgrade git
 
-ln -sf ~/mydotfiles/gitignore ~/.gitignore
-ln -sf ~/mydotfiles/gitconfig ~/.gitconfig
+ln -sf $(pwd)/gitignore ~/.gitignore
+ln -sf $(pwd)/gitconfig ~/.gitconfig
 
 ./scripts/render_gitconfig_user
