@@ -1,8 +1,5 @@
 SHELL = bash
 
-GIT_USER_NAME ?= "Sergey Zabolotnov"
-GIT_USER_EAMIL ?= "sergey.zabolotnov@gmail.com"
-
 default: packages git base16 vim fish tmux asdf
 
 packages:
@@ -13,7 +10,7 @@ packages:
 		python3
 
 git:
-	GIT_USER_NAME=$(GIT_USER_NAME) GIT_USER_EAMIL=$(GIT_USER_EAMIL) ./scripts/install_git
+	./scripts/install_git
 
 base16:
 	./scripts/install_base16

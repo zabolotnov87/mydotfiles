@@ -1,8 +1,21 @@
 #!/bin/bash
 
+echo 'Install git: start'
+
+BASE=$(pwd)
+
+GIT_NAME='Sergey Zaboltonov'
+GIT_EMAIL='sergey.zabolotnov@gmail.com'
+
 brew install git || brew upgrade git
 
-ln -sf $(pwd)/gitignore ~/.gitignore
-ln -sf $(pwd)/gitconfig ~/.gitconfig
+ln -sf $BASE/gitignore ~/.gitignore
+ln -sf $BASE/gitconfig ~/.gitconfig
 
-./scripts/render_gitconfig_user
+cat << EOF > ~/.gitconfig.user
+[user]
+  name = $GIT_NAME
+  email = $GIT_EMAIL
+EOF
+
+echo 'Install git: success.'

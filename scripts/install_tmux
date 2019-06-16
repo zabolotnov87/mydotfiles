@@ -1,10 +1,12 @@
 #!/bin/bash
 
+BASE=$(pwd)
+
 brew install \
   tmux \
   reattach-to-user-namespace
 
-ln -sf $(pwd)/tmux.conf ~/.tmux.conf
+ln -sf $BASE/tmux.conf ~/.tmux.conf
 
 cat << EOF > ~/.tmux.conf.local
 set -g status-bg yellow

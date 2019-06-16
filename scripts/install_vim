@@ -1,15 +1,17 @@
 #!/bin/bash
 
+BASE=$(pwd)
+
 brew install neovim
 
 # More info: https://github.com/deoplete-plugins/deoplete-jedi/wiki/Setting-up-Python-for-Neovim
 pip3 install --user neovim
 
 mkdir -p ~/.config/nvim
-ln -sf $(pwd)/nvimrc ~/.config/nvim/init.vim
+ln -sf $BASE/nvimrc ~/.config/nvim/init.vim
 
 if [ ! -d ~/.vim-snippets ]; then
-  ln -sf $(pwd)/vim-snippets ~/.vim-snippets
+  ln -sf $BASE/vim-snippets ~/.vim-snippets
 fi
 
 # About vim-plug: https://github.com/junegunn/vim-plug
