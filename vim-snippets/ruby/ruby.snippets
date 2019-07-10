@@ -3,7 +3,7 @@ require '${1:ruby_file}'
 endsnippet
 
 snippet cl "class SomeClass ..."
-class ${1:SomeClass} < ${2:Parent}
+class ${1:SomeClass}
 	${3}
 end
 endsnippet
@@ -11,5 +11,11 @@ endsnippet
 snippet mo "module SomeModule ..."
 module ${1:SomeModule}
 	${3}
+end
+endsnippet
+
+snippet d "def some_method(...)"
+def ${1:method}
+	${2}
 end
 endsnippet
