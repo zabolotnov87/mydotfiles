@@ -243,6 +243,8 @@
 
   " copy buffer path to clipboard
   nmap cp :let @+=expand('%')<CR>
+  " copy buffer absolute path to clipboard
+  nmap cpf :let @+=expand('%:p')<CR>
   " copy buffer path with line number to clipboard
   nmap cpn :let @+=printf('%s:%d', expand('%'), expand(line('.')))<CR>
 
