@@ -33,9 +33,17 @@ function ta
   tmux attach-session -t $argv;
 end
 
-function fco -d "Fuzzy-find and checkout a branch"
-  git branch --all | grep -v HEAD | string trim | fzf | xargs git checkout
+function fco -d "Fuzzy-find branch and checkout it"
+  git branch --all | grep -v HEAD | string trim | fzf | xargs git co
 end
+
+function tags -d "Print last n tags, example: tags 3"
+  set -l n $argv[1]
+  set -q n[1]; or set -l n 1
+  git tag --sort=-v:refname | head -n $n
+end
+
+bind \cb fco
 
 # Setup color scheme for Fuzzy Finder
 source ~/git/base16-fzf/fish/base16-eighties.fish
