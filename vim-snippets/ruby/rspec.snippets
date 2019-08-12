@@ -46,6 +46,10 @@ snippet is "it { is_expected.to eq ... }"
 it { is_expected.to eq ${1} }
 endsnippet
 
+snippet its "it { expect(...).to eq ... }"
+it { expect(${1}).to eq ${2} }
+endsnippet
+
 snippet be "before do ..."
 before do
 	${1}

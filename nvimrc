@@ -161,6 +161,7 @@
     let g:UltiSnipsJumpBackwardTrigger='<c-b>'
     let g:UltiSnipsListSnippets='<c-l>'
     let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim-snippets']
+    noremap <Leader>us :UltiSnipsEdit<CR>
   " }}}
 
   " Goyo {{{
