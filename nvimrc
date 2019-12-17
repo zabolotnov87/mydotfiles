@@ -8,6 +8,7 @@
 
   set shell=/bin/bash
   set exrc
+  set secure
   set modelines=1
 
   let mapleader=','
