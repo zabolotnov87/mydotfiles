@@ -20,6 +20,10 @@ alias gb  "git b"
 alias gp  "git put"
 alias gd  "git d"
 alias gm  "git merge"
+alias gup "git up"
+alias gbd "git b -D"
+alias gclean "git co -- .; git clean -fd"
+alias gds "git ds"
 
 # Bundler
 alias bi "bundle install"
