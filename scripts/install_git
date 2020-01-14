@@ -16,6 +16,8 @@ cat << EOF > ~/.gitconfig.user
 [user]
   name = $GIT_NAME
   email = $GIT_EMAIL
+[includeIf "gitdir:~/projects/"]
+  path = .gitconfig-projects
 EOF
 
 echo 'Install git: success.'
