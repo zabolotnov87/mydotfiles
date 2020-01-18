@@ -6,24 +6,26 @@ alias vim  "nvim"
 alias vi   "nvim"
 alias lfc  "source ~/.config/fish/config.fish"
 alias ltc  "tmux source-file ~/.tmux.conf"
+alias my   "pushd ~/mydotfiles"
+alias b    "popd"
 
 # Git
-alias ga  "git a -p"
-alias gco "git co"
-alias gs  "git s"
-alias gls "git ls"
-alias gg  "git g"
-alias gl  "git last"
-alias gc  "git c"
-alias gu  "git up"
-alias gb  "git b"
-alias gp  "git put"
-alias gd  "git d"
-alias gm  "git merge"
-alias gup "git up"
-alias gbd "git b -D"
+alias ga     "git a -p"
+alias gco    "git co"
+alias gs     "git s"
+alias gls    "git ls"
+alias gg     "git g"
+alias gl     "git last"
+alias gc     "git c"
+alias gu     "git up"
+alias gb     "git b"
+alias gp     "git put"
+alias gd     "git d"
+alias gm     "git merge"
+alias gup    "git up"
+alias gbd    "git b -D"
 alias gclean "git co -- .; git clean -fd"
-alias gds "git ds"
+alias gds    "git ds"
 
 # Bundler
 alias bi "bundle install"
@@ -56,9 +58,14 @@ set -x EDITOR nvim
 set -x LC_ALL en_US.UTF-8
 set -x LANG en_US.UTF-8
 set -x FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow --glob "!.git/*"'
-set -x PATH $PATH $HOME/bin
 set -g fish_user_paths "/usr/local/opt/openssl/bin" $fish_user_paths
 set -x DIRENV_LOG_FORMAT ""
+set -x GOPATH $HOME/go
+set -x GOBIN $GOPATH/bin
+set -x PATH $PATH $GOBIN $HOME/bin
+
+mkdir -p $GOPATH
+mkdir -p $GOBIN
 
 set fish_greeting
 
