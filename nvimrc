@@ -33,8 +33,8 @@
 " Plugins {{{
   let g:plug_window='new'
 
-  let s:plug_path='~/.local/share/nvim/plugged'
-  call plug#begin(s:plug_path)
+  let s:plugs_path='~/.local/share/nvim/plugged'
+  call plug#begin(s:plugs_path)
 
   Plug 'vim-scripts/vim-auto-save'
   Plug 'tpope/vim-commentary'
@@ -346,6 +346,15 @@
     else
       return "\<c-p>"
     endif
+  endfunction
+
+  function! s:open_plug(plug)
+    let chars_to_delete = "'\""
+    let without_opts = split(a:plug, ',')[0]
+    let normalized_name = trim(split(without_opts, '/')[-1], chars_to_delete)
+    let path_to_plug = s:plugs_path . '/' . normalized_name
+    execute('vsp ' . path_to_plug)
+    execute('lcd ' . path_to_plug)
   endfunction
 
   function! s:get_selected_text()
