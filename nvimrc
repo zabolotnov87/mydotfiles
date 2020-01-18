@@ -33,16 +33,15 @@
 " Plugins {{{
   let g:plug_window='new'
 
-  call plug#begin('~/.local/share/nvim/plugged')
+  let s:plug_path='~/.local/share/nvim/plugged'
+  call plug#begin(s:plug_path)
 
   Plug 'vim-scripts/vim-auto-save'
   Plug 'tpope/vim-commentary'
   Plug 'jiangmiao/auto-pairs'
-  Plug 'tpope/vim-unimpaired'
   Plug 'scrooloose/nerdtree'
   Plug 'junegunn/vim-easy-align'
   Plug 'DataWraith/auto_mkdir'
-  Plug 'pangloss/vim-javascript'
   Plug 'easymotion/vim-easymotion'
   Plug 'tpope/vim-fugitive'
   Plug 'chriskempson/base16-vim'
@@ -55,12 +54,8 @@
   Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
   Plug 'SirVer/ultisnips'
   Plug 'junegunn/goyo.vim'
-  Plug 'posva/vim-vue'
-  Plug 'elixir-editors/vim-elixir'
-  Plug 'iamcco/markdown-preview.vim'
   Plug 'w0rp/ale'
   Plug 'VincentCordobes/vim-translate'
-
 
   call plug#end()
 " }}}
@@ -240,7 +235,7 @@
   nnoremap <silent> <leader><SPace> :nohlsearch<cr>
 
   " autocomplete
-  inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
+  inoremap <Tab> <c-r>=<SID>insert_tab_wrapper()<cr>
   inoremap <S-Tab> <c-n>
 
   " copy buffer path to clipboard
@@ -251,7 +246,12 @@
   nmap cpn :let @+=printf('%s:%d', expand('%'), expand(line('.')))<CR>
 
   " open terminal in current buffer
-  nmap <leader>t :edit term://fish<CR>
+  nmap <leader>t :vsp term://fish<CR>
+
+  " open vim config
+  nmap conf :vsp $MYVIMRC<CR>
+  " reload vim config
+  nnoremap <silent> so :so $MYVIMRC<CR>:e<CR>
 
   " exit from terminal mode
   tnoremap <Esc> <C-\><C-n>
@@ -322,11 +322,10 @@
   " Likewise, Files command with preview window
   command! -bang -nargs=? -complete=dir Files
     \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-
 " }}}
 
 " Functions {{{
-  function! <SID>StripTrailingWhitespaces()
+  function! s:strip_trailing_whitespaces()
     if exists('b:noStripWhiteSpaces')
       return
     endif
@@ -340,7 +339,7 @@
     call cursor(l, c)
   endfunction
 
-  function! InsertTabWrapper()
+  function! s:insert_tab_wrapper()
     let col = col('.') - 1
     if !col || getline('.')[col - 1] !~ '\k'
       return "\<tab>"
@@ -348,13 +347,23 @@
       return "\<c-p>"
     endif
   endfunction
+
+  function! s:get_selected_text()
+    silent! normal! gv"ay
+    return @a
+  endfunction
+" }}}
+
+" Commands {{{
+  " Open plugin in new Tab
+  command! -bang -nargs=? OpenPlug call <SID>open_plug(<q-args>)
 " }}}
 
 " Autogroups {{{
   augroup configgroup
     autocmd!
     autocmd BufWritePre *.sql let b:noStripWhiteSpaces=1
-    autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
+    autocmd BufWritePre * :call <SID>strip_trailing_whitespaces()
 
     " arbre (https://github.com/activeadmin/arbre) processing
     autocmd BufEnter *.arb setlocal filetype=ruby
@@ -363,16 +372,19 @@
     autocmd BufEnter * set relativenumber
     autocmd BufRead * normal zR
 
-    autocmd Filetype gitcommit setlocal textwidth=72
+    autocmd FileType gitcommit setlocal colorcolumn=80
     autocmd FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
+
+    autocmd FileType vim vnoremap <silent> <leader>o :call
+      \ <SID>open_plug(<SID>get_selected_text())<CR>
 
     " go {{{
       autocmd FileType go nmap gob <Plug>(go-build)
       autocmd FileType go nmap gor <Plug>(go-run)
       autocmd FileType go nmap fix <Plug>(go-imports)
       autocmd FileType go nmap <Leader>i <Plug>(go-info)
-      autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
-      autocmd BufNewFile,BufRead *.go set nolist
+      autocmd BufNewFile,BufRead *.go,*.mod setlocal noexpandtab tabstop=4 shiftwidth=4
+      autocmd BufNewFile,BufRead *.go,*.mod set nolist
     " }}}
   augroup END
 " }}}
@@ -389,4 +401,4 @@
 
 source ~/.vimrc.local
 
-" vim:foldmethod=marker:foldlevel=0:foldminlines=1
+" vim:foldmethod=marker:foldminlines=1
