@@ -249,7 +249,7 @@
   nmap <leader>t :vsp term://fish<CR>
 
   " open vim config
-  nmap conf :vsp $MYVIMRC<CR>
+  nmap conf :tabnew $MYVIMRC<CR>
   " reload vim config
   nnoremap <silent> so :so $MYVIMRC<CR>:e<CR>
 
@@ -353,7 +353,7 @@
     let without_opts = split(a:plug, ',')[0]
     let normalized_name = trim(split(without_opts, '/')[-1], chars_to_delete)
     let path_to_plug = s:plugs_path . '/' . normalized_name
-    execute('vsp ' . path_to_plug)
+    execute('tabnew ' . path_to_plug)
     execute('lcd ' . path_to_plug)
   endfunction
 
@@ -371,30 +371,41 @@
 " Autogroups {{{
   augroup configgroup
     autocmd!
+
+    " Strip trailing whitespaces
     autocmd BufWritePre *.sql let b:noStripWhiteSpaces=1
     autocmd BufWritePre * :call <SID>strip_trailing_whitespaces()
 
     " arbre (https://github.com/activeadmin/arbre) processing
     autocmd BufEnter *.arb setlocal filetype=ruby
 
-    autocmd BufLeave * set norelativenumber number
-    autocmd BufEnter * set relativenumber
+    " Expand all folds automatically
     autocmd BufRead * normal zR
 
     autocmd FileType gitcommit setlocal colorcolumn=80
     autocmd FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 
+    " Allow to open source code of selected plugin in new tab
     autocmd FileType vim vnoremap <silent> <leader>o :call
       \ <SID>open_plug(<SID>get_selected_text())<CR>
 
-    " go {{{
-      autocmd FileType go nmap gob <Plug>(go-build)
-      autocmd FileType go nmap gor <Plug>(go-run)
-      autocmd FileType go nmap fix <Plug>(go-imports)
-      autocmd FileType go nmap <Leader>i <Plug>(go-info)
-      autocmd BufNewFile,BufRead *.go,*.mod setlocal noexpandtab tabstop=4 shiftwidth=4
-      autocmd BufNewFile,BufRead *.go,*.mod set nolist
-    " }}}
+    autocmd TermOpen * setlocal nonumber norelativenumber
+  augroup END
+
+  augroup Go
+    autocmd!
+    autocmd FileType go nmap gob <Plug>(go-build)
+    autocmd FileType go nmap gor <Plug>(go-run)
+    autocmd FileType go nmap fix <Plug>(go-imports)
+    autocmd FileType go nmap <Leader>i <Plug>(go-info)
+    autocmd BufNewFile,BufRead *.go,*.mod setlocal noexpandtab tabstop=4 shiftwidth=4
+    autocmd BufNewFile,BufRead *.go,*.mod set nolist
+  augroup END
+
+  augroup numbertoggle
+    autocmd!
+    autocmd BufEnter,FocusGained,InsertLeave,WinEnter * set relativenumber
+    autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * set norelativenumber
   augroup END
 " }}}
 
