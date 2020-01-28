@@ -21,6 +21,8 @@
   set autowriteall
   set foldmethod=indent
 
+  set colorcolumn=100
+
   " Swap and Backups {{{
     set updatecount=0
     set noswapfile
@@ -127,8 +129,8 @@
     nmap aled <Plug>(ale_disable)
     nmap ale <Plug>(ale_enable)
     nmap fix <Plug>(ale_fix)
-    nmap <silent> <C-n> <Plug>(ale_next_wrap)
-    nmap <silent> <C-p> <Plug>(ale_previous_wrap)
+    nmap <silent> an <Plug>(ale_next_wrap)
+    nmap <silent> ab <Plug>(ale_previous_wrap)
   " }}}
 
   " Fizy Finder {{{
@@ -152,9 +154,9 @@
   " }}}
 
   " Ultisnips {{{
-    let g:UltiSnipsJumpForwardTrigger='<c-n>'
-    let g:UltiSnipsExpandTrigger='<c-n>'
-    let g:UltiSnipsJumpBackwardTrigger='<c-b>'
+    let g:UltiSnipsJumpForwardTrigger='<c-j>'
+    let g:UltiSnipsExpandTrigger='<c-j>'
+    let g:UltiSnipsJumpBackwardTrigger='<c-k>'
     let g:UltiSnipsListSnippets='<c-l>'
     let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim-snippets']
     noremap <Leader>us :UltiSnipsEdit<CR>
@@ -215,8 +217,8 @@
   nnoremap <leader>. :lcd %:p:h<CR>
 
   " split
-  noremap <Leader>h :<C-u>split<CR>
-  noremap <Leader>v :<C-u>vsplit<CR>
+  noremap <Leader>h :split<CR><C-w>j
+  noremap <Leader>v :vsplit<CR><C-w>w
 
   " movement {{{
     " move visual block
@@ -293,6 +295,8 @@
 
   " visual autocomplete for command menu
   set wildmenu
+
+  set signcolumn=yes
 " }}}
 
 " Tabs {{{
