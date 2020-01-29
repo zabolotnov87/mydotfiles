@@ -4,19 +4,19 @@ endsnippet
 
 snippet cl "class SomeClass ..."
 class ${1:SomeClass}
-	${3}
+	${3:<body>}
 end
 endsnippet
 
-snippet mo "module SomeModule ..."
+snippet mod "module SomeModule ..."
 module ${1:SomeModule}
-	${3}
+	${2:<body>}
 end
 endsnippet
 
-snippet d "def some_method(...)"
-def ${1:method}
-	${2}
+snippet d "def some_method(*args)"
+def ${1:method}${2:(*args)}
+	${3:<body>}
 end
 endsnippet
 

@@ -40,7 +40,7 @@
 
   Plug 'vim-scripts/vim-auto-save'
   Plug 'tpope/vim-commentary'
-  Plug 'jiangmiao/auto-pairs'
+  " Plug 'jiangmiao/auto-pairs'
   Plug 'scrooloose/nerdtree'
   Plug 'junegunn/vim-easy-align'
   Plug 'DataWraith/auto_mkdir'
@@ -58,6 +58,8 @@
   Plug 'junegunn/goyo.vim'
   Plug 'w0rp/ale'
   Plug 'VincentCordobes/vim-translate'
+  Plug 'nelstrom/vim-textobj-rubyblock'
+  Plug 'tpope/vim-endwise'
 
   call plug#end()
 " }}}
@@ -159,6 +161,7 @@
     let g:UltiSnipsJumpBackwardTrigger='<c-k>'
     let g:UltiSnipsListSnippets='<c-l>'
     let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim-snippets']
+    let g:UltiSnipsEditSplit='vertical'
     noremap <Leader>us :UltiSnipsEdit<CR>
   " }}}
 
