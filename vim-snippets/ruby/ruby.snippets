@@ -15,11 +15,27 @@ end
 endsnippet
 
 snippet d "def some_method(*args)"
-def ${1:method}${2:(*args)}
+def ${1:method}(${2:*args})
 	${3:<body>}
 end
 endsnippet
 
 snippet pry "require 'pry'; binding.pry"
 require 'pry'; binding.pry
+endsnippet
+
+snippet irb "binding.irb"
+binding.irb
+endsnippet
+
+snippet cself "class << self"
+class << self
+	${1:<body>}
+end
+endsnippet
+
+snippet do "do..end"
+do |${1:*args}|
+	${2:<body>}
+end
 endsnippet

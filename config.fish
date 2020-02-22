@@ -8,6 +8,7 @@ alias lfc  "source ~/.config/fish/config.fish"
 alias ltc  "tmux source-file ~/.tmux.conf"
 alias my   "pushd ~/mydotfiles"
 alias b    "popd"
+alias efc  "vi ~/.config/fish/config.fish"
 
 # Git
 alias ga     "git a -p"
@@ -33,7 +34,7 @@ alias be "bundle exec"
 alias bo "bundle open"
 
 alias reload "lfc && ltc"
-alias edit-configs "nvim -p ~/.tmux.conf.local ~/.config.fish.local ~/.vimrc.local && reload"
+alias ec "nvim -p ~/.tmux.conf.local ~/.config/fish/config.fish ~/.config.fish.local ~/.vimrc.local && reload"
 
 function ta
   tmux attach-session -t $argv;
@@ -66,6 +67,7 @@ set -x PATH $PATH $GOBIN $HOME/bin
 
 mkdir -p $GOPATH
 mkdir -p $GOBIN
+mkdir -p $HOME/bin
 
 set fish_greeting
 

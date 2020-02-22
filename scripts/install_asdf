@@ -7,3 +7,7 @@ fi
 
 mkdir -p ~/.config/fish/completions
 cp ~/.asdf/completions/asdf.fish ~/.config/fish/completions
+
+cat << EOF > ~/.asdfrc
+legacy_version_file = yes
+EOF
