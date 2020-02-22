@@ -23,12 +23,21 @@
 
   set colorcolumn=100
 
-  " Swap and Backups {{{
-    set updatecount=0
-    set noswapfile
-    set nobackup
-    set nowritebackup
-  " }}}
+  " # Increase maximum amount of memory (in Kbyte) to use for pattern matching.
+  set maxmempattern=20000
+
+  " Swap and Backups
+  set updatecount=0
+  set noswapfile
+  set nobackup
+  set nowritebackup
+
+  " Tabs
+  set tabstop=2
+  set softtabstop=2
+  set shiftwidth=2
+  set shiftround
+  set expandtab
 
 " }}}
 
@@ -40,7 +49,7 @@
 
   Plug 'vim-scripts/vim-auto-save'
   Plug 'tpope/vim-commentary'
-  " Plug 'jiangmiao/auto-pairs'
+  Plug 'jiangmiao/auto-pairs'
   Plug 'scrooloose/nerdtree'
   Plug 'junegunn/vim-easy-align'
   Plug 'DataWraith/auto_mkdir'
@@ -58,13 +67,36 @@
   Plug 'junegunn/goyo.vim'
   Plug 'w0rp/ale'
   Plug 'VincentCordobes/vim-translate'
-  Plug 'nelstrom/vim-textobj-rubyblock'
   Plug 'tpope/vim-endwise'
+  Plug 'junegunn/vim-slash'
+  Plug 'junegunn/vim-after-object'
+  Plug 'junegunn/vim-journal'
+  Plug 'tpope/vim-surround'
+  Plug 'depuracao/vim-rdoc'
 
   call plug#end()
 " }}}
 
 " Plugins Settings {{{
+  " autopairs {{{
+
+    " NOTE: let g:AutoPairs['|']='|'
+    " doesn't work https://github.com/jiangmiao/auto-pairs/issues/213
+
+    let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '```':'```', '"""':'"""', "'''":"'''", "`":"`", "|":"|"}
+  " }}}
+
+  " vim-journal {{{
+    nnoremap <leader>j i/* vim: set filetype=journal: */<esc>
+  " }}}
+
+  " vim-after-object {{{
+    augroup AfterObject
+      " vim-after-object
+      autocmd VimEnter * call
+        \ after_object#enable('=', ':', '-', '#', ' ', '(', '[', '{', ',', '.', '"')
+    augroup END
+  " }}}
 
   " autosave {{{
     let g:auto_save = 1                " enable autosave
@@ -101,11 +133,13 @@
   " }}}
 
   " Vim Tests {{{
-    nmap <silent> <leader>r :TestNearest<CR>
-    nmap <silent> <leader>ar :TestFile<CR>
+    nnoremap <silent> <leader>r :TestNearest<CR>
+    nnoremap <silent> <leader>ar :TestFile<CR>
+    nnoremap <silent> <leader>lt :TestVisit<CR>
 
     let test#strategy = "neovim"
-    let test#ruby#rspec#executable = 'env USE_SPRING=1 bin/rspec'
+    let test#ruby#rspec#executable = 'bundle exec rspec'
+    let test#ruby#bundle_exec = 0
   " }}}
 
   " Ale {{{
@@ -125,7 +159,7 @@
 
     let g:ale_echo_msg_error_str = 'E'
     let g:ale_echo_msg_warning_str = 'W'
-    let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+    let g:ale_echo_msg_format = '[%linter%] %code%: %s [%severity%]'
     let g:ale_enabled = 0 " disabled by default
 
     nmap aled <Plug>(ale_disable)
@@ -136,11 +170,11 @@
   " }}}
 
   " Fizy Finder {{{
-    nmap <leader>w "zyiw:exe "F ".@z.""<CR>
-    nmap <leader>f :Files<CR>
-    nmap <leader>s :BLines<CR>
-    nmap <leader>b :Buffers<CR>
-    nmap <leader>gf :GFiles?<CR>
+    nnoremap <leader>w "zyiw:exe "F ".@z.""<CR>
+    nnoremap <leader>f :Files<CR>
+    nnoremap <leader>s :BLines<CR>
+    nnoremap <leader>b :Buffers<CR>
+    nnoremap <leader>gf :GFiles?<CR>
     imap <C-f> <plug>(fzf-complete-line)
   " }}}
 
@@ -153,6 +187,16 @@
     let g:go_highlight_fields = 1
     let g:go_highlight_functions = 1
     let g:go_highlight_methods = 1
+
+    augroup Go
+      autocmd!
+      autocmd FileType go nmap gob <Plug>(go-build)
+      autocmd FileType go nmap gor <Plug>(go-run)
+      autocmd FileType go nmap fix <Plug>(go-imports)
+      autocmd FileType go nmap <Leader>i <Plug>(go-info)
+      autocmd BufNewFile,BufRead *.go,*.mod setlocal noexpandtab tabstop=4 shiftwidth=4
+      autocmd BufNewFile,BufRead *.go,*.mod set nolist
+    augroup END
   " }}}
 
   " Ultisnips {{{
@@ -166,7 +210,7 @@
   " }}}
 
   " Goyo {{{
-    nmap <Leader>go :Goyo<CR>
+    nnoremap <Leader>go :Goyo<CR>
     let g:goyo_width = 100
   " }}}
 
@@ -179,7 +223,7 @@
   " }}}
 " }}}
 
-" Shortcuts {{{
+" Common mappings {{{
 
   " fast exit to normal mode
   inoremap jk <esc>
@@ -203,8 +247,8 @@
   tnoremap <A-k> <C-\><C-n><C-w>k
   tnoremap <A-l> <C-\><C-n><C-w>l
 
-  nnoremap H :tabprevious<CR>
-  nnoremap L :tabnext<CR>
+  nnoremap <silent>H :tabprevious<CR>
+  nnoremap <silent>L :tabnext<CR>
 
   " close buffer
   noremap <leader>c :bd!<CR>
@@ -213,8 +257,8 @@
   noremap <leader>bdbd :bufdo: bd!<CR>
 
   " vmap for maintain Visual Mode after shifting > and <
-  vmap < <gv
-  vmap > >gv
+  vnoremap < <gv
+  vnoremap > >gv
 
   " set working directory
   nnoremap <leader>. :lcd %:p:h<CR>
@@ -223,19 +267,13 @@
   noremap <Leader>h :split<CR><C-w>j
   noremap <Leader>v :vsplit<CR><C-w>w
 
-  " movement {{{
-    " move visual block
-    vnoremap J :m '>+1<CR>gv=gv
-    vnoremap K :m '<-2<CR>gv=gv
+  " move visual block
+  vnoremap J :m '>+1<CR>gv=gv
+  vnoremap K :m '<-2<CR>gv=gv
 
-    " move vertically by visual line
-    nnoremap j gj
-    nnoremap k gk
-
-    " move to beginning/end of line
-    nnoremap B ^
-    nnoremap E $
-  " }}}
+  " move to beginning/end of line
+  nnoremap B ^
+  nnoremap E $
 
   nnoremap <silent> <leader><SPace> :nohlsearch<cr>
 
@@ -244,17 +282,17 @@
   inoremap <S-Tab> <c-n>
 
   " copy buffer path to clipboard
-  nmap cp :let @+=expand('%')<CR>
+  nnoremap cp :let @+=expand('%')<CR>
   " copy buffer absolute path to clipboard
-  nmap cpf :let @+=expand('%:p')<CR>
+  nnoremap cpf :let @+=expand('%:p')<CR>
   " copy buffer path with line number to clipboard
-  nmap cpn :let @+=printf('%s:%d', expand('%'), expand(line('.')))<CR>
+  nnoremap cpn :let @+=printf('%s:%d', expand('%'), expand(line('.')))<CR>
 
   " open terminal in current buffer
-  nmap <leader>t :vsp term://fish<CR>
+  nnoremap <leader>t :vsp term://fish<CR>
 
   " open vim config
-  nmap conf :tabnew $MYVIMRC<CR>
+  nnoremap conf :tabnew $MYVIMRC<CR>
   " reload vim config
   nnoremap <silent> so :so $MYVIMRC<CR>:e<CR>
 
@@ -265,6 +303,11 @@
 
 " View {{{
   syntax enable
+
+  set termguicolors
+
+  " Disable vim auto visual mode using mouse
+  set mouse-=a
 
   let base16colorspace=256
   set background=dark
@@ -370,12 +413,7 @@
   endfunction
 " }}}
 
-" Commands {{{
-  " Open plugin in new Tab
-  command! -bang -nargs=? OpenPlug call <SID>open_plug(<q-args>)
-" }}}
-
-" Autogroups {{{
+" Common autogroups {{{
   augroup configgroup
     autocmd!
 
@@ -399,31 +437,16 @@
     autocmd TermOpen * setlocal nonumber norelativenumber
   augroup END
 
-  augroup Go
-    autocmd!
-    autocmd FileType go nmap gob <Plug>(go-build)
-    autocmd FileType go nmap gor <Plug>(go-run)
-    autocmd FileType go nmap fix <Plug>(go-imports)
-    autocmd FileType go nmap <Leader>i <Plug>(go-info)
-    autocmd BufNewFile,BufRead *.go,*.mod setlocal noexpandtab tabstop=4 shiftwidth=4
-    autocmd BufNewFile,BufRead *.go,*.mod set nolist
-  augroup END
-
   augroup numbertoggle
     autocmd!
     autocmd BufEnter,FocusGained,InsertLeave,WinEnter * set relativenumber
     autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * set norelativenumber
   augroup END
+
 " }}}
 
 " NeoVim Specific {{{
-  set termguicolors
 
-  " Disable vim auto visual mode using mouse
-  set mouse-=a
-
-  " # Increase maximum amount of memory (in Kbyte) to use for pattern matching.
-  set maxmempattern=20000
 " }}}
 
 source ~/.vimrc.local
