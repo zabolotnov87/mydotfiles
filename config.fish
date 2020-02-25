@@ -2,13 +2,14 @@
 alias ll   "ls -al"
 alias tls  "tmux list-sessions"
 alias tmux "env TERM=xterm-256color tmux"
-alias vim  "nvim"
-alias vi   "nvim"
+alias vim  "new_or_fg nvim"
+alias vi   "vim"
 alias lfc  "source ~/.config/fish/config.fish"
 alias ltc  "tmux source-file ~/.tmux.conf"
 alias my   "pushd ~/mydotfiles"
 alias b    "popd"
 alias efc  "vi ~/.config/fish/config.fish"
+alias evrc "vi ~/.config/nvim/init.vim"
 
 # Git
 alias ga     "git a -p"
@@ -48,6 +49,16 @@ function tags -d "Print last n tags, example: tags 3"
   set -l n $argv[1]
   set -q n[1]; or set -l n 1
   git tag --sort=-v:refname | head -n $n
+end
+
+function new_or_fg
+  set -l job (jobs | grep -e "$argv\$")
+  if test -n "$job"
+    set -l group (echo $job | awk '{print $2}')
+    fg $group
+  else
+    eval $argv
+  end
 end
 
 bind \cb fco
