@@ -79,11 +79,11 @@
 
 " Plugins Settings {{{
   " autopairs {{{
-
-    " NOTE: let g:AutoPairs['|']='|'
-    " doesn't work https://github.com/jiangmiao/auto-pairs/issues/213
-
-    let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '```':'```', '"""':'"""', "'''":"'''", "`":"`", "|":"|"}
+    augroup AutoPairs
+      " NOTE: let g:AutoPairs['|']='|'
+      " doesn't work https://github.com/jiangmiao/auto-pairs/issues/213
+      autocmd FileType ruby let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '```':'```', '"""':'"""', "'''":"'''", "`":"`", "|":"|"}
+    augroup END
   " }}}
 
   " vim-journal {{{
@@ -298,7 +298,7 @@
 
   " exit from terminal mode
   tnoremap <Esc> <C-\><C-n>
-  tnoremap <C-r> <C-\><C-n>
+  tnoremap <C-t> <C-\><C-n>
 " }}}
 
 " View {{{
@@ -399,12 +399,23 @@
   endfunction
 
   function! s:open_plug(plug)
-    let chars_to_delete = "'\""
     let without_opts = split(a:plug, ',')[0]
-    let normalized_name = trim(split(without_opts, '/')[-1], chars_to_delete)
-    let path_to_plug = s:plugs_path . '/' . normalized_name
+    let normalized_name = substitute(without_opts, "Plug", "", "")
+    let normalized_name = substitute(normalized_name, "\s", "", "g")
+    let normalized_name = substitute(normalized_name, "'", "", "g")
+    let plug_name = split(normalized_name, '/')[-1]
+    let path_to_plug = s:plugs_path . '/' . plug_name
     execute('tabnew ' . path_to_plug)
     execute('lcd ' . path_to_plug)
+  endfunction
+
+  function! s:open_gem(gem)
+    let chars_to_delete = "gem '\""
+    let without_opts = split(a:gem, ',')[0]
+    let normalized_name = trim(without_opts, chars_to_delete)
+    let path_to_gem = system('bundle show ' . normalized_name . ' 2>/dev/null')
+    execute('tabnew ' . path_to_gem)
+    execute('lcd ' . path_to_gem)
   endfunction
 
   function! s:get_selected_text()
@@ -431,8 +442,12 @@
     autocmd FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 
     " Allow to open source code of selected plugin in new tab
-    autocmd FileType vim vnoremap <silent> <leader>o :call
+    autocmd FileType vim nnoremap <silent> bo :normal vil<CR> :call
       \ <SID>open_plug(<SID>get_selected_text())<CR>
+
+    " Allow to open source code of selected gem in new tab
+    autocmd FileType ruby nnoremap <silent> bo :normal vil<CR> :call
+      \ <SID>open_gem(<SID>get_selected_text())<CR>
 
     autocmd TermOpen * setlocal nonumber norelativenumber
   augroup END
