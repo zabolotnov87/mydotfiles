@@ -2,25 +2,25 @@ snippet rspec "RSpec.describe ..."
 require '${1:rails_helper}'
 
 RSpec.describe ${2:SomeClass} do
-	${3:<body>}
+	${3:# body}
 end
 endsnippet
 
 snippet des "describe ..."
 describe '${1:description}' do
-	${2:<body>}
+	${2:# body}
 end
 endsnippet
 
 snippet con "context ..."
 context '${1:description}' do
-	${2:<body>}
+	${2:# body}
 end
 endsnippet
 
 snippet it "it ..."
 it '${1:description}' do
-	${2:<body>}
+	${2:# body}
 end
 endsnippet
 
@@ -30,7 +30,7 @@ endsnippet
 
 snippet ld "let(:name) do ..."
 let(:${1}) do
-	${2:<body>}
+	${2:# body}
 end
 endsnippet
 
@@ -52,13 +52,13 @@ endsnippet
 
 snippet be "before do ..."
 before do
-	${1:<body>}
+	${1:# body}
 end
 endsnippet
 
 snippet sh "shared_examples '...'"
 shared_examples '${1}' do
-	${2:<body>}
+	${2:# body}
 end
 endsnippet
 
