@@ -128,8 +128,8 @@
   " }}}
 
   " Easy Align {{{
-    xmap ga <Plug>(EasyAlign)
-    nmap ga <Plug>(EasyAlign)
+    xnoremap ga <Plug>(EasyAlign)
+    noremap ga <Plug>(EasyAlign)
   " }}}
 
   " Vim Tests {{{
@@ -162,11 +162,11 @@
     let g:ale_echo_msg_format = '[%linter%] %code%: %s [%severity%]'
     let g:ale_enabled = 0 " disabled by default
 
-    nmap aled <Plug>(ale_disable)
-    nmap ale <Plug>(ale_enable)
-    nmap fix <Plug>(ale_fix)
-    nmap <silent> an <Plug>(ale_next_wrap)
-    nmap <silent> ab <Plug>(ale_previous_wrap)
+    nnoremap <leader>aled <Plug>(ale_disable)
+    nnoremap <leader>ale <Plug>(ale_enable)
+    nnoremap fix <Plug>(ale_fix)
+    nnoremap <silent> <leader>an <Plug>(ale_next_wrap)
+    nnoremap <silent> <leader>ab <Plug>(ale_previous_wrap)
   " }}}
 
   " Fizy Finder {{{
@@ -175,7 +175,6 @@
     nnoremap <leader>s :BLines<CR>
     nnoremap <leader>b :Buffers<CR>
     nnoremap <leader>gf :GFiles?<CR>
-    imap <C-f> <plug>(fzf-complete-line)
   " }}}
 
   " Vim Go {{{
@@ -442,11 +441,11 @@
     autocmd FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 
     " Allow to open source code of selected plugin in new tab
-    autocmd FileType vim nnoremap <silent> bo :normal vil<CR> :call
+    autocmd FileType vim nnoremap <silent> <leader>bo :normal vil<CR> :call
       \ <SID>open_plug(<SID>get_selected_text())<CR>
 
     " Allow to open source code of selected gem in new tab
-    autocmd FileType ruby nnoremap <silent> bo :normal vil<CR> :call
+    autocmd FileType ruby nnoremap <silent> <leader>bo :normal vil<CR> :call
       \ <SID>open_gem(<SID>get_selected_text())<CR>
 
     autocmd TermOpen * setlocal nonumber norelativenumber
