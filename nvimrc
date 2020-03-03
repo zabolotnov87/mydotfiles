@@ -160,13 +160,10 @@
     let g:ale_echo_msg_error_str = 'E'
     let g:ale_echo_msg_warning_str = 'W'
     let g:ale_echo_msg_format = '[%linter%] %code%: %s [%severity%]'
-    let g:ale_enabled = 0 " disabled by default
 
-    nnoremap <leader>aled <Plug>(ale_disable)
-    nnoremap <leader>ale <Plug>(ale_enable)
-    nnoremap fix <Plug>(ale_fix)
-    nnoremap <silent> <leader>an <Plug>(ale_next_wrap)
-    nnoremap <silent> <leader>ab <Plug>(ale_previous_wrap)
+    nnoremap <silent> fix :ALEFix<CR>
+    nnoremap <silent> <leader>an :ALENextWrap<CR>
+    nnoremap <silent> <leader>ab :ALEPreviousWrap<CR>
   " }}}
 
   " Fizy Finder {{{
@@ -400,7 +397,7 @@
   function! s:open_plug(plug)
     let without_opts = split(a:plug, ',')[0]
     let normalized_name = substitute(without_opts, "Plug", "", "")
-    let normalized_name = substitute(normalized_name, "\s", "", "g")
+    let normalized_name = substitute(normalized_name, " ", "", "g")
     let normalized_name = substitute(normalized_name, "'", "", "g")
     let plug_name = split(normalized_name, '/')[-1]
     let path_to_plug = s:plugs_path . '/' . plug_name
@@ -409,10 +406,12 @@
   endfunction
 
   function! s:open_gem(gem)
-    let chars_to_delete = "gem '\""
     let without_opts = split(a:gem, ',')[0]
-    let normalized_name = trim(without_opts, chars_to_delete)
-    let path_to_gem = system('bundle show ' . normalized_name . ' 2>/dev/null')
+    let normalized_name = substitute(without_opts, "gem", "", "")
+    let normalized_name = substitute(normalized_name, " ", "", "g")
+    let normalized_name = substitute(normalized_name, "'", "", "g")
+    let path_to_gem = system('bundle info --path ' . normalized_name)
+    echom path_to_gem
     execute('tabnew ' . path_to_gem)
     execute('lcd ' . path_to_gem)
   endfunction
