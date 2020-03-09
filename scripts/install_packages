@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+function install_or_update {
+  local pkg=$1
+  brew install $pkg || brew upgrade $pkg
+}
+
+install_or_update "direnv"
+install_or_update "rg"
+install_or_update "translate-shell"
+install_or_update "python3"

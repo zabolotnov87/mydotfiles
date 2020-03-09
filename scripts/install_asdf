@@ -1,13 +1,13 @@
 #!/bin/bash
 
+set -e
+
 if [ ! -d ~/.asdf ]; then
   git clone https://github.com/asdf-vm/asdf.git ~/.asdf
   cd ~/.asdf && git checkout $(git describe --abbrev=0 --tags)
-fi
-
-mkdir -p ~/.config/fish/completions
-cp ~/.asdf/completions/asdf.fish ~/.config/fish/completions
-
-cat << EOF > ~/.asdfrc
-legacy_version_file = yes
+  mkdir -p ~/.config/fish/completions
+  cp ~/.asdf/completions/asdf.fish ~/.config/fish/completions
+  cat << EOF > ~/.asdfrc
+  legacy_version_file = yes
 EOF
+fi

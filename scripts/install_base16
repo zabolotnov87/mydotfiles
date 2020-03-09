@@ -1,9 +1,21 @@
 #!/bin/bash
 
-if [ ! -d ~/git/base16-fzf ]; then
-  git clone git@github.com:nicodebo/base16-fzf.git ~/git/base16-fzf
+set -e
+
+BASE16_DIR=$HOME/.config/base16
+
+if [ ! -d $BASE16_DIR ]; then
+  mkdir -p $BASE16_DIR
+  git clone git@github.com:nicodebo/base16-fzf.git $BASE16_DIR/fzf
+  git clone git@github.com:chriskempson/base16-shell.git $BASE16_DIR/shell
 fi
 
-if [ ! -d ~/git/base16-iterm2 ]; then
-  git clone git@github.com:chriskempson/base16-iterm2.git ~/git/base16-iterm2
-fi
+mkdir -p $BASE16_DIR/hooks
+cat << EOF > $BASE16_DIR/hooks/fzf
+#!/usr/bin/env bash
+ln -sf $BASE16_DIR/fzf/fish/base16-\$BASE16_THEME.fish ~/.base16_fzf
+fish ~/.base16_fzf
+fish -c 'echo \$FZF_DEFAULT_OPTS > $BASE16_DIR/fzf_default_opts'
+EOF
+
+chmod +x $BASE16_DIR/hooks/fzf

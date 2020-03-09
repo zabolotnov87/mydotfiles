@@ -1,21 +1,27 @@
 #!/bin/bash
 
+set -e
+
 BASE=$(pwd)
 
-brew install fish
+brew install fish || brew upgrade fish
 
+mkdir -p ~/.config/fish
 ln -sf $BASE/config.fish ~/.config/fish/config.fish
 
 # Make fish default shell
 if [ ! $(grep "fish" /etc/shells) ]; then
   sudo echo "/usr/local/bin/fish" >> /etc/shells
+  chsh -s /usr/local/bin/fish
 fi
-chsh -s /usr/local/bin/fish
 
-cat << EOF > ~/.config.fish.local
-source ~/git/base16-fzf/fish/base16-solarized-light.fish
-EOF
-
+# Install oh-my-fish
 if [ ! -d ~/.local/share/omf ]; then
   curl -L https://get.oh-my.fish | fish
+fi
+
+if [ ! -f ~/.config.fish.local ]; then
+  cat << EOF > ~/.config.fish.local
+# Local config
+EOF
 fi

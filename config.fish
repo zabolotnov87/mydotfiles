@@ -1,15 +1,18 @@
 # Common aliases
 alias ll   "ls -al"
-alias tls  "tmux list-sessions"
 alias tmux "env TERM=xterm-256color tmux"
+alias tls  "tmux list-sessions"
 alias vim  "new_or_fg nvim"
 alias vi   "vim"
 alias lfc  "source ~/.config/fish/config.fish"
 alias ltc  "tmux source-file ~/.tmux.conf"
 alias my   "pushd ~/mydotfiles"
 alias b    "popd"
-alias efc  "vi ~/.config/fish/config.fish"
+alias etc  "vi ~/.tmux.conf && ltc"
+alias efc  "vi ~/.config/fish/config.fish && lfc"
 alias evrc "vi ~/.config/nvim/init.vim"
+alias elc  "vi -p ~/.config.fish.local ~/.tmux.conf.local && lfc && ltc"
+alias notes "vi -O ~/Dropbox/notes/{global,weekly,daily}.txt"
 
 # Git
 alias ga     "git a -p"
@@ -34,11 +37,12 @@ alias bi "bundle install"
 alias be "bundle exec"
 alias bo "bundle open"
 
-alias reload "lfc && ltc"
-alias ec "nvim -p ~/.tmux.conf.local ~/.config/fish/config.fish ~/.config.fish.local ~/.vimrc.local && reload"
+function fzf
+  env FZF_DEFAULT_OPTS="--reverse --height 60% $FZF_DEFAULT_OPTS" fzf
+end
 
 function ta
-  tmux attach-session -t $argv;
+  tmux attach-session -t $argv || tmux new -As $argv
 end
 
 function fco -d "Fuzzy-find branch and checkout it"
@@ -61,33 +65,47 @@ function new_or_fg
   end
 end
 
+function colors
+  set -l color (functions | grep base16- | fzf)
+  if string length -q -- $color
+    $color
+  end
+end
+
 bind \cb fco
 
-# Setup color scheme for Fuzzy Finder
-source ~/git/base16-fzf/fish/base16-eighties.fish
+set -gx FZF_DEFAULT_COMMAND 'rg --files --hidden --follow --no-ignore --glob "!node_modules/*"'
 
-set -x EDITOR nvim
-set -x LC_ALL en_US.UTF-8
-set -x LANG en_US.UTF-8
-set -x FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow --glob "!node_modules/*"'
-set -g fish_user_paths "/usr/local/opt/openssl/bin" $fish_user_paths
-set -x DIRENV_LOG_FORMAT ""
-set -x GOPATH $HOME/go
-set -x GOBIN $GOPATH/bin
-set -x PATH $PATH $GOBIN $HOME/bin
+set -gx EDITOR nvim
+set -gx LC_ALL en_US.UTF-8
+set -gx LANG en_US.UTF-8
 
-mkdir -p $GOPATH
+mkdir -p ~/bin
+string match -q "$HOME/bin" $fish_user_paths || set -U fish_user_paths $fish_user_paths ~/bin
+
+set -gx GOPATH ~/go
+set -gx GOBIN $GOPATH/bin
 mkdir -p $GOBIN
-mkdir -p $HOME/bin
+string match -q "$GOBIN" $fish_user_paths || set -U fish_user_paths $fish_user_paths $GOBIN
 
+# Remove greeting
 set fish_greeting
 
 # Configure direnv
 eval (direnv hook fish)
 
 # Setup asdf
+set -gx DIRENV_LOG_FORMAT ""
 source ~/.asdf/asdf.fish
 
-source ~/.config.fish.local
+# Setup base16 colorscheme (shell, fzf)
+set BASE16_DIR ~/.config/base16
+set -gx BASE16_SHELL_HOOKS $BASE16_DIR/hooks
+set -gx FZF_DEFAULT_OPTS_FILE $BASE16_DIR/fzf_default_opts
+source $BASE16_DIR/shell/profile_helper.fish
+if test -e ~/.base16_fzf
+  source ~/.base16_fzf
+end
 
-set -x FZF_DEFAULT_OPTS "--reverse $FZF_DEFAULT_OPTS"
+# Local settings
+source ~/.config.fish.local

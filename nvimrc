@@ -109,9 +109,9 @@
       let s:git_status_line_added=1
     endif
 
-    noremap <Leader>gs :Gstatus<CR>
-    noremap <Leader>gb :Gblame<CR>
-    noremap <Leader>gd :Gdiff<CR>
+    nnoremap <Leader>gs :Gstatus<CR>
+    nnoremap <Leader>gb :Gblame<CR>
+    nnoremap <Leader>gd :Gdiff<CR>
   " }}}
 
   " netrw {{{
@@ -123,13 +123,13 @@
     let NERDTreeShowHidden=1
     let g:NERDTreeWinSize=40
 
-    noremap <Leader>e :NERDTreeFind<CR>
-    noremap <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
+    nnoremap <Leader>e :NERDTreeFind<CR>
+    nnoremap <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
   " }}}
 
   " Easy Align {{{
-    xnoremap ga <Plug>(EasyAlign)
-    noremap ga <Plug>(EasyAlign)
+    xmap ga <Plug>(EasyAlign)
+    nmap ga <Plug>(EasyAlign)
   " }}}
 
   " Vim Tests {{{
@@ -166,14 +166,6 @@
     nnoremap <silent> <leader>ab :ALEPreviousWrap<CR>
   " }}}
 
-  " Fizy Finder {{{
-    nnoremap <leader>w "zyiw:exe "F ".@z.""<CR>
-    nnoremap <leader>f :Files<CR>
-    nnoremap <leader>s :BLines<CR>
-    nnoremap <leader>b :Buffers<CR>
-    nnoremap <leader>gf :GFiles?<CR>
-  " }}}
-
   " Vim Go {{{
     let g:go_fmt_autosave = 0
     let g:go_fmt_command = 'goimports'
@@ -200,9 +192,9 @@
     let g:UltiSnipsExpandTrigger='<c-j>'
     let g:UltiSnipsJumpBackwardTrigger='<c-k>'
     let g:UltiSnipsListSnippets='<c-l>'
-    let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim-snippets']
+    let g:UltiSnipsSnippetDirectories=[$HOME.'/.config/nvim/snips']
     let g:UltiSnipsEditSplit='vertical'
-    noremap <Leader>us :UltiSnipsEdit<CR>
+    nnoremap <Leader>us :UltiSnipsEdit<CR>
   " }}}
 
   " Goyo {{{
@@ -217,6 +209,30 @@
       \ }
     vnoremap <silent> <leader>t :TranslateVisual<CR>
   " }}}
+
+  " fzf {{{
+    let $FZF_DEFAULT_OPTS =
+      \ system('cat $FZF_DEFAULT_OPTS_FILE') . ' --reverse'
+      " \ system('cat ~/.config/base16/fzf_default_opts') . ' --reverse'
+
+    " To use ripgrep instead of ag:
+    command! -bang -nargs=* F
+      \ call fzf#vim#grep(
+      \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+      \   <bang>0 ? fzf#vim#with_preview('up:60%')
+      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+      \   <bang>0)
+
+    " Likewise, Files command with preview window
+    command! -bang -nargs=? -complete=dir Files
+      \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+    nnoremap <leader>w "zyiw:exe "F ".@z.""<CR>
+    nnoremap <leader>f :Files<CR>
+    nnoremap <leader>s :BLines<CR>
+    nnoremap <leader>b :Buffers<CR>
+    nnoremap <leader>gf :GFiles?<CR>
+  " }}}
 " }}}
 
 " Common mappings {{{
@@ -229,14 +245,14 @@
   nnoremap <space> za
 
   " switching windows
-  noremap <C-j> <C-w>j
-  noremap <C-k> <C-w>k
-  noremap <C-l> <C-w>l
-  noremap <C-h> <C-w>h
-  noremap <A-j> <C-w>j
-  noremap <A-k> <C-w>k
-  noremap <A-l> <C-w>l
-  noremap <A-h> <C-w>h
+  nnoremap <C-j> <C-w>j
+  nnoremap <C-k> <C-w>k
+  nnoremap <C-l> <C-w>l
+  nnoremap <C-h> <C-w>h
+  nnoremap <A-j> <C-w>j
+  nnoremap <A-k> <C-w>k
+  nnoremap <A-l> <C-w>l
+  nnoremap <A-h> <C-w>h
   " in terminal mode (neovim specific)
   tnoremap <A-h> <C-\><C-n><C-w>h
   tnoremap <A-j> <C-\><C-n><C-w>j
@@ -247,10 +263,10 @@
   nnoremap <silent>L :tabnext<CR>
 
   " close buffer
-  noremap <leader>c :bd!<CR>
+  nnoremap <leader>c :bd!<CR>
 
   " close all buffer
-  noremap <leader>bdbd :bufdo: bd!<CR>
+  nnoremap <leader>bdbd :bufdo: bd!<CR>
 
   " vmap for maintain Visual Mode after shifting > and <
   vnoremap < <gv
@@ -260,8 +276,8 @@
   nnoremap <leader>. :lcd %:p:h<CR>
 
   " split
-  noremap <Leader>h :split<CR><C-w>j
-  noremap <Leader>v :vsplit<CR><C-w>w
+  nnoremap <Leader>h :split<CR><C-w>j
+  nnoremap <Leader>v :vsplit<CR><C-w>w
 
   " move visual block
   vnoremap J :m '>+1<CR>gv=gv
@@ -305,9 +321,10 @@
   " Disable vim auto visual mode using mouse
   set mouse-=a
 
-  let base16colorspace=256
-  set background=dark
-  color base16-eighties
+  if filereadable(expand("~/.vimrc_background"))
+    let base16colorspace=256
+    source ~/.vimrc_background
+  endif
 
   set ruler       " show the cursor position all the time
   set cursorline  " color current line
@@ -357,17 +374,6 @@
   set hlsearch  " Enable search highlighting,
   nohlsearch    " but do not highlight last search on startup
 
-  " To use ripgrep instead of ag:
-  command! -bang -nargs=* F
-    \ call fzf#vim#grep(
-    \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-    \   <bang>0 ? fzf#vim#with_preview('up:60%')
-    \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-    \   <bang>0)
-
-  " Likewise, Files command with preview window
-  command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 " }}}
 
 " Functions {{{
@@ -457,11 +463,5 @@
   augroup END
 
 " }}}
-
-" NeoVim Specific {{{
-
-" }}}
-
-source ~/.vimrc.local
 
 " vim:foldmethod=marker:foldminlines=1

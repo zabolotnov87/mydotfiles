@@ -1,10 +1,11 @@
 #!/bin/bash
 
+set -e
+
 BASE=$(pwd)
 
-brew install \
-  tmux \
-  reattach-to-user-namespace
+brew install tmux || true
+brew install reattach-to-user-namespace || true
 
 ln -sf $BASE/tmux.conf ~/.tmux.conf
 

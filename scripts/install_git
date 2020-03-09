@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo 'Install git: start'
+set -e
 
 BASE=$(pwd)
 
@@ -17,7 +17,5 @@ cat << EOF > ~/.gitconfig.user
   name = $GIT_NAME
   email = $GIT_EMAIL
 [includeIf "gitdir:~/projects/"]
-  path = .gitconfig-projects
+  path = ~/projects/.gitconfig
 EOF
-
-echo 'Install git: success.'
