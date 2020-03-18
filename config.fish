@@ -12,7 +12,6 @@ alias etc  "vi ~/.tmux.conf && ltc"
 alias efc  "vi ~/.config/fish/config.fish && lfc"
 alias evrc "vi ~/.config/nvim/init.vim"
 alias elc  "vi -p ~/.config.fish.local ~/.tmux.conf.local && lfc && ltc"
-alias notes "vi -O ~/Dropbox/notes/{global,weekly,daily}.txt"
 
 # Git
 alias ga     "git a -p"
