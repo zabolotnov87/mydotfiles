@@ -3,21 +3,37 @@
 " author: Sergey Zabolotnov (sergey.zabolotnov@gmail.com)
 "
 
-" Basic {{{
-  set nocompatible
+" Settings {{{
 
+  syntax enable
+  filetype plugin indent on
+
+  let mapleader=','
+
+  set nocompatible
   set shell=/bin/bash
   set exrc
   set secure
   set modelines=1
 
-  let mapleader=','
+  " Enable to copy to clipboard for operations like yank, delete, change and put
+  if has('unnamedplus')
+    set clipboard^=unnamed
+    set clipboard^=unnamedplus
+  endif
 
-  filetype plugin indent on
+  " This enables us to undo files even if you exit Vim.
+  if has('persistent_undo')
+    set undofile
+    set undodir=~/.config/vim/tmp/undo/
+  endif
 
-  set clipboard=unnamed
+  " Buffer should still exist if window is closed
+  set hidden
 
+  " Automatically read changed files
   set autoread
+
   set autowriteall
   set foldmethod=indent
 
@@ -26,11 +42,8 @@
   " # Increase maximum amount of memory (in Kbyte) to use for pattern matching.
   set maxmempattern=20000
 
-  " Swap and Backups
-  set updatecount=0
-  set noswapfile
-  set nobackup
-  set nowritebackup
+  set noswapfile " Don't use swapfile
+  set nobackup   " Don't create annoying backup files
 
   " Tabs
   set tabstop=2
@@ -39,9 +52,55 @@
   set shiftround
   set expandtab
 
+  set backspace=indent,eol,start  " Makes backspace key more powerful.
+
+  set termguicolors
+
+  " Indicate fast terminal conn for faster redraw
+  set ttyfast
+
+  " Disable vim auto visual mode using mouse
+  set mouse-=a
+
+  set ruler       " show the cursor position all the time
+  set cursorline  " color current line
+  set list        " show invisible characters
+
+  " wrap long lines
+  set wrap
+  set showbreak=↪\
+
+  " display extra whitespace
+  set listchars=tab:▸\ ,trail:·,extends:❯,precedes:❮,nbsp:×
+
+  set colorcolumn=100
+  set number
+  set numberwidth=5
+
+  " have some context around the current line always on screen
+  set scrolloff=3
+
+  " show (partial) command in the last line of the screen
+  set showcmd
+
+  " autocomplete
+  set wildmode=list:longest,list:full
+
+  " visual autocomplete for command menu
+  set wildmenu
+
+  set signcolumn=yes
+
+  set ignorecase
+  set smartcase
+  set incsearch
+  set hlsearch  " Enable search highlighting,
+  nohlsearch    " but do not highlight last search on startup
+
 " }}}
 
 " Plugins {{{
+
   let g:plug_window='new'
 
   let s:plugs_path='~/.local/share/nvim/plugged'
@@ -75,9 +134,11 @@
   Plug 'depuracao/vim-rdoc'
 
   call plug#end()
+
 " }}}
 
 " Plugins Settings {{{
+
   " autopairs {{{
     augroup AutoPairs
       " NOTE: let g:AutoPairs['|']='|'
@@ -233,9 +294,13 @@
     nnoremap <leader>b :Buffers<CR>
     nnoremap <leader>gf :GFiles?<CR>
   " }}}
+
 " }}}
 
 " Common mappings {{{
+
+  " Act like D and C
+  nnoremap Y y$
 
   " fast exit to normal mode
   inoremap jk <esc>
@@ -311,72 +376,11 @@
   " exit from terminal mode
   tnoremap <Esc> <C-\><C-n>
   tnoremap <C-t> <C-\><C-n>
-" }}}
-
-" View {{{
-  syntax enable
-
-  set termguicolors
-
-  " Disable vim auto visual mode using mouse
-  set mouse-=a
-
-  if filereadable(expand("~/.vimrc_background"))
-    let base16colorspace=256
-    source ~/.vimrc_background
-  endif
-
-  set ruler       " show the cursor position all the time
-  set cursorline  " color current line
-  set list        " show invisible characters
-
-  " wrap long lines
-  set wrap
-  set showbreak=↪\
-
-  " display extra whitespace
-  set listchars=tab:▸\ ,trail:·,extends:❯,precedes:❮,nbsp:×
-
-  set colorcolumn=100
-
-  " numbers
-  set number
-  set numberwidth=5
-
-  " have some context around the current line always on screen
-  set scrolloff=3
-
-  " show (partial) command in the last line of the screen
-  set showcmd
-
-  " autocomplete
-  set wildmode=list:longest,list:full
-
-  " visual autocomplete for command menu
-  set wildmenu
-
-  set signcolumn=yes
-" }}}
-
-" Tabs {{{
-  set tabstop=2
-  set softtabstop=2
-  set shiftwidth=2
-  set shiftround
-  set expandtab
-" }}}
-
-" Search {{{
-  set ignorecase
-  set smartcase
-  set incsearch
-
-  set hlsearch  " Enable search highlighting,
-  nohlsearch    " but do not highlight last search on startup
 
 " }}}
 
 " Functions {{{
+
   function! s:strip_trailing_whitespaces()
     if exists('b:noStripWhiteSpaces')
       return
@@ -426,9 +430,11 @@
     silent! normal! gv"ay
     return @a
   endfunction
+
 " }}}
 
 " Common autogroups {{{
+
   augroup configgroup
     autocmd!
 
@@ -461,6 +467,15 @@
     autocmd BufEnter,FocusGained,InsertLeave,WinEnter * set relativenumber
     autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * set norelativenumber
   augroup END
+
+" }}}
+
+" Setup colorscheme {{{
+
+  if filereadable(expand("~/.vimrc_background"))
+    let base16colorspace=256
+    source ~/.vimrc_background
+  endif
 
 " }}}
 
