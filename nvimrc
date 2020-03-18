@@ -115,7 +115,7 @@
   Plug 'easymotion/vim-easymotion'
   Plug 'tpope/vim-fugitive'
   Plug 'chriskempson/base16-vim'
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+  Plug 'junegunn/fzf'
   Plug 'junegunn/fzf.vim'
   Plug 'kana/vim-textobj-user'
   Plug 'kana/vim-textobj-line'

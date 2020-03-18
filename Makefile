@@ -1,12 +1,18 @@
 SHELL = bash
 
-default: packages git asdf vim tmux base16 fish
+default: packages git fish fzf asdf vim tmux base16 fish done
 
 packages:
 	./scripts/install_packages
 
 git:
 	./scripts/install_git
+
+fish:
+	./scripts/install_fish
+
+fzf:
+	./scripts/install_fzf
 
 asdf:
 	./scripts/install_asdf
@@ -20,5 +26,5 @@ tmux:
 base16:
 	./scripts/install_base16
 
-fish:
-	./scripts/install_fish
+done:
+	@printf "\nDone! Pleasee, restart shell.\n"

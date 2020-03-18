@@ -4,10 +4,12 @@ set -e
 
 BASE16_DIR=$HOME/.config/base16
 
-if [ ! -d $BASE16_DIR ]; then
-  mkdir -p $BASE16_DIR
-  git clone git@github.com:nicodebo/base16-fzf.git $BASE16_DIR/fzf
-  git clone git@github.com:chriskempson/base16-shell.git $BASE16_DIR/shell
+mkdir -p $BASE16_DIR
+if [ ! -d $BASE16_DIR/fzf ]; then
+  git clone https://github.com/nicodebo/base16-fzf.git $BASE16_DIR/fzf
+fi
+if [ ! -d $BASE16_DIR/shell ]; then
+  git clone https://github.com/chriskempson/base16-shell.git $BASE16_DIR/shell
 fi
 
 mkdir -p $BASE16_DIR/hooks
