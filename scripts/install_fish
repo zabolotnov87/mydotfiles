@@ -13,7 +13,6 @@ ln -sf $BASE/config.fish ~/.config/fish/config.fish
 if [ ! $(grep "fish" /etc/shells) ]; then
   sudo echo "/usr/local/bin/fish" >> /etc/shells
 fi
-
 chsh -s /usr/local/bin/fish
 
 # Install oh-my-fish

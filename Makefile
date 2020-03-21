@@ -1,6 +1,6 @@
 SHELL = bash
 
-default: packages git fish fzf asdf vim tmux base16 fish done
+default: packages git fish fzf asdf vim tmux base16 done
 
 packages:
 	./scripts/install_packages
