@@ -30,6 +30,8 @@ alias gup    "git up"
 alias gbd    "git b -D"
 alias gclean "git co -- .; git clean -fd"
 alias gds    "git ds"
+alias grp    "git remote prune origin"
+alias cpb    "git rev-parse --abbrev-ref HEAD | pbcopy"
 
 # Bundler
 alias bi "bundle install"
@@ -44,8 +46,14 @@ function ta
   tmux attach-session -t $argv || tmux new -As $argv
 end
 
-function fco -d "Fuzzy-find branch and checkout it"
-  git branch --all | grep -v HEAD | string trim | fzf | xargs git co
+function fco -d "Fuzzy-find branch"
+  set -l branch (git branch --all | grep -v HEAD | string trim | fzf)
+  if string length -q -- $branch
+    set -l branch (string replace -r '\*' '' $branch)
+    set -l branch (string replace -r '\s' '' $branch)
+    set -l branch (string replace -r 'remotes\/origin\/' '' $branch)
+    commandline -it -- $branch
+  end
 end
 
 function tags -d "Print last n tags, example: tags 3"
