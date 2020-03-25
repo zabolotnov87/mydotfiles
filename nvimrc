@@ -223,12 +223,12 @@
     let g:ale_echo_msg_format = '[%linter%] %code%: %s [%severity%]'
 
     nnoremap <silent> fix :ALEFix<CR>
-    nnoremap <silent> <leader>an :ALENextWrap<CR>
-    nnoremap <silent> <leader>ab :ALEPreviousWrap<CR>
+    nnoremap <silent> <C-n> :ALENextWrap<CR>
+    nnoremap <silent> <C-p> :ALEPreviousWrap<CR>
   " }}}
 
   " Vim Go {{{
-    let g:go_fmt_autosave = 0
+    let g:go_fmt_autosave = 1
     let g:go_fmt_command = 'goimports'
     let g:go_list_type = 'quickfix'
     let g:go_fmt_fail_silently = 1
@@ -236,13 +236,30 @@
     let g:go_highlight_fields = 1
     let g:go_highlight_functions = 1
     let g:go_highlight_methods = 1
+    let g:go_term_enabled = 1
+    let g:go_term_mode = 'silent keepalt rightbelow vsplit'
+
+    " run :GoBuild or :GoTestCompile based on the go file
+    function! s:build_go_files()
+      let l:file = expand('%')
+      if l:file =~# '^\f\+_test\.go$'
+        call go#test#Test(0, 1)
+      elseif l:file =~# '^\f\+\.go$'
+        call go#cmd#Build(0)
+      endif
+    endfunction
 
     augroup Go
       autocmd!
       autocmd FileType go nmap gob <Plug>(go-build)
+      autocmd FileType go nmap <silent> gob :<C-u>call <SID>build_go_files()<CR>
       autocmd FileType go nmap gor <Plug>(go-run)
+      autocmd FileType go nmap goc <Plug>(go-coverage-toggle)
+      autocmd FileType go nmap got <Plug>(go-test)
       autocmd FileType go nmap fix <Plug>(go-imports)
       autocmd FileType go nmap <Leader>i <Plug>(go-info)
+      autocmd FileType go nmap <silent> <C-n> :cnext<CR>
+      autocmd FileType go nmap <silent> <C-p> :cprevious<CR>
       autocmd BufNewFile,BufRead *.go,*.mod setlocal noexpandtab tabstop=4 shiftwidth=4
       autocmd BufNewFile,BufRead *.go,*.mod set nolist
     augroup END
