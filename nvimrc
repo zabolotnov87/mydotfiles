@@ -388,7 +388,7 @@
   " open vim config
   nnoremap conf :tabnew $MYVIMRC<CR>
   " reload vim config
-  nnoremap <silent> so :so $MYVIMRC<CR>:e<CR>
+  nnoremap <silent> so :so $MYVIMRC<CR>:so .nvimrc<CR>:e<CR>
 
   " exit from terminal mode
   tnoremap <Esc> <C-\><C-n>
