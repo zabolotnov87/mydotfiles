@@ -139,6 +139,10 @@
 
 " Plugins Settings {{{
 
+  " vim text objects {{{
+
+  " }}}
+
   " autopairs {{{
     augroup AutoPairs
       " NOTE: let g:AutoPairs['|']='|'
@@ -236,6 +240,9 @@
     let g:go_highlight_fields = 1
     let g:go_highlight_functions = 1
     let g:go_highlight_methods = 1
+    let g:go_highlight_operators = 1
+    let g:go_highlight_generate_tags = 1
+    let g:go_highlight_build_constraints = 1
     let g:go_term_enabled = 1
     let g:go_term_mode = 'silent keepalt rightbelow vsplit'
 
@@ -251,7 +258,6 @@
 
     augroup Go
       autocmd!
-      autocmd FileType go nmap gob <Plug>(go-build)
       autocmd FileType go nmap <silent> gob :<C-u>call <SID>build_go_files()<CR>
       autocmd FileType go nmap gor <Plug>(go-run)
       autocmd FileType go nmap goc <Plug>(go-coverage-toggle)
