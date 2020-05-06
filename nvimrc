@@ -204,13 +204,15 @@
 
     let g:ale_linters = {
     \   'ruby': ['rubocop'],
-    \   'go': [],
     \   'json': ['fixjson'],
+    \   'go': [],
+    \   'javascript': ['eslint'],
     \}
 
     let g:ale_fixers = {
     \   'ruby': ['rubocop'],
     \   'json': ['fixjson'],
+    \   'javascript': ['eslint'],
     \}
 
     let g:ale_echo_msg_error_str = 'E'
@@ -257,7 +259,7 @@
       autocmd FileType go nmap <Leader>i <Plug>(go-info)
       autocmd FileType go nmap <silent> <C-n> :cnext<CR>
       autocmd FileType go nmap <silent> <C-p> :cprevious<CR>
-      autocmd BufNewFile,BufRead *.go,*.mod setlocal noexpandtab tabstop=4 shiftwidth=4
+      autocmd BufNewFile,BufRead *.go,*.mod setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
       autocmd BufNewFile,BufRead *.go,*.mod set nolist
     augroup END
   " }}}
@@ -385,7 +387,8 @@
   " open vim config
   nnoremap conf :tabnew $MYVIMRC<CR>
   " reload vim config
-  nnoremap <silent> so :so $MYVIMRC<CR>:so .nvimrc<CR>:e<CR>
+  " nnoremap <silent> so :so $MYVIMRC<CR>:so .nvimrc<CR>:e<CR>
+  nnoremap <silent> so :so $MYVIMRC<CR>:e<CR>
 
   " exit from terminal mode
   tnoremap <Esc> <C-\><C-n>
@@ -456,9 +459,6 @@
     autocmd BufWritePre *.sql let b:noStripWhiteSpaces=1
     autocmd BufWritePre * :call <SID>strip_trailing_whitespaces()
 
-    " arbre (https://github.com/activeadmin/arbre) processing
-    autocmd BufEnter *.arb setlocal filetype=ruby
-
     " Expand all folds automatically
     autocmd BufRead * normal zR
 
@@ -466,12 +466,8 @@
     autocmd FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 
     " Allow to open source code of selected plugin in new tab
-    autocmd FileType vim nnoremap <silent> <leader>bo :normal vil<CR> :call
+    autocmd FileType vim nnoremap <silent> <leader>o :normal vil<CR> :call
       \ <SID>open_plug(<SID>get_selected_text())<CR>
-
-    " Allow to open source code of selected gem in new tab
-    autocmd FileType ruby nnoremap <silent> <leader>bo :normal vil<CR> :call
-      \ <SID>open_gem(<SID>get_selected_text())<CR>
 
     autocmd TermOpen * setlocal nonumber norelativenumber
   augroup END
@@ -482,6 +478,17 @@
     autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * set norelativenumber
   augroup END
 
+  augroup ruby
+    autocmd!
+    " Allow to open source code of selected gem in new tab
+    autocmd FileType ruby nnoremap <silent> <leader>bo :normal vil<CR> :call
+      \ <SID>open_gem(<SID>get_selected_text())<CR>
+
+    autocmd Filetype ruby command! -bang -nargs=1 Bo call <SID>open_gem(<q-args>)
+
+    " arbre (https://github.com/activeadmin/arbre) processing
+    autocmd BufEnter *.arb setlocal filetype=ruby
+  augroup END
 " }}}
 
 " Setup colorscheme {{{
