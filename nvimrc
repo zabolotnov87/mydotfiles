@@ -128,7 +128,6 @@
   Plug 'VincentCordobes/vim-translate'
   Plug 'tpope/vim-endwise'
   Plug 'junegunn/vim-slash'
-  Plug 'junegunn/vim-after-object'
   Plug 'junegunn/vim-journal'
   Plug 'tpope/vim-surround'
   Plug 'depuracao/vim-rdoc'
@@ -153,14 +152,6 @@
 
   " vim-journal {{{
     nnoremap <leader>j i/* vim: set filetype=journal: */<esc>
-  " }}}
-
-  " vim-after-object {{{
-    augroup AfterObject
-      " vim-after-object
-      autocmd VimEnter * call
-        \ after_object#enable('=', ':', '-', '#', ' ', '(', '[', '{', ',', '.', '"')
-    augroup END
   " }}}
 
   " autosave {{{
