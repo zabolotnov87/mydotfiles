@@ -46,6 +46,10 @@ function ta
   tmux attach-session -t $argv || tmux new -As $argv
 end
 
+function tk
+  tmux kill-session -t $argv
+end
+
 function fco -d "Fuzzy-find branch"
   set -l branch (git branch --all | grep -v HEAD | string trim | fzf)
   if string length -q -- $branch
