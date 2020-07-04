@@ -3,7 +3,7 @@
 " author: Sergey Zabolotnov (sergey.zabolotnov@gmail.com)
 "
 
-" Settings {{{
+" Common settings {{{
 
   syntax enable
   filetype plugin indent on
@@ -138,8 +138,9 @@
 
 " Plugins Settings {{{
 
-  " vim text objects {{{
-
+  " Airline {{{
+    " let g:airline#extensions#tabline#enabled = 1
+    " let g:airline#extensions#tabline#formatter = 'unique_tail'
   " }}}
 
   " autopairs {{{
@@ -220,8 +221,8 @@
     let g:ale_echo_msg_format = '[%linter%] %code%: %s [%severity%]'
 
     nnoremap <silent> fix :ALEFix<CR>
-    nnoremap <silent> <C-n> :ALENextWrap<CR>
-    nnoremap <silent> <C-p> :ALEPreviousWrap<CR>
+    nnoremap <silent> <leader>an :ALENextWrap<CR>
+    nnoremap <silent> <leader>ab :ALEPreviousWrap<CR>
   " }}}
 
   " Vim Go {{{
@@ -257,16 +258,14 @@
       autocmd FileType go nmap got <Plug>(go-test)
       autocmd FileType go nmap fix <Plug>(go-imports)
       autocmd FileType go nmap <Leader>i <Plug>(go-info)
-      autocmd FileType go nmap <silent> <C-n> :cnext<CR>
-      autocmd FileType go nmap <silent> <C-p> :cprevious<CR>
       autocmd BufNewFile,BufRead *.go,*.mod setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
       autocmd BufNewFile,BufRead *.go,*.mod set nolist
     augroup END
   " }}}
 
   " Ultisnips {{{
+    let g:UltiSnipsExpandTrigger='<c-u>'
     let g:UltiSnipsJumpForwardTrigger='<c-j>'
-    let g:UltiSnipsExpandTrigger='<c-j>'
     let g:UltiSnipsJumpBackwardTrigger='<c-k>'
     let g:UltiSnipsListSnippets='<c-l>'
     let g:UltiSnipsSnippetDirectories=[$HOME.'/.config/nvim/snips']
@@ -394,6 +393,8 @@
   tnoremap <Esc> <C-\><C-n>
   tnoremap <C-t> <C-\><C-n>
 
+  nnoremap <silent> <C-n> :cnext<CR>
+  nnoremap <silent> <C-p> :cprevious<CR>
 " }}}
 
 " Functions {{{
@@ -438,7 +439,6 @@
     let normalized_name = substitute(normalized_name, " ", "", "g")
     let normalized_name = substitute(normalized_name, "'", "", "g")
     let path_to_gem = system('bundle info --path ' . normalized_name)
-    echom path_to_gem
     execute('tabnew ' . path_to_gem)
     execute('lcd ' . path_to_gem)
   endfunction
@@ -450,45 +450,50 @@
 
 " }}}
 
-" Common autogroups {{{
+" Autogroups {{{
 
-  augroup configgroup
-    autocmd!
+  " Common {{{
+    augroup common
+      autocmd!
 
-    " Strip trailing whitespaces
-    autocmd BufWritePre *.sql let b:noStripWhiteSpaces=1
-    autocmd BufWritePre * :call <SID>strip_trailing_whitespaces()
+      " Strip trailing whitespaces
+      autocmd BufWritePre *.sql let b:noStripWhiteSpaces=1
+      autocmd BufWritePre * :call <SID>strip_trailing_whitespaces()
 
-    " Expand all folds automatically
-    autocmd BufRead * normal zR
+      " Expand all folds automatically
+      autocmd BufRead * normal zR
 
-    autocmd FileType gitcommit setlocal colorcolumn=80
-    autocmd FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
+      autocmd FileType gitcommit setlocal colorcolumn=80
+      autocmd FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 
-    " Allow to open source code of selected plugin in new tab
-    autocmd FileType vim nnoremap <silent> <leader>o :normal vil<CR> :call
-      \ <SID>open_plug(<SID>get_selected_text())<CR>
+      " Allow to open source code of selected plugin in new tab
+      autocmd FileType vim nnoremap <silent> <leader>o :normal vil<CR> :call
+        \ <SID>open_plug(<SID>get_selected_text())<CR>
 
-    autocmd TermOpen * setlocal nonumber norelativenumber
-  augroup END
+      autocmd TermOpen * setlocal nonumber norelativenumber
 
-  augroup numbertoggle
-    autocmd!
-    autocmd BufEnter,FocusGained,InsertLeave,WinEnter * set relativenumber
-    autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * set norelativenumber
-  augroup END
+      " Toggle number
+      autocmd BufEnter,FocusGained,InsertLeave,WinEnter * set relativenumber
+      autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * set norelativenumber
+    augroup END
+  " }}}
 
-  augroup ruby
-    autocmd!
-    " Allow to open source code of selected gem in new tab
-    autocmd FileType ruby nnoremap <silent> <leader>bo :normal vil<CR> :call
-      \ <SID>open_gem(<SID>get_selected_text())<CR>
+  " ruby {{{
+    augroup ruby
+      autocmd!
+      " Allow to open source code of selected gem in new tab
+      autocmd FileType ruby nnoremap <silent> <leader>bo :normal vil<CR> :call
+        \ <SID>open_gem(<SID>get_selected_text())<CR>
 
-    autocmd Filetype ruby command! -bang -nargs=1 Bo call <SID>open_gem(<q-args>)
+      " Expose command Bo to open source code of a gem
+      " Example of usage:
+      "   :Bo activerecord
+      autocmd Filetype ruby command! -bang -nargs=1 Bo call <SID>open_gem(<q-args>)
 
-    " arbre (https://github.com/activeadmin/arbre) processing
-    autocmd BufEnter *.arb setlocal filetype=ruby
-  augroup END
+      " Support arbre (https://github.com/activeadmin/arbre)
+      autocmd BufEnter *.arb setlocal filetype=ruby
+    augroup END
+  " }}}
 " }}}
 
 " Setup colorscheme {{{
