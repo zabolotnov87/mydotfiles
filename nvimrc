@@ -492,6 +492,8 @@
 
       " Support arbre (https://github.com/activeadmin/arbre)
       autocmd BufEnter *.arb setlocal filetype=ruby
+
+      autocmd Filetype ruby set keywordprg=ri\ -f\ rdoc
     augroup END
   " }}}
 " }}}
