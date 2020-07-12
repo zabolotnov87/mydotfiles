@@ -439,8 +439,8 @@
     let normalized_name = substitute(normalized_name, " ", "", "g")
     let normalized_name = substitute(normalized_name, "'", "", "g")
     let path_to_gem = system('bundle info --path ' . normalized_name)
-    execute('tabnew ' . path_to_gem)
     execute('lcd ' . path_to_gem)
+    execute('e . ')
   endfunction
 
   function! s:get_selected_text()
