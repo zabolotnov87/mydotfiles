@@ -138,11 +138,6 @@
 
 " Plugins Settings {{{
 
-  " Airline {{{
-    " let g:airline#extensions#tabline#enabled = 1
-    " let g:airline#extensions#tabline#formatter = 'unique_tail'
-  " }}}
-
   " autopairs {{{
     augroup AutoPairs
       " NOTE: let g:AutoPairs['|']='|'
@@ -351,9 +346,6 @@
   " vmap for maintain Visual Mode after shifting > and <
   vnoremap < <gv
   vnoremap > >gv
-
-  " set working directory
-  nnoremap <leader>. :lcd %:p:h<CR>
 
   " split
   nnoremap <Leader>h :split<CR><C-w>j
