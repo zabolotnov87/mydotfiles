@@ -373,7 +373,7 @@
   nnoremap cpn :let @+=printf('%s:%d', expand('%'), expand(line('.')))<CR>
 
   " open terminal in current buffer
-  nnoremap <leader>t :vsp term://fish<CR>
+  nnoremap <leader>t :term fish<CR>
 
   " open vim config
   nnoremap conf :tabnew $MYVIMRC<CR>
