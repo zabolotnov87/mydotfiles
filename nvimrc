@@ -368,7 +368,7 @@
 
   " autocomplete
   inoremap <Tab> <c-r>=<SID>insert_tab_wrapper()<cr>
-  inoremap <S-Tab> <c-n>
+  inoremap <S-Tab> <c-p>
 
   " copy buffer path to clipboard
   nnoremap cp :let @+=expand('%')<CR>
@@ -415,7 +415,7 @@
     if !col || getline('.')[col - 1] !~ '\k'
       return "\<tab>"
     else
-      return "\<c-p>"
+      return "\<c-n>"
     endif
   endfunction
 
