@@ -31,6 +31,8 @@
   " Buffer should still exist if window is closed
   set hidden
 
+  set updatetime=300
+
   " Automatically read changed files
   set autoread
 
@@ -39,11 +41,14 @@
 
   set colorcolumn=100
 
-  " # Increase maximum amount of memory (in Kbyte) to use for pattern matching.
+  " Increase maximum amount of memory (in Kbyte) to use for pattern matching.
   set maxmempattern=20000
 
   set noswapfile " Don't use swapfile
   set nobackup   " Don't create annoying backup files
+
+  " Don't pass messages to ins-completion-menu
+  set shortmess+=c
 
   " Tabs
   set tabstop=2
