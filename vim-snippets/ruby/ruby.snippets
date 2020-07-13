@@ -6,21 +6,23 @@ snippet re "require ..."
 require '${1:ruby_file}'
 endsnippet
 
-snippet cl "class SomeClass ..."
-class ${1:SomeClass}
-	${3:# body}
+snippet class "class <class_name> def initialize ... end end"
+class ${1:`!p snip.rv = snip.basename.title().replace('_', '')`}
+	def initialize(${2:*args})
+		${3:# body}
+	end
 end
 endsnippet
 
-snippet mod "module SomeModule ..."
-module ${1:SomeModule}
-	${2:# body}
+snippet module "module"
+module ${1:`!p snip.rv = snip.basename.title().replace('_', '')`}
+	$0
 end
 endsnippet
 
-snippet d "def some_method(*args)"
-def ${1:method}(${2:*args})
-	${3:# body}
+snippet d "def <name>..."
+def ${1:some_function}${2:(${3:*args})}
+	$0
 end
 endsnippet
 
@@ -32,7 +34,7 @@ snippet irb "binding.irb"
 binding.irb
 endsnippet
 
-snippet cself "class << self"
+snippet selfc "class << self"
 class << self
 	${1:# body}
 end
@@ -42,4 +44,10 @@ snippet do "do..end"
 do |${1:*args}|
 	${2:# body}
 end
+endsnippet
+
+snippet priv "private "
+private
+
+$0
 endsnippet
