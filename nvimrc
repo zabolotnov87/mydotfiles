@@ -90,7 +90,6 @@
 
   " autocomplete
   set wildmode=list:longest,list:full
-
   " visual autocomplete for command menu
   set wildmenu
 
@@ -136,6 +135,7 @@
   Plug 'junegunn/vim-journal'
   Plug 'tpope/vim-surround'
   Plug 'depuracao/vim-rdoc'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
   call plug#end()
 
@@ -310,9 +310,39 @@
     nnoremap <leader>gf :GFiles?<CR>
   " }}}
 
+  " coc {{{
+    inoremap <silent><expr> <TAB>
+          \ pumvisible() ? "\<C-n>" :
+          \ <SID>check_back_space() ? "\<TAB>" :
+          \ coc#refresh()
+
+    function! s:check_back_space() abort
+      let col = col('.') - 1
+      return !col || getline('.')[col - 1]  =~# '\s'
+    endfunction
+
+    " Use <c-space> to trigger completion.
+    inoremap <silent><expr> <c-space> coc#refresh()
+
+    " Map function and class text objects
+    " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+    xmap if <Plug>(coc-funcobj-i)
+    omap if <Plug>(coc-funcobj-i)
+    xmap af <Plug>(coc-funcobj-a)
+    omap af <Plug>(coc-funcobj-a)
+    xmap ic <Plug>(coc-classobj-i)
+    omap ic <Plug>(coc-classobj-i)
+    xmap ac <Plug>(coc-classobj-a)
+    omap ac <Plug>(coc-classobj-a)
+
+  " }}}
 " }}}
 
 " Common mappings {{{
+
+  " Navigate by completion list by ctrl-j (down) and ctrl-k (up)
+  inoremap <c-j> <c-n>
+  inoremap <c-k> <c-p>
 
   " Act like D and C
   nnoremap Y y$
@@ -366,10 +396,6 @@
 
   nnoremap <silent> <leader><SPace> :nohlsearch<cr>
 
-  " autocomplete
-  inoremap <Tab> <c-r>=<SID>insert_tab_wrapper()<cr>
-  inoremap <S-Tab> <c-p>
-
   " copy buffer path to clipboard
   nnoremap cp :let @+=expand('%')<CR>
   " copy buffer absolute path to clipboard
@@ -408,15 +434,6 @@
     %s/\s\+$//e
     let @/=_s
     call cursor(l, c)
-  endfunction
-
-  function! s:insert_tab_wrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
-      return "\<tab>"
-    else
-      return "\<c-n>"
-    endif
   endfunction
 
   function! s:open_plug(plug)
