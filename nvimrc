@@ -264,9 +264,9 @@
   " }}}
 
   " Ultisnips {{{
-    let g:UltiSnipsExpandTrigger='<c-u>'
-    let g:UltiSnipsJumpForwardTrigger='<c-j>'
-    let g:UltiSnipsJumpBackwardTrigger='<c-k>'
+    let g:UltiSnipsExpandTrigger='<c-o>'
+    let g:UltiSnipsJumpForwardTrigger='<c-o>'
+    let g:UltiSnipsJumpBackwardTrigger='<c-b>'
     let g:UltiSnipsListSnippets='<c-l>'
     let g:UltiSnipsSnippetDirectories=[$HOME.'/.config/nvim/snips']
     let g:UltiSnipsEditSplit='vertical'
