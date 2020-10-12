@@ -2,6 +2,10 @@ snippet < "<%= ... %>"
 <%= ${1} %>
 endsnippet
 
-snippet env "ENV['...']"
+snippet env "ENV[name]"
 ENV['${1}']
+endsnippet
+
+snippet envf "ENV.fetch(name, default_value)"
+ENV.fetch('${1}', ${2})
 endsnippet

@@ -1,7 +1,4 @@
-" Config file for NeoVim
-"
-" author: Sergey Zabolotnov (sergey.zabolotnov@gmail.com)
-"
+" vim:foldmethod=marker:foldminlines=1
 
 " Common settings {{{
 
@@ -38,6 +35,12 @@
 
   set autowriteall
   set foldmethod=indent
+
+  set autoindent
+  set smartindent
+
+  " Always show statusline
+  set laststatus=2
 
   set colorcolumn=100
 
@@ -101,6 +104,7 @@
   set hlsearch  " Enable search highlighting,
   nohlsearch    " but do not highlight last search on startup
 
+  set omnifunc=syntaxcomplete#Complete
 " }}}
 
 " Plugins {{{
@@ -110,32 +114,57 @@
   let s:plugs_path='~/.local/share/nvim/plugged'
   call plug#begin(s:plugs_path)
 
-  Plug 'vim-scripts/vim-auto-save'
-  Plug 'tpope/vim-commentary'
-  Plug 'jiangmiao/auto-pairs'
-  Plug 'scrooloose/nerdtree'
-  Plug 'junegunn/vim-easy-align'
-  Plug 'DataWraith/auto_mkdir'
-  Plug 'easymotion/vim-easymotion'
-  Plug 'tpope/vim-fugitive'
+  " ruby
+  Plug 'rhysd/vim-textobj-ruby'
+  Plug 'vim-ruby/vim-ruby'
+
+  " golang
+  Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+
+  " frontend
+  Plug 'pangloss/vim-javascript'
+  Plug 'maxmellon/vim-jsx-pretty'
+  Plug 'leafgarland/typescript-vim'
+  Plug 'peitalin/vim-jsx-typescript'
+  Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+
+  " view
   Plug 'chriskempson/base16-vim'
+  Plug 'junegunn/goyo.vim'
+  Plug 'psliwka/vim-smoothie'
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
+
+  " lint engine
+  Plug 'w0rp/ale'
+  " autocomplete
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  " Snippets manager
+  Plug 'SirVer/ultisnips'
+
+  " others
+  Plug 'tpope/vim-commentary'
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-endwise'
+  Plug 'tpope/vim-surround'
+  Plug 'vim-scripts/vim-auto-save'
+  Plug 'junegunn/vim-easy-align'
   Plug 'junegunn/fzf'
   Plug 'junegunn/fzf.vim'
+  Plug 'scrooloose/nerdtree'
+  Plug 'easymotion/vim-easymotion'
   Plug 'kana/vim-textobj-user'
   Plug 'kana/vim-textobj-line'
   Plug 'janko-m/vim-test'
+  Plug 'jiangmiao/auto-pairs'
+  Plug 'DataWraith/auto_mkdir'
+  Plug 'hallison/vim-rdoc'
   Plug 'dag/vim-fish'
-  Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-  Plug 'SirVer/ultisnips'
-  Plug 'junegunn/goyo.vim'
-  Plug 'w0rp/ale'
-  Plug 'VincentCordobes/vim-translate'
-  Plug 'tpope/vim-endwise'
-  Plug 'junegunn/vim-slash'
   Plug 'junegunn/vim-journal'
-  Plug 'tpope/vim-surround'
-  Plug 'depuracao/vim-rdoc'
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'VincentCordobes/vim-translate'
+  Plug 'junegunn/vim-slash'
+  Plug 'gcmt/taboo.vim'
+  Plug 'preservim/tagbar'
 
   call plug#end()
 
@@ -143,16 +172,33 @@
 
 " Plugins Settings {{{
 
+  " airline {{{
+    let g:airline_theme='base16_oceanicnext'
+  " }}}
+
+  " surround {{{
+    augroup Surround
+      autocmd!
+      autocmd FileType ruby let g:surround_{char2nr("d")} = "do\n\r\nend"
+      autocmd FileType ruby let g:surround_{char2nr("p")} = "(\n\r,\n)"
+    augroup END
+  " }}}
+
   " autopairs {{{
     augroup AutoPairs
-      " NOTE: let g:AutoPairs['|']='|'
-      " doesn't work https://github.com/jiangmiao/auto-pairs/issues/213
+      autocmd!
+      " NOTE: let g:AutoPairs['|']='|' doesn't work
+      " see https://github.com/jiangmiao/auto-pairs/issues/213
       autocmd FileType ruby let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '```':'```', '"""':'"""', "'''":"'''", "`":"`", "|":"|"}
     augroup END
   " }}}
 
   " vim-journal {{{
     nnoremap <leader>j i/* vim: set filetype=journal: */<esc>
+  " }}}
+
+  " vim-ruby {{{
+    let ruby_no_expensive = 1
   " }}}
 
   " autosave {{{
@@ -169,14 +215,10 @@
     nnoremap <Leader>gs :Gstatus<CR>
     nnoremap <Leader>gb :Gblame<CR>
     nnoremap <Leader>gd :Gdiff<CR>
+    nnoremap <leader>gg "zyiw:exe "Ggrep ".@z.""<CR>
   " }}}
 
-  " netrw {{{
-    let g:netrw_preview=1
-    let g:netrw_alto=0
-  " }}}
-
-  " NerdTREE {{{
+  " nerdtree {{{
     let NERDTreeShowHidden=1
     let g:NERDTreeWinSize=40
 
@@ -184,12 +226,12 @@
     nnoremap <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
   " }}}
 
-  " Easy Align {{{
+  " easy align {{{
     xmap ga <Plug>(EasyAlign)
     nmap ga <Plug>(EasyAlign)
   " }}}
 
-  " Vim Tests {{{
+  " vim tests {{{
     nnoremap <silent> <leader>r :TestNearest<CR>
     nnoremap <silent> <leader>ar :TestFile<CR>
     nnoremap <silent> <leader>lt :TestVisit<CR>
@@ -199,23 +241,23 @@
     let test#ruby#bundle_exec = 0
   " }}}
 
-  " Ale {{{
-    packloadall
-    silent! helptags ALL
-
+  " ale {{{
+    let g:ale_linters_explicit = 1
+    let g:ale_ruby_rubocop_executable = 'rubocop-daemon-wrapper'
+    let g:ale_ruby_rubocop_auto_correct_all = 1
     let g:ale_linters = {
     \   'ruby': ['rubocop'],
     \   'json': ['fixjson'],
     \   'go': [],
-    \   'javascript': ['eslint'],
+    \   'javascript': [],
     \}
 
     let g:ale_fixers = {
     \   'ruby': ['rubocop'],
     \   'json': ['fixjson'],
-    \   'javascript': ['eslint'],
     \}
 
+    let g:ale_enabled = 0
     let g:ale_echo_msg_error_str = 'E'
     let g:ale_echo_msg_warning_str = 'W'
     let g:ale_echo_msg_format = '[%linter%] %code%: %s [%severity%]'
@@ -223,9 +265,10 @@
     nnoremap <silent> fix :ALEFix<CR>
     nnoremap <silent> <leader>an :ALENextWrap<CR>
     nnoremap <silent> <leader>ab :ALEPreviousWrap<CR>
+    nnoremap <silent> <leader>at :ALEToggle<CR>
   " }}}
 
-  " Vim Go {{{
+  " vim go {{{
     let g:go_fmt_autosave = 0
     let g:go_fmt_command = 'goimports'
     let g:go_list_type = 'quickfix'
@@ -263,7 +306,7 @@
     augroup END
   " }}}
 
-  " Ultisnips {{{
+  " ultisnips {{{
     let g:UltiSnipsExpandTrigger='<c-o>'
     let g:UltiSnipsJumpForwardTrigger='<c-o>'
     let g:UltiSnipsJumpBackwardTrigger='<c-b>'
@@ -273,7 +316,7 @@
     nnoremap <Leader>us :UltiSnipsEdit<CR>
   " }}}
 
-  " Goyo {{{
+  " goyo {{{
     nnoremap <Leader>go :Goyo<CR>
     let g:goyo_width = 100
   " }}}
@@ -289,15 +332,14 @@
   " fzf {{{
     let $FZF_DEFAULT_OPTS =
       \ system('cat $FZF_DEFAULT_OPTS_FILE') . ' --reverse'
-      " \ system('cat ~/.config/base16/fzf_default_opts') . ' --reverse'
 
-    " To use ripgrep instead of ag:
     command! -bang -nargs=* F
       \ call fzf#vim#grep(
-      \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-      \   <bang>0 ? fzf#vim#with_preview('up:60%')
-      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-      \   <bang>0)
+      \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>),
+      \   1,
+      \   fzf#vim#with_preview(),
+      \   <bang>0
+      \ )
 
     " Likewise, Files command with preview window
     command! -bang -nargs=? -complete=dir Files
@@ -306,36 +348,108 @@
     nnoremap <leader>w "zyiw:exe "F ".@z.""<CR>
     nnoremap <leader>f :Files<CR>
     nnoremap <leader>s :BLines<CR>
-    nnoremap <leader>b :Buffers<CR>
+    nnoremap <leader>bs :Buffers<CR>
+    nnoremap <leader>m :Marks<CR>
     nnoremap <leader>gf :GFiles?<CR>
   " }}}
 
-  " coc {{{
+  " deoplete {{{
+    let g:deoplete#enable_at_startup = 0
     inoremap <silent><expr> <TAB>
           \ pumvisible() ? "\<C-n>" :
-          \ <SID>check_back_space() ? "\<TAB>" :
-          \ coc#refresh()
+          \ <SID>check_backspace() ? "\<TAB>" :
+          \ deoplete#complete()
 
-    function! s:check_back_space() abort
+    function! s:check_backspace() abort
       let col = col('.') - 1
-      return !col || getline('.')[col - 1]  =~# '\s'
+      return !col || getline('.')[col - 1]  =~ '\s'
     endfunction
 
-    " Use <c-space> to trigger completion.
-    inoremap <silent><expr> <c-space> coc#refresh()
+    call deoplete#custom#option({
+    \ 'max_list': 7,
+    \ 'prev_completion_mode': 'mirror',
+    \ 'camel_case': v:true,
+    \ })
 
-    " Map function and class text objects
-    " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-    xmap if <Plug>(coc-funcobj-i)
-    omap if <Plug>(coc-funcobj-i)
-    xmap af <Plug>(coc-funcobj-a)
-    omap af <Plug>(coc-funcobj-a)
-    xmap ic <Plug>(coc-classobj-i)
-    omap ic <Plug>(coc-classobj-i)
-    xmap ac <Plug>(coc-classobj-a)
-    omap ac <Plug>(coc-classobj-a)
+    call deoplete#custom#source('around', 'matchers', ['matcher_fuzzy', 'matcher_length'])
 
+    inoremap <silent> <CR> <C-r>=<SID>deoplete_cr_function()<CR>
+    function! s:deoplete_cr_function() abort
+      return deoplete#close_popup() . "\<CR>"
+    endfunction
+
+    augroup Deoplete
+      autocmd!
+      autocmd InsertEnter * call deoplete#enable()
+    augroup END
   " }}}
+
+  " tagbar {{{
+    let g:tagbar_sort = 0 " sort by order in the source file
+    nmap <C-m> :TagbarToggle<CR>
+  " }}}
+
+" }}}
+
+" Functions {{{
+
+  function! s:strip_trailing_whitespaces()
+    if exists('b:noStripWhiteSpaces')
+      return
+    endif
+    " save last search & cursor position
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    let @/=_s
+    call cursor(l, c)
+  endfunction
+
+  function! s:get_selected_text()
+    silent! normal! gv"ay
+    return @a
+  endfunction
+
+  function OpenPlug(plug) abort
+    let without_opts = split(a:plug, ',')[0]
+    let normalized_name = substitute(without_opts, "Plug", "", "")
+    let normalized_name = substitute(normalized_name, " ", "", "g")
+    let normalized_name = substitute(normalized_name, "'", "", "g")
+    let plug_name = split(normalized_name, '/')[-1]
+    let path_to_plug = s:plugs_path . '/' . plug_name
+    execute('e ' . path_to_plug)
+    execute('lcd ' . path_to_plug)
+  endfunction
+
+  function OpenGem(gem) abort
+    let without_opts = split(a:gem, ',')[0]
+    let normalized_name = substitute(without_opts, "gem", "", "")
+    let normalized_name = substitute(normalized_name, " ", "", "g")
+    let normalized_name = substitute(normalized_name, "'", "", "g")
+    let path_to_gem = system('bundle info --path ' . normalized_name)
+    execute('lcd ' . path_to_gem)
+    execute('e . ')
+  endfunction
+
+  if (!exists('*SourceConfig'))
+    function SourceConfig() abort
+      source $MYVIMRC
+      if filereadable('.nvimrc')
+        source .nvimrc
+      endif
+      echo 'Vim config sourced successfully'
+    endfunction
+  endif
+
+  function Conf() abort
+    execute 'e '.$MYVIMRC
+    execute 'lcd %:p:h'
+  endfunction
+" }}}
+
+" Commands {{{
+  command! Conf call Conf()
 " }}}
 
 " Common mappings {{{
@@ -375,9 +489,6 @@
   " close buffer
   nnoremap <leader>c :bd!<CR>
 
-  " close all buffer
-  nnoremap <leader>bdbd :bufdo: bd!<CR>
-
   " vmap for maintain Visual Mode after shifting > and <
   vnoremap < <gv
   vnoremap > >gv
@@ -392,25 +503,24 @@
 
   " move to beginning/end of line
   nnoremap B ^
-  nnoremap E $
+  nnoremap E g_
+  vnoremap B ^
+  vnoremap E g_
 
   nnoremap <silent> <leader><SPace> :nohlsearch<cr>
 
   " copy buffer path to clipboard
   nnoremap cp :let @+=expand('%')<CR>
   " copy buffer absolute path to clipboard
-  nnoremap cpf :let @+=expand('%:p')<CR>
+  nnoremap cpa :let @+=expand('%:p')<CR>
   " copy buffer path with line number to clipboard
   nnoremap cpn :let @+=printf('%s:%d', expand('%'), expand(line('.')))<CR>
 
   " open terminal in current buffer
   nnoremap <leader>t :term fish<CR>
 
-  " open vim config
-  nnoremap conf :tabnew $MYVIMRC<CR>
-  " reload vim config
-  " nnoremap <silent> so :so $MYVIMRC<CR>:so .nvimrc<CR>:e<CR>
-  nnoremap <silent> so :so $MYVIMRC<CR>:e<CR>
+  " source config
+  nnoremap <silent>S :call SourceConfig()<CR>
 
   " exit from terminal mode
   tnoremap <Esc> <C-\><C-n>
@@ -418,50 +528,6 @@
 
   nnoremap <silent> <C-n> :cnext<CR>
   nnoremap <silent> <C-p> :cprevious<CR>
-" }}}
-
-" Functions {{{
-
-  function! s:strip_trailing_whitespaces()
-    if exists('b:noStripWhiteSpaces')
-      return
-    endif
-
-    " save last search & cursor position
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    let @/=_s
-    call cursor(l, c)
-  endfunction
-
-  function! s:open_plug(plug)
-    let without_opts = split(a:plug, ',')[0]
-    let normalized_name = substitute(without_opts, "Plug", "", "")
-    let normalized_name = substitute(normalized_name, " ", "", "g")
-    let normalized_name = substitute(normalized_name, "'", "", "g")
-    let plug_name = split(normalized_name, '/')[-1]
-    let path_to_plug = s:plugs_path . '/' . plug_name
-    execute('tabnew ' . path_to_plug)
-    execute('lcd ' . path_to_plug)
-  endfunction
-
-  function! s:open_gem(gem)
-    let without_opts = split(a:gem, ',')[0]
-    let normalized_name = substitute(without_opts, "gem", "", "")
-    let normalized_name = substitute(normalized_name, " ", "", "g")
-    let normalized_name = substitute(normalized_name, "'", "", "g")
-    let path_to_gem = system('bundle info --path ' . normalized_name)
-    execute('lcd ' . path_to_gem)
-    execute('e . ')
-  endfunction
-
-  function! s:get_selected_text()
-    silent! normal! gv"ay
-    return @a
-  endfunction
-
 " }}}
 
 " Autogroups {{{
@@ -482,32 +548,46 @@
 
       " Allow to open source code of selected plugin in new tab
       autocmd FileType vim nnoremap <silent> <leader>o :normal vil<CR> :call
-        \ <SID>open_plug(<SID>get_selected_text())<CR>
+        \ OpenPlug(<SID>get_selected_text())<CR>
 
       autocmd TermOpen * setlocal nonumber norelativenumber
 
+      autocmd FileType nerdtree setlocal nonumber norelativenumber
+      autocmd FileType journal setlocal colorcolumn=
+
       " Toggle number
-      autocmd BufEnter,FocusGained,InsertLeave,WinEnter * set relativenumber
-      autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * set norelativenumber
+      autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &ft !=# 'nerdtree' | set relativenumber | endif
+      autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &ft !=# 'nerdtree' | set norelativenumber | endif
     augroup END
   " }}}
 
   " ruby {{{
     augroup ruby
       autocmd!
+      autocmd FileType ruby compiler ruby
+      autocmd Filetype ruby set keywordprg=ri\ -f\ rdoc
+      autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+
       " Allow to open source code of selected gem in new tab
       autocmd FileType ruby nnoremap <silent> <leader>bo :normal vil<CR> :call
-        \ <SID>open_gem(<SID>get_selected_text())<CR>
+        \ OpenGem(<SID>get_selected_text())<CR>
 
       " Expose command Bo to open source code of a gem
       " Example of usage:
       "   :Bo activerecord
-      autocmd Filetype ruby command! -bang -nargs=1 Bo call <SID>open_gem(<q-args>)
+      autocmd Filetype ruby command! -nargs=1 Bo call OpenGem(<q-args>)
 
       " Support arbre (https://github.com/activeadmin/arbre)
       autocmd BufEnter *.arb setlocal filetype=ruby
+    augroup END
+  " }}}
 
-      autocmd Filetype ruby set keywordprg=ri\ -f\ rdoc
+  " javascript {{{
+    augroup js
+      autocmd!
+      autocmd FileType javascript setlocal foldmethod=syntax
+      autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+      autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
     augroup END
   " }}}
 " }}}
@@ -520,5 +600,3 @@
   endif
 
 " }}}
-
-" vim:foldmethod=marker:foldminlines=1

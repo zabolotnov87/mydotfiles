@@ -1,5 +1,5 @@
 # Common aliases
-alias ll   "ls -al"
+alias ll   "ls -alh"
 alias tmux "env TERM=xterm-256color tmux"
 alias tls  "tmux list-sessions"
 alias vim  "new_or_fg nvim"
@@ -11,7 +11,10 @@ alias b    "popd"
 alias etc  "vi ~/.tmux.conf && ltc"
 alias efc  "vi ~/.config/fish/config.fish && lfc"
 alias evrc "vi ~/.config/nvim/init.vim"
-alias elc  "vi -p ~/.config.fish.local ~/.tmux.conf.local && lfc && ltc"
+alias elc  "vi ~/.config.fish.local && lfc"
+alias efp  "vi ~/.config/fish/functions/fish_prompt.fish"
+alias pf  "ps aux | fzf"
+alias drmi "docker images -qf dangling=true | xargs docker rmi -f"
 
 # Git
 alias ga     "git a -p"
@@ -83,9 +86,26 @@ function colors
   end
 end
 
+function rn
+  set -l usage 'Usage: rn [name] [old] [new]'
+  set -l name $argv[1]
+  if ! set -q name[1]
+    echo $usage; return 1
+  end
+  set -l old $argv[2]
+  if ! set -q old[1]
+    echo $usage; return 1
+  end
+  set -l new $argv[3]
+  if ! set -q new[1]
+    echo $usage; return 1
+  end
+  find . -type f -name $name -not -path './vendor/*' -print | xargs sed -i '' -e "s/$old/$new/g"
+end
+
 bind \cb fco
 
-set -gx FZF_DEFAULT_COMMAND 'rg --files --hidden --follow --no-ignore --glob "!node_modules/*"'
+set -gx FZF_DEFAULT_COMMAND 'rg --files --hidden --follow --no-ignore-vcs -g "!{node_modules,.git,tmp,vendor}"'
 
 set -gx EDITOR nvim
 set -gx LC_ALL en_US.UTF-8
@@ -97,13 +117,16 @@ string match -q "$HOME/bin" $fish_user_paths || set -U fish_user_paths $fish_use
 set -gx GOPATH ~/go
 set -gx GOBIN $GOPATH/bin
 mkdir -p $GOBIN
-string match -q "$GOBIN" $fish_user_paths || set -U fish_user_paths $fish_user_paths $GOBIN
+string match -q "$GOBIN" $fish_user_paths || set -U fish_user_paths $GOBIN $fish_user_paths
 
 # Remove greeting
 set fish_greeting
 
 # Configure direnv
 eval (direnv hook fish)
+if test -e .envrc
+  direnv allow
+end
 
 # Setup asdf
 set -gx DIRENV_LOG_FORMAT ""

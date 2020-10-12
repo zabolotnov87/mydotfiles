@@ -8,26 +8,26 @@ endsnippet
 
 snippet class "class <class_name> def initialize ... end end"
 class ${1:`!p snip.rv = snip.basename.title().replace('_', '')`}
-	def initialize(${2:*args})
-		${3:# body}
+	def initialize(${2:args})
+		${3:body}
 	end
 end
 endsnippet
 
 snippet module "module"
 module ${1:`!p snip.rv = snip.basename.title().replace('_', '')`}
-	$0
+	${0:body}
 end
 endsnippet
 
 snippet d "def <name>..."
-def ${1:some_function}${2:(${3:*args})}
-	$0
+def ${1:function}${2:(${3:args})}
+	${0:body}
 end
 endsnippet
 
 snippet pry "require 'pry'; binding.pry"
-require 'pry'; binding.pry
+require 'pry'; ::Kernel.binding.pry
 endsnippet
 
 snippet irb "binding.irb"
