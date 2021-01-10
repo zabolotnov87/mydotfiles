@@ -165,12 +165,21 @@
   Plug 'junegunn/vim-slash'
   Plug 'gcmt/taboo.vim'
   Plug 'preservim/tagbar'
+  Plug 'vimwiki/vimwiki'
 
   call plug#end()
 
 " }}}
 
 " Plugins Settings {{{
+
+  " vimwiki {{{
+    let g:vimwiki_list = [{
+          \ 'path': '~/Dropbox/wiki/',
+          \ 'syntax': 'markdown',
+          \ 'ext': '.md',
+          \ }]
+  " }}}
 
   " airline {{{
     let g:airline_theme='base16_oceanicnext'
