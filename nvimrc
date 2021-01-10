@@ -147,7 +147,7 @@
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-endwise'
   Plug 'tpope/vim-surround'
-  Plug 'vim-scripts/vim-auto-save'
+  Plug '907th/vim-auto-save'
   Plug 'junegunn/vim-easy-align'
   Plug 'junegunn/fzf'
   Plug 'junegunn/fzf.vim'
@@ -202,8 +202,7 @@
   " }}}
 
   " autosave {{{
-    let g:auto_save = 1                " enable autosave
-    let g:auto_save_in_insert_mode = 0 " do not save while in insert mode
+    let g:auto_save = 1
   " }}}
 
   " fugitive {{{
