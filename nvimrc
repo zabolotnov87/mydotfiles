@@ -13,11 +13,8 @@
   set secure
   set modelines=1
 
-  " Enable to copy to clipboard for operations like yank, delete, change and put
-  if has('unnamedplus')
-    set clipboard^=unnamed
-    set clipboard^=unnamedplus
-  endif
+  " ALWAYS use the clipboard for ALL operations
+  set clipboard+=unnamedplus
 
   " This enables us to undo files even if you exit Vim.
   if has('persistent_undo')
@@ -49,9 +46,6 @@
 
   set noswapfile " Don't use swapfile
   set nobackup   " Don't create annoying backup files
-
-  " Don't pass messages to ins-completion-menu
-  set shortmess+=c
 
   " Tabs
   set tabstop=2
@@ -93,8 +87,15 @@
 
   " autocomplete
   set wildmode=list:longest,list:full
+
   " visual autocomplete for command menu
   set wildmenu
+
+  " Don't pass messages to ins-completion-menu
+  set shortmess+=c
+
+  set completeopt=noinsert,menu
+  set omnifunc=syntaxcomplete#Complete
 
   set signcolumn=yes
 
@@ -103,8 +104,6 @@
   set incsearch
   set hlsearch  " Enable search highlighting,
   nohlsearch    " but do not highlight last search on startup
-
-  set omnifunc=syntaxcomplete#Complete
 " }}}
 
 " Plugins {{{
@@ -253,16 +252,19 @@
     let g:ale_linters_explicit = 1
     let g:ale_ruby_rubocop_executable = 'rubocop-daemon-wrapper'
     let g:ale_ruby_rubocop_auto_correct_all = 1
+    let g:ale_linter_aliases = {'jsx': ['css', 'javascript']}
     let g:ale_linters = {
     \   'ruby': ['rubocop'],
     \   'json': ['fixjson'],
-    \   'go': [],
     \   'javascript': [],
+    \   'go': [],
     \}
 
     let g:ale_fixers = {
     \   'ruby': ['rubocop'],
     \   'json': ['fixjson'],
+    \   'javascript': [],
+    \   'go': [],
     \}
 
     let g:ale_enabled = 0
@@ -593,6 +595,7 @@
   " javascript {{{
     augroup js
       autocmd!
+      autocmd BufNewFile,BufRead *.jsx set filetype=javascript.jsx
       autocmd FileType javascript setlocal foldmethod=syntax
       autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
       autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
