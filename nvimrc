@@ -94,7 +94,6 @@
   " Don't pass messages to ins-completion-menu
   set shortmess+=c
 
-  set completeopt=noinsert,menu
   set omnifunc=syntaxcomplete#Complete
 
   set signcolumn=yes
@@ -126,6 +125,7 @@
   Plug 'leafgarland/typescript-vim'
   Plug 'peitalin/vim-jsx-typescript'
   Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+  Plug 'mattn/emmet-vim'
 
   " view
   Plug 'chriskempson/base16-vim'
@@ -171,6 +171,10 @@
 " }}}
 
 " Plugins Settings {{{
+
+  " emmet {{{
+    let g:user_emmet_leader_key='<C-R>'
+  " }}}
 
   " vimwiki {{{
     let g:vimwiki_list = [{
