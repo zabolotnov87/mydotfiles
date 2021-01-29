@@ -95,7 +95,8 @@
   " Don't pass messages to ins-completion-menu
   set shortmess+=c
 
-  set omnifunc=syntaxcomplete#Complete
+  " Execute normal mode commands in Russian keyboard
+  set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
 
   set signcolumn=yes
 
@@ -272,6 +273,11 @@
     \   'javascript': ['prettier', 'eslint'],
     \   'go': [],
     \}
+
+    " let g:ale_linter_aliases = {
+    " \   'tsx': ['javascript'],
+    " \   'jsx': ['javascript'],
+    " \}
 
     nnoremap <silent> fix :ALEFix<CR>
     nnoremap <silent> ]a :ALENextWrap<CR>
