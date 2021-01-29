@@ -19,7 +19,7 @@
   " This enables us to undo files even if you exit Vim.
   if has('persistent_undo')
     set undofile
-    set undodir=~/.config/vim/tmp/undo/
+    set undodir=~/tmp/nvim/undo/
   endif
 
   " Buffer should still exist if window is closed
@@ -32,6 +32,7 @@
 
   set autowriteall
   set foldmethod=indent
+  set foldlevel=20
 
   set autoindent
   set smartindent
@@ -105,6 +106,12 @@
   nohlsearch    " but do not highlight last search on startup
 " }}}
 
+" Apply local settings {{{
+  if filereadable('.nvimrc')
+    source .nvimrc
+  endif
+" }}}
+
 " Plugins {{{
 
   let g:plug_window='new'
@@ -112,36 +119,7 @@
   let s:plugs_path='~/.local/share/nvim/plugged'
   call plug#begin(s:plugs_path)
 
-  " ruby
-  Plug 'rhysd/vim-textobj-ruby'
-  Plug 'vim-ruby/vim-ruby'
-
-  " golang
-  Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-
-  " frontend
-  Plug 'pangloss/vim-javascript'
-  Plug 'maxmellon/vim-jsx-pretty'
-  Plug 'leafgarland/typescript-vim'
-  Plug 'peitalin/vim-jsx-typescript'
-  Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-  Plug 'mattn/emmet-vim'
-
-  " view
-  Plug 'chriskempson/base16-vim'
-  Plug 'junegunn/goyo.vim'
-  Plug 'psliwka/vim-smoothie'
-  Plug 'vim-airline/vim-airline'
-  Plug 'vim-airline/vim-airline-themes'
-
-  " lint engine
-  Plug 'w0rp/ale'
-  " autocomplete
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  " Snippets manager
-  Plug 'SirVer/ultisnips'
-
-  " others
+  " must have
   Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-endwise'
@@ -157,14 +135,43 @@
   Plug 'janko-m/vim-test'
   Plug 'jiangmiao/auto-pairs'
   Plug 'DataWraith/auto_mkdir'
+
+  " languages
+  Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+
+  " frontend
+  Plug 'pangloss/vim-javascript'
+  Plug 'maxmellon/vim-jsx-pretty'
+  Plug 'leafgarland/typescript-vim'
+  Plug 'peitalin/vim-jsx-typescript'
+  Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+  Plug 'mattn/emmet-vim'
+
+  " visual
+  Plug 'chriskempson/base16-vim'
+  Plug 'junegunn/goyo.vim'
+  Plug 'psliwka/vim-smoothie'
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
+
+  " lint engine
+  Plug 'w0rp/ale'
+  " LSP
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  " snippets manager
+  Plug 'SirVer/ultisnips'
+
+  " filetypes support
   Plug 'hallison/vim-rdoc'
   Plug 'dag/vim-fish'
-  Plug 'junegunn/vim-journal'
+
+  " others
   Plug 'VincentCordobes/vim-translate'
-  Plug 'junegunn/vim-slash'
   Plug 'gcmt/taboo.vim'
   Plug 'preservim/tagbar'
-  Plug 'vimwiki/vimwiki'
+  if exists('g:vimwiki_enabled')
+    Plug 'vimwiki/vimwiki'
+  endif
 
   call plug#end()
 
@@ -173,7 +180,7 @@
 " Plugins Settings {{{
 
   " emmet {{{
-    let g:user_emmet_leader_key='<C-R>'
+    let g:user_emmet_leader_key='<C-r>'
   " }}}
 
   " vimwiki {{{
@@ -188,14 +195,6 @@
     let g:airline_theme='base16_oceanicnext'
   " }}}
 
-  " surround {{{
-    augroup Surround
-      autocmd!
-      autocmd FileType ruby let g:surround_{char2nr("d")} = "do\n\r\nend"
-      autocmd FileType ruby let g:surround_{char2nr("p")} = "(\n\r,\n)"
-    augroup END
-  " }}}
-
   " autopairs {{{
     augroup AutoPairs
       autocmd!
@@ -203,10 +202,6 @@
       " see https://github.com/jiangmiao/auto-pairs/issues/213
       autocmd FileType ruby let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '```':'```', '"""':'"""', "'''":"'''", "`":"`", "|":"|"}
     augroup END
-  " }}}
-
-  " vim-journal {{{
-    nnoremap <leader>j i/* vim: set filetype=journal: */<esc>
   " }}}
 
   " vim-ruby {{{
@@ -234,7 +229,7 @@
     let g:NERDTreeWinSize=40
 
     nnoremap <Leader>e :NERDTreeFind<CR>
-    nnoremap <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
+    nnoremap <C-e> :NERDTreeToggle<CR>
   " }}}
 
   " easy align {{{
@@ -253,32 +248,34 @@
   " }}}
 
   " ale {{{
+    let g:ale_enabled = 0
+    let g:ale_echo_msg_error_str = 'E'
+    let g:ale_echo_msg_warning_str = 'W'
+    let g:ale_echo_msg_format = '[%linter%] %code%: %s [%severity%]'
+    let g:ale_disable_lsp = 1
     let g:ale_linters_explicit = 1
+    let g:ale_lint_on_text_changed = 'never'
+
     let g:ale_ruby_rubocop_executable = 'rubocop-daemon-wrapper'
     let g:ale_ruby_rubocop_auto_correct_all = 1
-    let g:ale_linter_aliases = {'jsx': ['css', 'javascript']}
+
     let g:ale_linters = {
     \   'ruby': ['rubocop'],
     \   'json': ['fixjson'],
-    \   'javascript': [],
+    \   'javascript': ['eslint'],
     \   'go': [],
     \}
 
     let g:ale_fixers = {
     \   'ruby': ['rubocop'],
     \   'json': ['fixjson'],
-    \   'javascript': [],
+    \   'javascript': ['prettier', 'eslint'],
     \   'go': [],
     \}
 
-    let g:ale_enabled = 0
-    let g:ale_echo_msg_error_str = 'E'
-    let g:ale_echo_msg_warning_str = 'W'
-    let g:ale_echo_msg_format = '[%linter%] %code%: %s [%severity%]'
-
     nnoremap <silent> fix :ALEFix<CR>
-    nnoremap <silent> <leader>an :ALENextWrap<CR>
-    nnoremap <silent> <leader>ab :ALEPreviousWrap<CR>
+    nnoremap <silent> ]a :ALENextWrap<CR>
+    nnoremap <silent> [a :ALEPreviousWrap<CR>
     nnoremap <silent> <leader>at :ALEToggle<CR>
   " }}}
 
@@ -367,35 +364,59 @@
     nnoremap <leader>gf :GFiles?<CR>
   " }}}
 
-  " deoplete {{{
-    let g:deoplete#enable_at_startup = 0
+  " coc {{{
+    let g:coc_global_extensions = [
+          \ 'coc-json',
+          \ 'coc-html',
+          \ 'coc-css',
+          \ 'coc-tsserver',
+          \ ]
+
     inoremap <silent><expr> <TAB>
           \ pumvisible() ? "\<C-n>" :
           \ <SID>check_backspace() ? "\<TAB>" :
-          \ deoplete#complete()
+          \ coc#refresh()
 
     function! s:check_backspace() abort
       let col = col('.') - 1
       return !col || getline('.')[col - 1]  =~ '\s'
     endfunction
 
-    call deoplete#custom#option({
-    \ 'max_list': 7,
-    \ 'prev_completion_mode': 'mirror',
-    \ 'camel_case': v:true,
-    \ })
+    " Use K to show documentation in preview window.
+    nnoremap <silent> K :call <SID>show_documentation()<CR>
+    " GoTo code navigation
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gy <Plug>(coc-type-definition)
+    " Applying codeAction to the selected region.
+    " Example: `<leader>aap` for current paragraph
+    xmap <leader>a <Plug>(coc-codeaction-selected)
+    nmap <leader>a <Plug>(coc-codeaction-selected)
 
-    call deoplete#custom#source('around', 'matchers', ['matcher_fuzzy', 'matcher_length'])
+    " Remap keys for applying codeAction to the current buffer.
+    nmap <leader>ac <Plug>(coc-codeaction)
+    " Apply AutoFix to problem on the current line.
+    nmap <leader>qf <Plug>(coc-fix-current)
 
-    inoremap <silent> <CR> <C-r>=<SID>deoplete_cr_function()<CR>
-    function! s:deoplete_cr_function() abort
-      return deoplete#close_popup() . "\<CR>"
+    " Map function and class text objects
+    " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+    xmap if <Plug>(coc-funcobj-i)
+    omap if <Plug>(coc-funcobj-i)
+    xmap af <Plug>(coc-funcobj-a)
+    omap af <Plug>(coc-funcobj-a)
+    xmap ic <Plug>(coc-classobj-i)
+    omap ic <Plug>(coc-classobj-i)
+    xmap ac <Plug>(coc-classobj-a)
+    omap ac <Plug>(coc-classobj-a)
+
+    function! s:show_documentation()
+      if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+      elseif (coc#rpc#ready())
+        call CocActionAsync('doHover')
+      else
+        execute '!' . &keywordprg . " " . expand('<cword>')
+      endif
     endfunction
-
-    augroup Deoplete
-      autocmd!
-      autocmd InsertEnter * call deoplete#enable()
-    augroup END
   " }}}
 
   " tagbar {{{
@@ -445,16 +466,6 @@
     execute('lcd ' . path_to_gem)
     execute('e . ')
   endfunction
-
-  if (!exists('*SourceConfig'))
-    function SourceConfig() abort
-      source $MYVIMRC
-      if filereadable('.nvimrc')
-        source .nvimrc
-      endif
-      echo 'Vim config sourced successfully'
-    endfunction
-  endif
 
   function Conf() abort
     execute 'e '.$MYVIMRC
@@ -534,7 +545,7 @@
   nnoremap <leader>t :term fish<CR>
 
   " source config
-  nnoremap <silent>S :call SourceConfig()<CR>
+  nnoremap <silent>S :source $MYVIMRC<CR>
 
   " exit from terminal mode
   tnoremap <Esc> <C-\><C-n>
@@ -554,9 +565,6 @@
       autocmd BufWritePre *.sql let b:noStripWhiteSpaces=1
       autocmd BufWritePre * :call <SID>strip_trailing_whitespaces()
 
-      " Expand all folds automatically
-      autocmd BufRead * normal zR
-
       autocmd FileType gitcommit setlocal colorcolumn=80
       autocmd FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 
@@ -567,7 +575,7 @@
       autocmd TermOpen * setlocal nonumber norelativenumber
 
       autocmd FileType nerdtree setlocal nonumber norelativenumber
-      autocmd FileType journal setlocal colorcolumn=
+      autocmd FileType nerdtree execute 'normal R'
 
       " Toggle number
       autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &ft !=# 'nerdtree' | set relativenumber | endif
@@ -580,7 +588,6 @@
       autocmd!
       autocmd FileType ruby compiler ruby
       autocmd Filetype ruby set keywordprg=ri\ -f\ rdoc
-      autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 
       " Allow to open source code of selected gem in new tab
       autocmd FileType ruby nnoremap <silent> <leader>bo :normal vil<CR> :call
@@ -599,8 +606,6 @@
   " javascript {{{
     augroup js
       autocmd!
-      autocmd BufNewFile,BufRead *.jsx set filetype=javascript.jsx
-      autocmd FileType javascript setlocal foldmethod=syntax
       autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
       autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
     augroup END
