@@ -1,9 +1,8 @@
-*.tmp
 tags
+*.tmp
 .DS_Store
 .env
 .envrc
 .tool-versions
 .nvimrc
 .pryrc
-.solargraph.yml

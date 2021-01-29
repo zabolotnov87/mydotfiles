@@ -10,4 +10,19 @@ if [ ! -d ~/.asdf ]; then
   cat << EOF > ~/.asdfrc
   legacy_version_file = yes
 EOF
+else
+  asdf update
 fi
+
+function install() {
+  local lang=$1
+  asdf plugin add $lang || asdf plugin update $lang
+  asdf install $lang
+}
+
+install "ruby"
+install "nodejs"
+
+npm install -g neovim
+
+gem install neovim
