@@ -12,8 +12,8 @@ ln -sf $BASE/config.fish ~/.config/fish/config.fish
 # Make fish default shell
 if [ ! $(grep "fish" /etc/shells) ]; then
   sudo echo "/usr/local/bin/fish" >> /etc/shells
+  chsh -s /usr/local/bin/fish
 fi
-chsh -s /usr/local/bin/fish
 
 # Install oh-my-fish
 if [ ! -d ~/.local/share/omf ]; then
