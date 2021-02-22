@@ -10,6 +10,7 @@ if [ ! -d ~/.asdf ]; then
   cat << EOF > ~/.asdfrc
   legacy_version_file = yes
 EOF
+  fish ~/.asdf/asdf.fish
 else
   asdf update
 fi
