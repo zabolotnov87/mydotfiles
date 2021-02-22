@@ -141,19 +141,16 @@
   Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 
   " frontend
-  Plug 'pangloss/vim-javascript'
-  Plug 'maxmellon/vim-jsx-pretty'
-  Plug 'leafgarland/typescript-vim'
-  Plug 'peitalin/vim-jsx-typescript'
   Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
   Plug 'mattn/emmet-vim'
+  Plug 'peitalin/vim-jsx-typescript'
 
-  " visual
+  " appearance
   Plug 'chriskempson/base16-vim'
   Plug 'junegunn/goyo.vim'
-  Plug 'psliwka/vim-smoothie'
-  Plug 'vim-airline/vim-airline'
-  Plug 'vim-airline/vim-airline-themes'
+  " Plug 'psliwka/vim-smoothie'
+  " Plug 'vim-airline/vim-airline'
+  " Plug 'vim-airline/vim-airline-themes'
 
   " lint engine
   Plug 'w0rp/ale'
@@ -162,17 +159,20 @@
   " snippets manager
   Plug 'SirVer/ultisnips'
 
-  " filetypes support
+  " syntax and indentations
   Plug 'hallison/vim-rdoc'
-  Plug 'dag/vim-fish'
+  Plug 'sheerun/vim-polyglot'
 
   " others
   Plug 'VincentCordobes/vim-translate'
   Plug 'gcmt/taboo.vim'
   Plug 'preservim/tagbar'
-  if exists('g:vimwiki_enabled')
-    Plug 'vimwiki/vimwiki'
+
+  " disable vimwiki by default
+  if !exists('g:vimwiki_enabled')
+    let g:loaded_vimwiki = 1
   endif
+  Plug 'vimwiki/vimwiki'
 
   call plug#end()
 
@@ -229,8 +229,8 @@
     let NERDTreeShowHidden=1
     let g:NERDTreeWinSize=40
 
-    nnoremap <Leader>e :NERDTreeFind<CR>
-    nnoremap <C-e> :NERDTreeToggle<CR>
+    nnoremap <silent> <Leader>e :NERDTreeFind<CR>
+    nnoremap <silent> <C-e> :NERDTreeToggle<CR>
   " }}}
 
   " easy align {{{
@@ -250,12 +250,13 @@
 
   " ale {{{
     let g:ale_enabled = 0
+    let g:ale_sign_error = '❌'
+    let g:ale_sign_warning = '⚠️'
     let g:ale_echo_msg_error_str = 'E'
     let g:ale_echo_msg_warning_str = 'W'
     let g:ale_echo_msg_format = '[%linter%] %code%: %s [%severity%]'
     let g:ale_disable_lsp = 1
     let g:ale_linters_explicit = 1
-    let g:ale_lint_on_text_changed = 'never'
 
     let g:ale_ruby_rubocop_executable = 'rubocop-daemon-wrapper'
     let g:ale_ruby_rubocop_auto_correct_all = 1
@@ -263,26 +264,19 @@
     let g:ale_linters = {
     \   'ruby': ['rubocop'],
     \   'json': ['fixjson'],
-    \   'javascript': ['eslint'],
     \   'go': [],
     \}
 
     let g:ale_fixers = {
     \   'ruby': ['rubocop'],
     \   'json': ['fixjson'],
-    \   'javascript': ['prettier', 'eslint'],
     \   'go': [],
     \}
-
-    " let g:ale_linter_aliases = {
-    " \   'tsx': ['javascript'],
-    " \   'jsx': ['javascript'],
-    " \}
 
     nnoremap <silent> fix :ALEFix<CR>
     nnoremap <silent> ]a :ALENextWrap<CR>
     nnoremap <silent> [a :ALEPreviousWrap<CR>
-    nnoremap <silent> <leader>at :ALEToggle<CR>
+    nnoremap <leader>at :ALEToggle<CR>
   " }}}
 
   " vim go {{{
@@ -349,6 +343,7 @@
   " fzf {{{
     let $FZF_DEFAULT_OPTS =
       \ system('cat $FZF_DEFAULT_OPTS_FILE') . ' --reverse'
+    let g:fzf_preview_window = []
 
     command! -bang -nargs=* F
       \ call fzf#vim#grep(
@@ -403,8 +398,11 @@
     " Apply AutoFix to problem on the current line.
     nmap <leader>qf <Plug>(coc-fix-current)
 
+    nmap <silent> [d <Plug>(coc-diagnostic-prev)
+    nmap <silent> ]d <Plug>(coc-diagnostic-next)
+
     " Map function and class text objects
-    " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+    " Requires 'textDocument.documentSymbol' support from the language server.
     xmap if <Plug>(coc-funcobj-i)
     omap if <Plug>(coc-funcobj-i)
     xmap af <Plug>(coc-funcobj-a)
@@ -413,6 +411,11 @@
     omap ic <Plug>(coc-classobj-i)
     xmap ac <Plug>(coc-classobj-a)
     omap ac <Plug>(coc-classobj-a)
+
+    if !exists('s:coc_status_line_added')
+    set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+    let s:coc_status_line_added = 1
+  endif
 
     function! s:show_documentation()
       if (index(['vim','help'], &filetype) >= 0)
@@ -423,6 +426,7 @@
         execute '!' . &keywordprg . " " . expand('<cword>')
       endif
     endfunction
+
   " }}}
 
   " tagbar {{{
@@ -551,7 +555,7 @@
   nnoremap <leader>t :term fish<CR>
 
   " source config
-  nnoremap <silent>S :source $MYVIMRC<CR>
+  nnoremap S :source $MYVIMRC<CR>
 
   " exit from terminal mode
   tnoremap <Esc> <C-\><C-n>
@@ -581,7 +585,7 @@
       autocmd TermOpen * setlocal nonumber norelativenumber
 
       autocmd FileType nerdtree setlocal nonumber norelativenumber
-      autocmd FileType nerdtree execute 'normal R'
+      autocmd FileType nerdtree silent execute 'normal R'
 
       " Toggle number
       autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &ft !=# 'nerdtree' | set relativenumber | endif
@@ -614,6 +618,7 @@
       autocmd!
       autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
       autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
+      autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
     augroup END
   " }}}
 " }}}

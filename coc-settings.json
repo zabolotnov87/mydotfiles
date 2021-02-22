@@ -4,6 +4,5 @@
   },
   "list.insertMappings": {
     "<C-c>": "do:exit"
-  },
-  "diagnostic.displayByAle": true
+  }
 }
