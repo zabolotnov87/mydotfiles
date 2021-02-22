@@ -137,7 +137,9 @@ source ~/.asdf/asdf.fish
 set BASE16_DIR ~/.config/base16
 set -gx BASE16_SHELL_HOOKS $BASE16_DIR/hooks
 set -gx FZF_DEFAULT_OPTS_FILE $BASE16_DIR/fzf_default_opts
-source $BASE16_DIR/shell/profile_helper.fish
+if test -e $BASE16_DIR/shell/profile_helper.fish
+  source $BASE16_DIR/shell/profile_helper.fish
+end
 if test -e ~/.base16_fzf
   source ~/.base16_fzf
 end
