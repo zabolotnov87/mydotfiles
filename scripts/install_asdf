@@ -17,13 +17,19 @@ fi
 
 function install() {
   local lang=$1
+  local version=$2
   asdf plugin add $lang || asdf plugin update $lang
-  asdf install $lang latest
+  asdf install $lang $version
+  if [ $version == 'latest' ]; then
+    asdf global $lang $(asdf latest $lang)
+  else
+    asdf global $lang $version
+  fi
 }
 
-install "ruby"
-install "nodejs"
-
-npm install -g neovim
-
+install "ruby" "2.7.2"
 gem install neovim
+
+bash -c '${ASDF_DATA_DIR:=$HOME/.asdf}/plugins/nodejs/bin/import-release-team-keyring'
+install "nodejs" "latest"
+npm install -g neovim

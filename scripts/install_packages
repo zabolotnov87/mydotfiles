@@ -9,6 +9,8 @@ function install_or_update {
 
 which brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
+install_or_update "coreutils"
+install_or_update "gpg"
 install_or_update "direnv"
 install_or_update "rg"
 install_or_update "translate-shell"
