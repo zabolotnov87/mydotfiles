@@ -7,6 +7,8 @@ function install_or_update {
   brew install $pkg || brew upgrade $pkg
 }
 
+which brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
 install_or_update "direnv"
 install_or_update "rg"
 install_or_update "translate-shell"
