@@ -106,7 +106,7 @@ end
 bind \cb fco
 bind \ct fzf
 
-set -gx FZF_DEFAULT_COMMAND 'rg --files --hidden --follow --no-ignore-vcs -g "!{node_modules,.git,tmp,vendor}"'
+set -gx FZF_DEFAULT_COMMAND 'rg --files --hidden --follow --no-ignore-vcs -g "!{node_modules,.git,tmp,vendor,sorbet}"'
 
 set -gx EDITOR nvim
 set -gx LC_ALL en_US.UTF-8
