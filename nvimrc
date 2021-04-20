@@ -167,6 +167,7 @@
   Plug 'VincentCordobes/vim-translate'
   Plug 'gcmt/taboo.vim'
   Plug 'preservim/tagbar'
+  Plug 'knsh14/vim-github-link'
 
   " disable vimwiki by default
   if !exists('g:vimwiki_enabled')
@@ -179,6 +180,10 @@
 " }}}
 
 " Plugins Settings {{{
+
+  " vim-github-link {{
+    nnoremap gcp :GetCommitLink<CR>
+  " }}
 
   " emmet {{{
     let g:user_emmet_leader_key='<C-r>'
