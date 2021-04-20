@@ -4,7 +4,7 @@ set -euo pipefail
 
 BASE=$(pwd)
 
-GIT_NAME='Sergey Zaboltonov'
+GIT_NAME='Sergey Zabolotnov'
 GIT_EMAIL='sergey.zabolotnov@gmail.com'
 
 brew install git || brew upgrade git
