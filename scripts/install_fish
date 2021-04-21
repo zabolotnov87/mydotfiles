@@ -29,14 +29,14 @@ fi
 if [ ! -f ~/.config/fish/functions/fish_prompt.fish ]; then
   cat << EOF > ~/.config/fish/functions/fish_prompt.fish
 function fish_prompt
-  set_color $fish_color_cwd
+  set_color \$fish_color_cwd
   echo -n (prompt_pwd)
 
   # k8s namespace
-  # if test (string match -r $HOME (pwd))
-    if test -n $ktlns
+  # if test (string match -r \$HOME (pwd))
+    if test -n \$ktlns
       set_color blue
-      echo -n " (k8s:$ktlctx/$ktlns)"
+      echo -n " (k8s:\$ktlctx/\$ktlns)"
     end
   # end
 
