@@ -25,3 +25,31 @@ if [ ! -f ~/.config.fish.local ]; then
 # Local config
 EOF
 fi
+
+if [ ! -f ~/.config/fish/functions/fish_prompt.fish ]; then
+  cat << EOF > ~/.config/fish/functions/fish_prompt.fish
+function fish_prompt
+  set_color $fish_color_cwd
+  echo -n (prompt_pwd)
+
+  # k8s namespace
+  # if test (string match -r $HOME (pwd))
+    if test -n $ktlns
+      set_color blue
+      echo -n " (k8s:$ktlctx/$ktlns)"
+    end
+  # end
+
+  set_color normal
+
+  set -g __fish_git_prompt_showdirtystate 'yes'
+  set -g __fish_git_prompt_showcolorhints 'yes'
+  set -g __fish_git_prompt_showuntrackedfiles 'yes'
+  set -g __fish_git_prompt_color_branch 'yellow'
+
+  echo -n (fish_git_prompt)
+
+  echo -n ' $ '
+end
+EOF
+fi
