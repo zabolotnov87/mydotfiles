@@ -77,7 +77,6 @@
   set listchars=tab:▸\ ,trail:·,extends:❯,precedes:❮,nbsp:×
 
   set colorcolumn=100
-  set number
   set numberwidth=5
 
   " have some context around the current line always on screen
@@ -333,6 +332,9 @@
   " goyo {{{
     nnoremap <Leader>go :Goyo<CR>
     let g:goyo_width = 100
+
+    autocmd! User GoyoEnter nested call <SID>numbers_off()
+    autocmd! User GoyoLeave nested call <SID>numbers_on()
   " }}}
 
   " vim-translate {{{
@@ -457,6 +459,22 @@
   function! s:get_selected_text()
     silent! normal! gv"ay
     return @a
+  endfunction
+
+  function! s:numbers_on()
+    set number
+    augroup numbers
+      autocmd!
+      autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &ft !=# 'nerdtree' && &buftype !=# 'terminal' | setlocal relativenumber | endif
+      autocmd BufLeave,FocusLost,InsertEnter,WinLeave * if &ft !=# 'nerdtree' && &buftype !=# 'terminal' | setlocal norelativenumber | endif
+    augroup END
+  endfunction
+
+  function! s:numbers_off()
+    set nonumber norelativenumber
+    augroup numbers
+      autocmd!
+    augroup END
   endfunction
 
   function OpenPlug(plug) abort
@@ -585,14 +603,10 @@
       autocmd FileType vim nnoremap <silent> <leader>o :normal vil<CR> :call
         \ OpenPlug(<SID>get_selected_text())<CR>
 
-      autocmd TermOpen * setlocal nonumber norelativenumber
-
-      autocmd FileType nerdtree setlocal nonumber norelativenumber
       autocmd FileType nerdtree silent execute 'normal R'
+      autocmd FileType nerdtree setlocal nonumber norelativenumber
 
-      " Toggle number
-      autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &ft !=# 'nerdtree' | set relativenumber | endif
-      autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &ft !=# 'nerdtree' | set norelativenumber | endif
+      autocmd TermOpen * setlocal nonumber norelativenumber
     augroup END
   " }}}
 
@@ -634,3 +648,5 @@
   endif
 
 " }}}
+
+:call <SID>numbers_on()
