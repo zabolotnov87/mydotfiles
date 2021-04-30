@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -euo pipefail
+
+BASE=$(pwd)
+
+brew tap homebrew/cask-fonts
+brew install --cask font-hack-nerd-font
+
+cp $BASE/fonts/* ~/Library/Fonts/
+
+echo 'The fonts are installed.'
