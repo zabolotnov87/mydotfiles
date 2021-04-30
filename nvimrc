@@ -418,9 +418,9 @@
     omap ac <Plug>(coc-classobj-a)
 
     if !exists('s:coc_status_line_added')
-    set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-    let s:coc_status_line_added = 1
-  endif
+      set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+      let s:coc_status_line_added = 1
+    endif
 
     function! s:show_documentation()
       if (index(['vim','help'], &filetype) >= 0)
