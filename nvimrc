@@ -579,8 +579,7 @@
   nnoremap S :source $MYVIMRC<CR>
 
   " exit from terminal mode
-  tnoremap <Esc> <C-\><C-n>
-  tnoremap <C-t> <C-\><C-n>
+  tnoremap jk <C-\><C-n>
 
   nnoremap <silent> <C-n> :cnext<CR>
   nnoremap <silent> <C-p> :cprevious<CR>
