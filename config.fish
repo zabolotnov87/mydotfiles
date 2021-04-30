@@ -50,10 +50,6 @@ function ta
   tmux attach-session -t $argv || tmux new -As $argv
 end
 
-function dc
-  docker-compose $argv
-end
-
 function tk
   tmux kill-session -t $argv
 end
