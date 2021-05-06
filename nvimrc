@@ -224,7 +224,7 @@
     endif
 
     nnoremap <Leader>gs :Gstatus<CR>
-    nnoremap <Leader>gb :Gblame<CR>
+    nnoremap <Leader>gb :Git blame<CR>
     nnoremap <Leader>gd :Gdiff<CR>
     nnoremap <leader>gg "zyiw:exe "Ggrep ".@z.""<CR>
   " }}}
