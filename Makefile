@@ -32,4 +32,4 @@ fonts:
 	./scripts/install_fonts
 
 done:
-	@printf "\nDone! Pleasee, restart shell.\n"
+	@printf "\nDone! Please, restart shell.\n"
