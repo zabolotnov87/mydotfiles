@@ -223,7 +223,7 @@
       let s:git_status_line_added=1
     endif
 
-    nnoremap <Leader>gs :Gstatus<CR>
+    nnoremap <Leader>gs :Git<CR>
     nnoremap <Leader>gb :Git blame<CR>
     nnoremap <Leader>gd :Gdiff<CR>
     nnoremap <leader>gg "zyiw:exe "Ggrep ".@z.""<CR>
@@ -346,13 +346,21 @@
   " }}}
 
   " fzf {{{
-    let $FZF_DEFAULT_OPTS =
-      \ system('cat $FZF_DEFAULT_OPTS_FILE') . ' --reverse'
+    if filereadable($FZF_DEFAULT_OPTS_FILE)
+      let $FZF_DEFAULT_OPTS = system('cat $FZF_DEFAULT_OPTS_FILE')
+    end
+
     let g:fzf_preview_window = []
+
+    if exists('g:fzf_ignore_list')
+      let $FZF_IGNORE_LIST = g:fzf_ignore_list
+    else
+      let g:fzf_ignore_list = $FZF_IGNORE_LIST
+    endif
 
     command! -bang -nargs=* F
       \ call fzf#vim#grep(
-      \   'rg --column --line-number --no-heading --color=always -g "!{node_modules,.git,tmp,vendor,sorbet}" --smart-case -- '.shellescape(<q-args>),
+      \   'rg --column --line-number --no-heading --color=always -g "!{' . g:fzf_ignore_list . '}" --smart-case -- '.shellescape(<q-args>),
       \   1,
       \   fzf#vim#with_preview(),
       \   <bang>0

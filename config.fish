@@ -43,7 +43,7 @@ alias be "bundle exec"
 alias bo "bundle open"
 
 function fzf
-  env FZF_DEFAULT_OPTS="--reverse --height 60% $FZF_DEFAULT_OPTS" fzf
+  env FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS fzf
 end
 
 function ta
@@ -107,7 +107,15 @@ end
 bind \cb fco
 bind \ct fzf
 
-set -gx FZF_DEFAULT_COMMAND 'rg --files --hidden --follow --no-ignore-vcs -g "!{node_modules,.git,tmp,vendor,sorbet}"'
+set -U FZF_DEFAULT_OPTS '--reverse --height 60%'
+set -gx FZF_DEFAULT_OPTS_FILE "$HOME/tmp/fzf_default_opts"
+
+test -e $FZF_DEFAULT_OPTS_FILE; or echo $FZF_DEFAULT_OPTS > $FZF_DEFAULT_OPTS_FILE
+
+set -gx FZF_IGNORE_LIST 'node_modules,.git,tmp,vendor,sorbet'
+set -gx FZF_DEFAULT_COMMAND 'rg --files --hidden --follow --no-ignore-vcs -g "!{$FZF_IGNORE_LIST}"'
+set -gx FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
+
 set -gx EDITOR nvim
 set -gx LC_ALL en_US.UTF-8
 set -gx LANG en_US.UTF-8
@@ -134,11 +142,10 @@ set -gx DIRENV_LOG_FORMAT ""
 source ~/.asdf/asdf.fish
 
 # Setup base16 colorscheme (shell, fzf)
-set BASE16_DIR ~/.config/base16
-set -gx BASE16_SHELL_HOOKS $BASE16_DIR/hooks
-set -gx FZF_DEFAULT_OPTS_FILE $BASE16_DIR/fzf_default_opts
-if test -e $BASE16_DIR/shell/profile_helper.fish
-  source $BASE16_DIR/shell/profile_helper.fish
+set -l base16_dir ~/.config/base16
+set -gx BASE16_SHELL_HOOKS $base16_dir/hooks
+if test -e $base16_dir/shell/profile_helper.fish
+  source $base16_dir/shell/profile_helper.fish
 end
 if test -e ~/.base16_fzf
   source ~/.base16_fzf

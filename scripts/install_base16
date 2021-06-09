@@ -2,7 +2,8 @@
 
 set -euo pipefail
 
-BASE16_DIR=$HOME/.config/base16
+BASE16_DIR=~/.config/base16
+FZF_DEFAULT_OPTS_FILE=~/tmp/fzf_default_opts
 
 mkdir -p $BASE16_DIR
 if [ ! -d $BASE16_DIR/fzf ]; then
@@ -15,9 +16,12 @@ fi
 mkdir -p $BASE16_DIR/hooks
 cat << EOF > $BASE16_DIR/hooks/fzf
 #!/usr/bin/env bash
-ln -sf $BASE16_DIR/fzf/fish/base16-\$BASE16_THEME.fish ~/.base16_fzf
+
+ln -sf \$BASE16_DIR/fzf/fish/base16-\$BASE16_THEME.fish ~/.base16_fzf
+
 fish ~/.base16_fzf
-fish -c 'echo \$FZF_DEFAULT_OPTS > $BASE16_DIR/fzf_default_opts'
+
+fish -c 'echo \$FZF_DEFAULT_OPTS > \$FZF_DEFAULT_OPTS_FILE'
 EOF
 
 chmod +x $BASE16_DIR/hooks/fzf
