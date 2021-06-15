@@ -17,7 +17,7 @@ mkdir -p $BASE16_DIR/hooks
 cat << EOF > $BASE16_DIR/hooks/fzf
 #!/usr/bin/env bash
 
-ln -sf \$BASE16_DIR/fzf/fish/base16-\$BASE16_THEME.fish ~/.base16_fzf
+ln -sf $BASE16_DIR/fzf/fish/base16-\$BASE16_THEME.fish ~/.base16_fzf
 
 fish ~/.base16_fzf
 
