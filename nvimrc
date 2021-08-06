@@ -205,7 +205,7 @@
       autocmd!
       " NOTE: let g:AutoPairs['|']='|' doesn't work
       " see https://github.com/jiangmiao/auto-pairs/issues/213
-      autocmd FileType ruby let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '```':'```', '"""':'"""', "'''":"'''", "`":"`", "|":"|"}
+      autocmd FileType ruby let g:AutoPairs = {'(':')', '[':']', '{':'}', "'":"'", '"':'"', '```':'```', "`":"`", '|':'|'}
     augroup END
   " }}}
 
@@ -326,7 +326,6 @@
     let g:UltiSnipsListSnippets='<c-l>'
     let g:UltiSnipsSnippetDirectories=[$HOME.'/.config/nvim/snips']
     let g:UltiSnipsEditSplit='vertical'
-    nnoremap <Leader>us :UltiSnipsEdit<CR>
   " }}}
 
   " goyo {{{
@@ -376,6 +375,8 @@
     nnoremap <leader>bs :Buffers<CR>
     nnoremap <leader>m :Marks<CR>
     nnoremap <leader>gf :GFiles?<CR>
+    nnoremap <leader>gf :GFiles?<CR>
+    nnoremap <leader>x :Windows<CR>
   " }}}
 
   " coc {{{
@@ -510,10 +511,16 @@
     execute 'e '.$MYVIMRC
     execute 'lcd %:p:h'
   endfunction
+
+  function Confl() abort
+    execute 'e .nvimrc'
+  endfunction
 " }}}
 
 " Commands {{{
   command! Conf call Conf()
+  command! Confl call Confl()
+  command! Bd %bd!|e#
 " }}}
 
 " Common mappings {{{
@@ -551,7 +558,8 @@
   nnoremap <silent>L :tabnext<CR>
 
   " close buffer
-  nnoremap <leader>c :bd!<CR>
+  nnoremap <leader>k :bd!<CR>
+  nnoremap <leader>c ZZ<CR>
 
   " vmap for maintain Visual Mode after shifting > and <
   vnoremap < <gv

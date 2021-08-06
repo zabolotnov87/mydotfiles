@@ -36,6 +36,7 @@ alias gclean "git co -- .; git clean -fd"
 alias gds    "git ds"
 alias grp    "git remote prune origin"
 alias cpb    "git rev-parse --abbrev-ref HEAD | pbcopy"
+alias gdl    "git d HEAD^.."
 
 # Bundler
 alias bi "bundle install"
@@ -55,7 +56,7 @@ function tk
 end
 
 function fco -d "Fuzzy-find branch"
-  set -l branch (git branch --all | grep -v HEAD | string trim | fzf)
+  set -l branch (git branch | grep -v HEAD | string trim | fzf)
   if string length -q -- $branch
     set -l branch (string replace -r '\*' '' $branch)
     set -l branch (string replace -r '\s' '' $branch)
