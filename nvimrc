@@ -147,9 +147,6 @@
   " appearance
   Plug 'chriskempson/base16-vim'
   Plug 'junegunn/goyo.vim'
-  " Plug 'psliwka/vim-smoothie'
-  " Plug 'vim-airline/vim-airline'
-  " Plug 'vim-airline/vim-airline-themes'
 
   " lint engine
   Plug 'w0rp/ale'
