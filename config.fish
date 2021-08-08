@@ -122,12 +122,16 @@ set -gx LC_ALL en_US.UTF-8
 set -gx LANG en_US.UTF-8
 
 mkdir -p ~/bin
-string match -q "$HOME/bin" $fish_user_paths || set -U fish_user_paths $fish_user_paths ~/bin
+fish_add_path ~/bin
 
+# Rust
+fish_add_path ~/.cargo/bin
+
+# Go
 set -gx GOPATH ~/go
 set -gx GOBIN $GOPATH/bin
 mkdir -p $GOBIN
-string match -q "$GOBIN" $fish_user_paths || set -U fish_user_paths $GOBIN $fish_user_paths
+fish_add_path $GOBIN
 
 # Remove greeting
 set fish_greeting

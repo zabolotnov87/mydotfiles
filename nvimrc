@@ -138,6 +138,7 @@
 
   " languages
   Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+  Plug 'rust-lang/rust.vim'
 
   " frontend
   Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
