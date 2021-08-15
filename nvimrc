@@ -586,6 +586,7 @@
 
 " Setup colorscheme {{{
 
+  " `~/.vimrc_background` is touched by chriskempson/base16-shell
   if filereadable(expand("~/.vimrc_background"))
     let base16colorspace=256
     source ~/.vimrc_background
