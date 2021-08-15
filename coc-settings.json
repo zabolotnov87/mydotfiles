@@ -1,8 +1,0 @@
-{
-  "list.normalMappings": {
-    "<C-c>": "do:exit"
-  },
-  "list.insertMappings": {
-    "<C-c>": "do:exit"
-  }
-}
