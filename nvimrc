@@ -1,7 +1,6 @@
 " vim:foldmethod=marker:foldminlines=1
 
 " Common settings {{{
-
   syntax enable
   filetype plugin indent on
 
@@ -113,7 +112,6 @@
 " }}}
 
 " Plugins {{{
-
   let g:plug_window='new'
 
   let s:plugs_path='~/.local/share/nvim/plugged'
@@ -171,11 +169,9 @@
   Plug 'vimwiki/vimwiki'
 
   call plug#end()
-
 " }}}
 
 " Plugins Settings {{{
-
   " vim-github-link {{
     nnoremap gcp :GetCommitLink<CR>
   " }}
@@ -370,11 +366,9 @@
     let g:tagbar_sort = 0 " sort by order in the source file
     nmap <C-m> :TagbarToggle<CR>
   " }}}
-
 " }}}
 
 " Functions {{{
-
   function! s:strip_trailing_whitespaces()
     if exists('b:noStripWhiteSpaces')
       return
@@ -453,7 +447,6 @@
 " }}}
 
 " Common mappings {{{
-
   " Navigate by completion list by ctrl-j (down) and ctrl-k (up)
   inoremap <c-j> <c-n>
   inoremap <c-k> <c-p>
@@ -531,7 +524,6 @@
 " }}}
 
 " Autogroups {{{
-
   " Common {{{
     augroup common
       autocmd!
@@ -585,13 +577,11 @@
 " }}}
 
 " Setup colorscheme {{{
-
   " `~/.vimrc_background` is touched by chriskempson/base16-shell
   if filereadable(expand("~/.vimrc_background"))
     let base16colorspace=256
     source ~/.vimrc_background
   endif
-
 " }}}
 
 :call <SID>numbers_on()
