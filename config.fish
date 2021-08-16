@@ -16,6 +16,7 @@ alias elc  "vi ~/.config.fish.local && lfc"
 alias efp  "vi ~/.config/fish/functions/fish_prompt.fish"
 alias pf  "ps aux | fzf"
 alias drmi "docker images -qf dangling=true | xargs docker rmi -f"
+alias t "tree"
 
 # Git
 alias ga     "git a -p"

@@ -19,9 +19,7 @@ cat << EOF > $BASE16_DIR/hooks/fzf
 
 ln -sf $BASE16_DIR/fzf/fish/base16-\$BASE16_THEME.fish ~/.base16_fzf
 
-fish ~/.base16_fzf
-
-fish -c 'echo \$FZF_DEFAULT_OPTS > \$FZF_DEFAULT_OPTS_FILE'
+fish -c 'source ~/.base16_fzf; echo \$FZF_DEFAULT_OPTS > \$FZF_DEFAULT_OPTS_FILE'
 EOF
 
 chmod +x $BASE16_DIR/hooks/fzf
