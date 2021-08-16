@@ -373,7 +373,6 @@
     nnoremap <leader>bs :Buffers<CR>
     nnoremap <leader>m :Marks<CR>
     nnoremap <leader>gf :GFiles?<CR>
-    nnoremap <leader>gf :GFiles?<CR>
     nnoremap <leader>x :Windows<CR>
   " }}}
 
