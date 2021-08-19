@@ -84,14 +84,11 @@
   " show (partial) command in the last line of the screen
   set showcmd
 
-  " autocomplete
+  " completion settings
+  set completeopt=menuone,noselect
   set wildmode=list:longest,list:full
-
-  " visual autocomplete for command menu
   set wildmenu
-
-  " Don't pass messages to ins-completion-menu
-  set shortmess+=c
+  set shortmess+=c " don't pass messages to ins-completion-menu
 
   " Execute normal mode commands in Russian keyboard
   set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
@@ -118,25 +115,22 @@
   call plug#begin(s:plugs_path)
 
   " must have
-  Plug 'tpope/vim-commentary'
-  Plug 'tpope/vim-fugitive'
-  Plug 'tpope/vim-endwise'
-  Plug 'tpope/vim-surround'
   Plug '907th/vim-auto-save'
   Plug 'junegunn/vim-easy-align'
-  Plug 'junegunn/fzf'
   Plug 'junegunn/fzf.vim'
+  Plug 'junegunn/fzf'
   Plug 'scrooloose/nerdtree'
   Plug 'easymotion/vim-easymotion'
   Plug 'kana/vim-textobj-user'
   Plug 'kana/vim-textobj-line'
   Plug 'janko-m/vim-test'
-  Plug 'jiangmiao/auto-pairs'
   Plug 'DataWraith/auto_mkdir'
 
-  " languages
-  Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-  Plug 'rust-lang/rust.vim'
+  " autocompletion
+  Plug 'hrsh7th/nvim-compe'
+
+  " lsp
+  Plug 'neovim/nvim-lspconfig'
 
   " frontend
   Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
@@ -147,19 +141,12 @@
   Plug 'chriskempson/base16-vim'
   Plug 'junegunn/goyo.vim'
 
-  " lint engine
-  Plug 'w0rp/ale'
-  " snippets manager
-  Plug 'SirVer/ultisnips'
-
   " syntax and indentations
   Plug 'hallison/vim-rdoc'
   Plug 'sheerun/vim-polyglot'
 
   " others
   Plug 'VincentCordobes/vim-translate'
-  Plug 'gcmt/taboo.vim'
-  Plug 'preservim/tagbar'
   Plug 'knsh14/vim-github-link'
 
   " disable vimwiki by default
@@ -172,6 +159,75 @@
 " }}}
 
 " Plugins Settings {{{
+  " nvim-compe {{{
+lua << EOF
+-- Compe setup
+require'compe'.setup {
+  enabled = true;
+  autocomplete = true;
+  debug = false;
+  min_length = 1;
+  preselect = 'enable';
+  throttle_time = 80;
+  source_timeout = 200;
+  incomplete_delay = 400;
+  max_abbr_width = 100;
+  max_kind_width = 100;
+  max_menu_width = 100;
+  documentation = true;
+
+  source = {
+    path = true;
+    buffer = true;
+    calc = true;
+    nvim_lua = true;
+    nvim_lsp = true;
+  };
+}
+
+local t = function(str)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
+local check_back_space = function()
+    local col = vim.fn.col('.') - 1
+    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+        return true
+    else
+        return false
+    end
+end
+
+-- Use (s-)tab to:
+--- move to prev/next item in completion menuone
+--- jump to prev/next snippet's placeholder
+_G.tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-n>"
+  elseif check_back_space() then
+    return t "<Tab>"
+  else
+    return vim.fn['compe#complete']()
+  end
+end
+_G.s_tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-p>"
+  else
+    return t "<S-Tab>"
+  end
+end
+
+vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+
+vim.api.nvim_set_keymap('i', '<cr>', 'compe#confirm("<cr>")', { expr = true })
+vim.api.nvim_set_keymap('i', '<c-l>', 'compe#confirm("<cr>")', { expr = true })
+EOF
+  "}}}
+
   " vim-github-link {{
     nnoremap gcp :GetCommitLink<CR>
   " }}
@@ -188,29 +244,8 @@
           \ }]
   " }}}
 
-  " autopairs {{{
-    augroup AutoPairs
-      autocmd!
-      " NOTE: let g:AutoPairs['|']='|' doesn't work
-      " see https://github.com/jiangmiao/auto-pairs/issues/213
-      autocmd FileType ruby let g:AutoPairs = {'(':')', '[':']', '{':'}', "'":"'", '"':'"', '```':'```', "`":"`", '|':'|'}
-    augroup END
-  " }}}
-
   " autosave {{{
     let g:auto_save = 1
-  " }}}
-
-  " fugitive {{{
-    if !exists('s:git_status_line_added')
-      set statusline+=%{fugitive#statusline()}
-      let s:git_status_line_added=1
-    endif
-
-    nnoremap <Leader>gs :Git<CR>
-    nnoremap <Leader>gb :Git blame<CR>
-    nnoremap <Leader>gd :Gdiff<CR>
-    nnoremap <leader>gg "zyiw:exe "Ggrep ".@z.""<CR>
   " }}}
 
   " nerdtree {{{
@@ -234,82 +269,6 @@
     let test#strategy = "neovim"
     let test#ruby#rspec#executable = 'bundle exec rspec'
     let test#ruby#bundle_exec = 0
-  " }}}
-
-  " ale {{{
-    let g:ale_enabled = 0
-    let g:ale_echo_msg_error_str = 'E'
-    let g:ale_echo_msg_warning_str = 'W'
-    let g:ale_echo_msg_format = '[%linter%] %code%: %s [%severity%]'
-    let g:ale_disable_lsp = 1
-    let g:ale_linters_explicit = 1
-
-    let g:ale_ruby_rubocop_executable = 'rubocop-daemon-wrapper'
-    let g:ale_ruby_rubocop_auto_correct_all = 1
-
-    let g:ale_linters = {
-    \   'ruby': ['rubocop'],
-    \   'json': ['fixjson'],
-    \   'go': [],
-    \}
-
-    let g:ale_fixers = {
-    \   'ruby': ['rubocop'],
-    \   'json': ['fixjson'],
-    \   'go': [],
-    \}
-
-    nnoremap <silent> fix :ALEFix<CR>
-    nnoremap <silent> ]a :ALENextWrap<CR>
-    nnoremap <silent> [a :ALEPreviousWrap<CR>
-    nnoremap <leader>at :ALEToggle<CR>
-  " }}}
-
-  " vim go {{{
-    let g:go_fmt_autosave = 0
-    let g:go_fmt_command = 'goimports'
-    let g:go_list_type = 'quickfix'
-    let g:go_fmt_fail_silently = 1
-    let g:go_highlight_types = 1
-    let g:go_highlight_fields = 1
-    let g:go_highlight_functions = 1
-    let g:go_highlight_methods = 1
-    let g:go_highlight_operators = 1
-    let g:go_highlight_generate_tags = 1
-    let g:go_highlight_build_constraints = 1
-    let g:go_term_enabled = 1
-    let g:go_term_mode = 'silent keepalt rightbelow vsplit'
-
-    " run :GoBuild or :GoTestCompile based on the go file
-    function! s:build_go_files()
-      let l:file = expand('%')
-      if l:file =~# '^\f\+_test\.go$'
-        call go#test#Test(0, 1)
-      elseif l:file =~# '^\f\+\.go$'
-        call go#cmd#Build(0)
-      endif
-    endfunction
-
-    augroup Go
-      autocmd!
-      autocmd FileType go nmap <silent> gob :<C-u>call <SID>build_go_files()<CR>
-      autocmd FileType go nmap gor <Plug>(go-run)
-      autocmd FileType go nmap goc <Plug>(go-coverage-toggle)
-      autocmd FileType go nmap got <Plug>(go-test)
-      autocmd FileType go nmap fix <Plug>(go-imports)
-      autocmd FileType go nmap <Leader>i <Plug>(go-info)
-      autocmd BufNewFile,BufRead *.go,*.mod setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
-      autocmd BufNewFile,BufRead *.go,*.mod set nolist
-    augroup END
-  " }}}
-
-  " ultisnips {{{
-    let g:UltiSnipsExpandTrigger='<c-o>'
-    let g:UltiSnipsJumpForwardTrigger='<c-o>'
-    let g:UltiSnipsJumpBackwardTrigger='<c-b>'
-    let g:UltiSnipsListSnippets='<c-l>'
-    let g:UltiSnipsSnippetDirectories=[$HOME.'/.config/nvim/snips']
-    let g:UltiSnipsEditSplit='vertical'
   " }}}
 
   " goyo {{{
@@ -361,11 +320,53 @@
     nnoremap <leader>gf :GFiles?<CR>
     nnoremap <leader>x :Windows<CR>
   " }}}
+" }}}
 
-  " tagbar {{{
-    let g:tagbar_sort = 0 " sort by order in the source file
-    nmap <C-m> :TagbarToggle<CR>
-  " }}}
+" Configure LSP {{{
+
+lua << EOF
+local lsp = require('lspconfig')
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  -- Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings
+  local opts = { noremap=true, silent=true }
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+end
+
+local servers = { 'solargraph' }
+for _, server in ipairs(servers) do
+  lsp[server].setup {
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 150,
+    }
+  }
+end
+EOF
+
 " }}}
 
 " Functions {{{
@@ -524,8 +525,7 @@
 " }}}
 
 " Autogroups {{{
-  " Common {{{
-    augroup common
+    augroup Common
       autocmd!
 
       " Strip trailing whitespaces
@@ -544,10 +544,8 @@
 
       autocmd TermOpen * setlocal nonumber norelativenumber
     augroup END
-  " }}}
 
-  " ruby {{{
-    augroup ruby
+    augroup Ruby
       autocmd!
       autocmd FileType ruby compiler ruby
       autocmd Filetype ruby set keywordprg=ri\ -f\ rdoc
@@ -564,16 +562,13 @@
       " Support arbre (https://github.com/activeadmin/arbre)
       autocmd BufEnter *.arb setlocal filetype=ruby
     augroup END
-  " }}}
 
-  " javascript {{{
-    augroup js
+    augroup JS
       autocmd!
       autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
       autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
       autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
     augroup END
-  " }}}
 " }}}
 
 " Setup colorscheme {{{
