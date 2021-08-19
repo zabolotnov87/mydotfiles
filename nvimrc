@@ -141,6 +141,7 @@
   " appearance
   Plug 'chriskempson/base16-vim'
   Plug 'junegunn/goyo.vim'
+  Plug 'lukas-reineke/indent-blankline.nvim'
 
   " syntax and indentations
   Plug 'hallison/vim-rdoc'
@@ -217,6 +218,15 @@ EOF
 " }}}
 
 " Plugins Settings {{{
+
+  " indent-blankline {{{
+lua << EOF
+require("indent_blankline").setup {
+    char = "|",
+    buftype_exclude = {"terminal"}
+}
+EOF
+  " }}}
 
   " lspsaga {{{
 lua << EOF
