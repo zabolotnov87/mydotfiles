@@ -593,7 +593,7 @@ EOF
 
       autocmd TermOpen * setlocal nonumber norelativenumber
 
-      autocmd TextYankPost * silent! lua vim.highlight.on_yank{timeout=400}
+      autocmd TextYankPost * silent! lua vim.highlight.on_yank{timeout=400, on_visual=false}
     augroup END
 
     augroup Ruby
