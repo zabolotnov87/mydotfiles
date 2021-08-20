@@ -115,17 +115,14 @@
   call plug#begin(s:plugs_path)
 
   " must have
-  Plug '907th/vim-auto-save'
-  Plug 'junegunn/vim-easy-align'
   Plug 'junegunn/fzf.vim'
   Plug 'junegunn/fzf'
-  Plug 'phaazon/hop.nvim'
-  Plug 'kana/vim-textobj-user'
-  Plug 'kana/vim-textobj-line'
   Plug 'janko-m/vim-test'
-  Plug 'DataWraith/auto_mkdir'
-  Plug 'windwp/nvim-autopairs'
-  Plug 'b3nj5m1n/kommentary'
+  Plug 'phaazon/hop.nvim'
+
+  " file explorer
+  Plug 'kyazdani42/nvim-tree.lua'
+  Plug 'kyazdani42/nvim-web-devicons'
 
   " autocompletion
   Plug 'hrsh7th/nvim-compe'
@@ -151,6 +148,13 @@
   " others
   Plug 'VincentCordobes/vim-translate'
   Plug 'knsh14/vim-github-link'
+  Plug '907th/vim-auto-save'
+  Plug 'junegunn/vim-easy-align'
+  Plug 'b3nj5m1n/kommentary'
+  Plug 'kana/vim-textobj-user'
+  Plug 'kana/vim-textobj-line'
+  Plug 'DataWraith/auto_mkdir'
+  Plug 'windwp/nvim-autopairs'
 
   " disable vimwiki by default
   if !exists('g:vimwiki_enabled')
@@ -219,6 +223,14 @@ EOF
 " }}}
 
 " Plugins Settings {{{
+  " nvim-tree {{{
+    let g:nvim_tree_update_cwd = 1
+    let g:nvim_tree_width = 40
+    let g:nvim_tree_disable_netrw = 0
+    let g:nvim_tree_hijack_netrw = 0
+    nnoremap <silent><C-e> :NvimTreeToggle<CR>
+    nnoremap <silent><leader>e :NvimTreeFindFile<CR>
+  " }}}
 
   " autopairs {{{
 lua << EOF
@@ -432,8 +444,8 @@ EOF
     set number
     augroup numbers
       autocmd!
-      autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &buftype !=# 'terminal' | setlocal relativenumber | endif
-      autocmd BufLeave,FocusLost,InsertEnter,WinLeave * if &buftype !=# 'terminal' | setlocal norelativenumber | endif
+      autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &ft !=# 'NvimTree' && &buftype !=# 'terminal' | setlocal relativenumber | endif
+      autocmd BufLeave,FocusLost,InsertEnter,WinLeave * if &ft !=# 'NvimTree' && &buftype !=# 'terminal' | setlocal norelativenumber | endif
     augroup END
   endfunction
 
