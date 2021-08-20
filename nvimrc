@@ -133,7 +133,6 @@
 
   " lsp
   Plug 'neovim/nvim-lspconfig'
-  Plug 'glepnir/lspsaga.nvim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
   " frontend
@@ -202,9 +201,9 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>r', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-  -- buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  -- buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  -- buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
 end
 
 local servers = { 'solargraph', 'tsserver' }
@@ -255,15 +254,6 @@ require("indent_blankline").setup {
     buftype_exclude = {"terminal", "help"}
 }
 EOF
-  " }}}
-
-  " lspsaga {{{
-lua << EOF
--- require'lspsaga'.init_lsp_saga {}
-EOF
-    nnoremap <silent> <space>e :Lspsaga show_line_diagnostics<CR>
-    nnoremap <silent> ]d :Lspsaga diagnostic_jump_next<CR>
-    nnoremap <silent> [d :Lspsaga diagnostic_jump_prev<CR>
   " }}}
 
   " nvim-compe {{{
