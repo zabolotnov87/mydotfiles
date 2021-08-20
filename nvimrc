@@ -249,11 +249,13 @@ EOF
 
   " indent-blankline {{{
 lua << EOF
-require("indent_blankline").setup {
-    char = "|",
-    buftype_exclude = {"terminal", "help"}
+require("indent_blankline").setup{
+  char = "|",
+  buftype_exclude = {"terminal", "help"}
 }
 EOF
+let g:indent_blankline_enabled = v:false
+nnoremap <leader>it :IndentBlanklineToggle<CR>
   " }}}
 
   " nvim-compe {{{
