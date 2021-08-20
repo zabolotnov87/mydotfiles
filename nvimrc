@@ -119,7 +119,6 @@
   Plug 'junegunn/vim-easy-align'
   Plug 'junegunn/fzf.vim'
   Plug 'junegunn/fzf'
-  Plug 'scrooloose/nerdtree'
   Plug 'phaazon/hop.nvim'
   Plug 'kana/vim-textobj-user'
   Plug 'kana/vim-textobj-line'
@@ -297,9 +296,6 @@ local check_back_space = function()
     end
 end
 
--- Use (s-)tab to:
---- move to prev/next item in completion menuone
---- jump to prev/next snippet's placeholder
 _G.tab_complete = function()
   if vim.fn.pumvisible() == 1 then
     return t "<C-n>"
@@ -345,14 +341,6 @@ EOF
 
   " autosave {{{
     let g:auto_save = 1
-  " }}}
-
-  " nerdtree {{{
-    let NERDTreeShowHidden=1
-    let g:NERDTreeWinSize=40
-
-    nnoremap <silent> <Leader>e :NERDTreeFind<CR>
-    nnoremap <silent> <C-e> :NERDTreeToggle<CR>
   " }}}
 
   " easy align {{{
@@ -444,8 +432,8 @@ EOF
     set number
     augroup numbers
       autocmd!
-      autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &ft !=# 'nerdtree' && &buftype !=# 'terminal' | setlocal relativenumber | endif
-      autocmd BufLeave,FocusLost,InsertEnter,WinLeave * if &ft !=# 'nerdtree' && &buftype !=# 'terminal' | setlocal norelativenumber | endif
+      autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &buftype !=# 'terminal' | setlocal relativenumber | endif
+      autocmd BufLeave,FocusLost,InsertEnter,WinLeave * if &buftype !=# 'terminal' | setlocal norelativenumber | endif
     augroup END
   endfunction
 
@@ -590,9 +578,6 @@ EOF
       " Allow to open source code of selected plugin in new tab
       autocmd FileType vim nnoremap <silent> <leader>o :normal vil<CR> :call
         \ OpenPlug(<SID>get_selected_text())<CR>
-
-      autocmd FileType nerdtree silent execute 'normal R'
-      autocmd FileType nerdtree setlocal nonumber norelativenumber
 
       autocmd TermOpen * setlocal nonumber norelativenumber
 
