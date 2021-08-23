@@ -107,8 +107,8 @@
 " }}}
 
 " Apply local settings {{{
-  if filereadable('.nvimrc')
-    source .nvimrc
+  if filereadable('.nvimrc_before_plugs')
+    source .nvimrc_before_plugs
   endif
 " }}}
 
@@ -483,7 +483,7 @@
     augroup END
   endfunction
 
-  function OpenPlug(plug) abort
+  function! OpenPlug(plug) abort
     let without_opts = split(a:plug, ',')[0]
     let normalized_name = substitute(without_opts, "Plug", "", "")
     let normalized_name = substitute(normalized_name, " ", "", "g")
@@ -494,7 +494,7 @@
     execute('lcd ' . path_to_plug)
   endfunction
 
-  function OpenGem(gem) abort
+  function! OpenGem(gem) abort
     let without_opts = split(a:gem, ',')[0]
     let normalized_name = substitute(without_opts, "gem", "", "")
     let normalized_name = substitute(normalized_name, " ", "", "g")
@@ -504,13 +504,19 @@
     execute('e . ')
   endfunction
 
-  function Conf() abort
+  function! Conf() abort
     execute 'e '.$MYVIMRC
     execute 'lcd %:p:h'
   endfunction
 
-  function Confl() abort
+  function! Confl() abort
     execute 'e .nvimrc'
+  endfunction
+
+  function! SourceIfExists(file) abort
+    if filereadable(expand(a:file))
+      execute 'source' a:file
+    endif
   endfunction
 " }}}
 
@@ -588,8 +594,8 @@
   " open terminal in current buffer
   nnoremap <leader>t :term fish<CR>
 
-  " source config
-  nnoremap S :source $MYVIMRC<CR>
+  " source configs
+  nnoremap S :source $MYVIMRC \| call SourceIfExists(".nvimrc")<CR>
 
   " exit from terminal mode
   tnoremap jk <C-\><C-n>
