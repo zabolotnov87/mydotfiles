@@ -16,7 +16,7 @@
   new = green bold
 [alias]
   a = add
-  b = branch -v
+  b = branch
   up = pull --rebase
   put = push origin HEAD
   c = commit
