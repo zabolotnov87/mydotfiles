@@ -6,14 +6,16 @@ BASE=$(pwd)
 
 brew install neovim || brew upgrade neovim
 
-# More info: https://github.com/deoplete-plugins/deoplete-jedi/wiki/Setting-up-Python-for-Neovim
-pip3 install --user neovim
+mkdir -p ~/.config/nvim/lua
 
-mkdir -p ~/.config/nvim
 ln -sf $BASE/nvimrc ~/.config/nvim/init.vim
 
+if [ ! -d ~/.config/nvim/lua/configs ]; then
+  ln -sf $BASE/nvim/lua/configs ~/.config/nvim/lua/configs
+fi
+
 if [ ! -d ~/.config/nvim/snips ]; then
-  ln -sf $BASE/vim-snippets ~/.config/nvim/snips
+  ln -sf $BASE/nvim/snips ~/.config/nvim/snips
 fi
 
 # About vim-plug: https://github.com/junegunn/vim-plug

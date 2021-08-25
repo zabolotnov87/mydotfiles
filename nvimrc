@@ -129,6 +129,7 @@
 
   " lsp
   Plug 'neovim/nvim-lspconfig'
+
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
   " frontend
@@ -165,64 +166,11 @@
   call plug#end()
 " }}}
 
-" Configure LSP {{{
-
-lua << EOF
-local lsp = require('lspconfig')
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = true,
-    signs = true,
-    underline = true,
-    update_in_insert = false,
-  })
-  local signs = { Error = "❌", Warning = "⚠️", Hint = "💡", Information = "❗️" }
-  for type, icon in pairs(signs) do
-    local hl = "LspDiagnosticsSign" .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-  end
-
-  -- Mappings
-  local opts = { noremap=true, silent=true }
-
-  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', 'gq', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  buf_set_keymap('n', 'ge', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', 'd]', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', 'd[', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', 'gf', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-  -- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  -- buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  -- buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  -- buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  -- buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  -- buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  -- buf_set_keymap('n', '<space>r', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-end
-
-local servers = { 'solargraph', 'tsserver' }
-for _, server in ipairs(servers) do
-  lsp[server].setup {
-    on_attach = on_attach,
-    flags = {
-      debounce_text_changes = 150,
-    }
-  }
-end
-EOF
-
-" }}}
-
 " Plugins Settings {{{
+"   nvim-lspconfig {{{
+    lua require('configs/lsp')
+"   }}}
+"
   " nvim-tree {{{
     let g:nvim_tree_update_cwd = 1
     let g:nvim_tree_width = 40
@@ -232,112 +180,27 @@ EOF
     nnoremap <silent><leader>e :NvimTreeFindFile<CR>
   " }}}
 
-  " autopairs {{{
-lua << EOF
-local npairs = require("nvim-autopairs")
-npairs.setup()
-
-require("nvim-autopairs.completion.compe").setup{
-  map_cr = true,        -- map <CR> on insert mode
-  map_complete = true,  -- it will auto insert `(` after select function or method item
-  auto_select = false,  -- auto select first item
-}
-EOF
+  " compe {{{
+    lua require('configs/compe')
   " }}}
 
   " hop {{{
-lua << EOF
-require'hop'.setup { keys = 'etovxqpdygfblzhckisuran', term_seq_bias = 0.5 }
-local function map(...) vim.api.nvim_set_keymap(...) end
-map('n', '<leader><leader>w', "<cmd>lua require'hop'.hint_words()<cr>", { silent = true})
-map('v', '<leader><leader>w', "<cmd>lua require'hop'.hint_words()<cr>", { silent = true})
-map('n', '<leader><leader>l', "<cmd>lua require'hop'.hint_lines()<cr>", { silent = true})
-map('v', '<leader><leader>l', "<cmd>lua require'hop'.hint_lines()<cr>", { silent = true})
-map('n', '<leader><leader>f', "<cmd>lua require'hop'.hint_char1()<cr>", { silent = true})
-map('v', '<leader><leader>f', "<cmd>lua require'hop'.hint_char1()<cr>", { silent = true})
-EOF
+    lua require('configs/hop')
+  " }}}
+
+  " autopairs {{{
+    lua require('configs/autopairs')
   " }}}
 
   " indent-blankline {{{
-lua << EOF
-require("indent_blankline").setup{
-  char = "|",
-  buftype_exclude = {"terminal", "help"}
-}
-EOF
-let g:indent_blankline_enabled = v:false
-nnoremap <leader>it :IndentBlanklineToggle<CR>
+    lua require('configs/indent-blankline')
+    let g:indent_blankline_enabled = v:false
+    nnoremap <leader>it :IndentBlanklineToggle<CR>
   " }}}
 
-  " nvim-compe {{{
-lua << EOF
--- Compe setup
-require'compe'.setup {
-  enabled = true;
-  autocomplete = true;
-  debug = false;
-  min_length = 1;
-  preselect = 'enable';
-  throttle_time = 80;
-  source_timeout = 200;
-  incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-  documentation = true;
-
-  source = {
-    path = true;
-    buffer = true;
-    calc = true;
-    nvim_lua = true;
-    nvim_lsp = true;
-  };
-}
-
-local t = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
-local check_back_space = function()
-    local col = vim.fn.col('.') - 1
-    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
-        return true
-    else
-        return false
-    end
-end
-
-_G.tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-n>"
-  elseif check_back_space() then
-    return t "<Tab>"
-  else
-    return vim.fn['compe#complete']()
-  end
-end
-_G.s_tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-p>"
-  else
-    return t "<S-Tab>"
-  end
-end
-
-vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-
-vim.api.nvim_set_keymap('i', '<cr>', 'compe#confirm("<cr>")', { expr = true })
-vim.api.nvim_set_keymap('i', '<c-l>', 'compe#confirm("<cr>")', { expr = true })
-EOF
-  "}}}
-
-  " vim-github-link {{
+  " vim-github-link {{{
     nnoremap gcp :GetCommitLink<CR>
-  " }}
+  " }}}
 
   " emmet {{{
     let g:user_emmet_leader_key='<C-r>'
