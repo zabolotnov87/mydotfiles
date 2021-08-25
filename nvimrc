@@ -493,4 +493,4 @@
   endif
 " }}}
 
-:call <SID>numbers_on()
+call <SID>numbers_on()
