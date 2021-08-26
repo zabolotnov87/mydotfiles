@@ -8,7 +8,7 @@ brew install neovim || brew upgrade neovim
 
 mkdir -p ~/.config/nvim/lua
 
-ln -sf $BASE/nvimrc ~/.config/nvim/init.vim
+ln -sf $BASE/init.vim ~/.config/nvim/init.vim
 
 if [ ! -d ~/.config/nvim/lua/configs ]; then
   ln -sf $BASE/nvim/lua/configs ~/.config/nvim/lua/configs

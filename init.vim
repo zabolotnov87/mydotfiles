@@ -167,10 +167,11 @@
 " }}}
 
 " Plugins Settings {{{
-"   nvim-lspconfig {{{
+
+  " nvim-lspconfig {{{
     lua require('configs/lsp')
-"   }}}
-"
+  " }}}
+
   " nvim-tree {{{
     let g:nvim_tree_update_cwd = 1
     let g:nvim_tree_width = 40
@@ -282,6 +283,7 @@
     nnoremap <leader>gf :GFiles?<CR>
     nnoremap <leader>x :Windows<CR>
   " }}}
+
 " }}}
 
 " Functions {{{
@@ -493,4 +495,4 @@
   endif
 " }}}
 
-call <SID>numbers_on()
+:call <SID>numbers_on()
