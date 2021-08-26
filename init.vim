@@ -123,6 +123,9 @@
   " interface to git
   Plug 'tpope/vim-fugitive'
 
+  " manage terminal windows
+  Plug 'akinsho/toggleterm.nvim'
+
   " file explorer
   Plug 'kyazdani42/nvim-tree.lua'
   Plug 'kyazdani42/nvim-web-devicons'
@@ -181,6 +184,10 @@
     nnoremap <Leader>gb :Git blame<CR>
     nnoremap <Leader>gd :Gdiff<CR>
     nnoremap <leader>gg "zyiw:exe "Ggrep ".@z.""<CR>
+  " }}}
+
+  " toggleterm {{{
+    lua require('configs/toggleterm')
   " }}}
 
   " nvim-lspconfig {{{
