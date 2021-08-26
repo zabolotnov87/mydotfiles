@@ -120,6 +120,9 @@
   Plug 'janko-m/vim-test'
   Plug 'phaazon/hop.nvim'
 
+  " interface to git
+  Plug 'tpope/vim-fugitive'
+
   " file explorer
   Plug 'kyazdani42/nvim-tree.lua'
   Plug 'kyazdani42/nvim-web-devicons'
@@ -167,6 +170,18 @@
 " }}}
 
 " Plugins Settings {{{
+
+  " fugitive {{{
+    if !exists('s:git_status_line_added')
+      set statusline+=%{FugitiveStatusline()}
+      let s:git_status_line_added=1
+    endif
+
+    nnoremap <Leader>gs :Git<CR>
+    nnoremap <Leader>gb :Git blame<CR>
+    nnoremap <Leader>gd :Gdiff<CR>
+    nnoremap <leader>gg "zyiw:exe "Ggrep ".@z.""<CR>
+  " }}}
 
   " nvim-lspconfig {{{
     lua require('configs/lsp')
