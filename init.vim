@@ -77,6 +77,7 @@
 
   set colorcolumn=100
   set numberwidth=5
+  set relativenumber
 
   " have some context around the current line always on screen
   set scrolloff=3
@@ -173,6 +174,9 @@
 " }}}
 
 " Plugins Settings {{{
+  " autosave {{{
+    let g:auto_save = 1
+  " }}}
 
   " fugitive {{{
     if !exists('s:git_status_line_added')
@@ -237,10 +241,6 @@
           \ }]
   " }}}
 
-  " autosave {{{
-    let g:auto_save = 1
-  " }}}
-
   " easy align {{{
     xmap ga <Plug>(EasyAlign)
     nmap ga <Plug>(EasyAlign)
@@ -259,9 +259,6 @@
   " goyo {{{
     nnoremap <Leader>go :Goyo<CR>
     let g:goyo_width = 100
-
-    autocmd! User GoyoEnter nested call <SID>numbers_off()
-    autocmd! User GoyoLeave nested call <SID>numbers_on()
   " }}}
 
   " vim-translate {{{
@@ -327,22 +324,6 @@
     return @a
   endfunction
 
-  function! s:numbers_on()
-    set number
-    augroup numbers
-      autocmd!
-      autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &ft !=# 'NvimTree' && &buftype !=# 'terminal' | setlocal relativenumber | endif
-      autocmd BufLeave,FocusLost,InsertEnter,WinLeave * if &ft !=# 'NvimTree' && &buftype !=# 'terminal' | setlocal norelativenumber | endif
-    augroup END
-  endfunction
-
-  function! s:numbers_off()
-    set nonumber norelativenumber
-    augroup numbers
-      autocmd!
-    augroup END
-  endfunction
-
   function! OpenPlug(plug) abort
     let without_opts = split(a:plug, ',')[0]
     let normalized_name = substitute(without_opts, "Plug", "", "")
@@ -365,12 +346,12 @@
   endfunction
 
   function! Conf() abort
-    execute 'e '.$MYVIMRC
+    execute 'tabe '.$MYVIMRC
     execute 'lcd %:p:h'
   endfunction
 
   function! Confl() abort
-    execute 'e .nvimrc'
+    execute 'tabe .nvimrc | split | e .nvimrc_before_plugs'
   endfunction
 
   function! SourceIfExists(file) abort
@@ -480,7 +461,7 @@
 
       autocmd TermOpen * setlocal nonumber norelativenumber
 
-      autocmd TextYankPost * silent! lua vim.highlight.on_yank{timeout=400, on_visual=false}
+      autocmd TextYankPost * silent! lua vim.highlight.on_yank{timeout=150, on_visual=false}
     augroup END
 
     augroup Ruby
@@ -516,5 +497,3 @@
     source ~/.vimrc_background
   endif
 " }}}
-
-:call <SID>numbers_on()
