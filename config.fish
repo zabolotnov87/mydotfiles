@@ -109,6 +109,7 @@ end
 bind \cb fco
 bind \ct fzf
 
+set -e -g FZF_DEFAULT_OPTS
 set -U FZF_DEFAULT_OPTS '--reverse --height 60%'
 set -gx FZF_DEFAULT_OPTS_FILE "$HOME/tmp/fzf_default_opts"
 

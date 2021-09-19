@@ -78,6 +78,7 @@
   set colorcolumn=100
   set numberwidth=5
   set relativenumber
+  set number
 
   " have some context around the current line always on screen
   set scrolloff=3
@@ -148,6 +149,7 @@
   Plug 'chriskempson/base16-vim'
   Plug 'junegunn/goyo.vim'
   Plug 'lukas-reineke/indent-blankline.nvim'
+  Plug 'hoob3rt/lualine.nvim'
 
   " syntax and indentations
   Plug 'hallison/vim-rdoc'
@@ -190,14 +192,6 @@
     nnoremap <leader>gg "zyiw:exe "Ggrep ".@z.""<CR>
   " }}}
 
-  " toggleterm {{{
-    lua require('configs/toggleterm')
-  " }}}
-
-  " nvim-lspconfig {{{
-    lua require('configs/lsp')
-  " }}}
-
   " nvim-tree {{{
     let g:nvim_tree_update_cwd = 1
     let g:nvim_tree_width = 40
@@ -207,17 +201,13 @@
     nnoremap <silent><leader>e :NvimTreeFindFile<CR>
   " }}}
 
-  " compe {{{
+    lua require('configs/toggleterm')
+    lua require('configs/lsp')
     lua require('configs/compe')
-  " }}}
-
-  " hop {{{
     lua require('configs/hop')
-  " }}}
-
-  " autopairs {{{
     lua require('configs/autopairs')
-  " }}}
+
+    lua require('lualine').setup{options = {theme = 'onedark', disabled_filetypes = {'NvimTree'}}}
 
   " indent-blankline {{{
     lua require('configs/indent-blankline')
