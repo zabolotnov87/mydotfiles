@@ -207,7 +207,10 @@
     lua require('configs/hop')
     lua require('configs/autopairs')
 
-    lua require('lualine').setup{options = {theme = 'onedark', disabled_filetypes = {'NvimTree'}}}
+    if !exists('g:lualine_activated')
+      lua require('lualine').setup{options = {theme = 'onedark', disabled_filetypes = {'NvimTree'}}}
+      let g:lualine_activated = 1
+    endif
 
   " indent-blankline {{{
     lua require('configs/indent-blankline')
