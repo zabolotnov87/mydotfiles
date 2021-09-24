@@ -42,10 +42,21 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<leader>R',   '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 end
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = {
+    'documentation',
+    'detail',
+    'additionalTextEdits',
+  }
+}
+
 local servers = { 'solargraph', 'tsserver', 'gopls' }
 for _, server in ipairs(servers) do
   lsp[server].setup {
     on_attach = on_attach,
+    capabilities = capabilities,
     flags = {
       debounce_text_changes = 150,
     }

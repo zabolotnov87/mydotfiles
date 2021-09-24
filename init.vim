@@ -120,13 +120,16 @@
   Plug 'junegunn/fzf.vim'
   Plug 'junegunn/fzf'
   Plug 'janko-m/vim-test'
-  Plug 'phaazon/hop.nvim'
+  Plug 'phaazon/hop.nvim' " easymotion for neovim
 
   " interface to git
   Plug 'tpope/vim-fugitive'
 
   " manage terminal windows
   Plug 'akinsho/toggleterm.nvim'
+
+  " Snippets manager
+  Plug 'SirVer/ultisnips'
 
   " file explorer
   Plug 'kyazdani42/nvim-tree.lua'
@@ -178,6 +181,15 @@
 " Plugins Settings {{{
   " autosave {{{
     let g:auto_save = 1
+  " }}}
+
+  " ultisnips {{{
+    let g:UltiSnipsExpandTrigger='<c-o>'
+    let g:UltiSnipsJumpForwardTrigger='<c-j>'
+    let g:UltiSnipsJumpBackwardTrigger='<c-k>'
+    let g:UltiSnipsListSnippets='<c-l>'
+    let g:UltiSnipsSnippetDirectories=[$HOME.'/.config/nvim/snips']
+    let g:UltiSnipsEditSplit='vertical'
   " }}}
 
   " fugitive {{{
@@ -324,8 +336,8 @@
     let normalized_name = substitute(normalized_name, "'", "", "g")
     let plug_name = split(normalized_name, '/')[-1]
     let path_to_plug = s:plugs_path . '/' . plug_name
-    execute('e ' . path_to_plug)
     execute('lcd ' . path_to_plug)
+    execute('e ' . path_to_plug)
   endfunction
 
   function! OpenGem(gem) abort
