@@ -160,7 +160,7 @@
   " others
   Plug 'VincentCordobes/vim-translate'
   Plug 'knsh14/vim-github-link'
-  Plug '907th/vim-auto-save'
+  Plug 'Pocco81/AutoSave.nvim'
   Plug 'junegunn/vim-easy-align'
   Plug 'b3nj5m1n/kommentary'
   Plug 'kana/vim-textobj-user'
@@ -178,10 +178,6 @@
 " }}}
 
 " Plugins Settings {{{
-  " autosave {{{
-    let g:auto_save = 1
-  " }}}
-
   " ultisnips {{{
     let g:UltiSnipsExpandTrigger='<c-o>'
     let g:UltiSnipsJumpForwardTrigger='<c-j>'
@@ -215,6 +211,7 @@
     lua require('configs/compe')
     lua require('configs/hop')
     lua require('configs/autopairs')
+    lua require('configs/autosave')
 
   " indent-blankline {{{
     lua require('configs/indent-blankline')
