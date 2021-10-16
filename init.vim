@@ -152,7 +152,6 @@
   Plug 'chriskempson/base16-vim'
   Plug 'junegunn/goyo.vim'
   Plug 'lukas-reineke/indent-blankline.nvim'
-  Plug 'hoob3rt/lualine.nvim'
 
   " syntax and indentations
   Plug 'hallison/vim-rdoc'
@@ -205,10 +204,8 @@
   " }}}
 
   " nvim-tree {{{
-    let g:nvim_tree_update_cwd = 1
-    let g:nvim_tree_width = 40
-    let g:nvim_tree_disable_netrw = 0
-    let g:nvim_tree_hijack_netrw = 0
+    lua require('nvim-tree').setup{disable_netrw = false, update_cwd = true, view = {width = 40}}
+
     nnoremap <silent><C-e> :NvimTreeToggle<CR>
     nnoremap <silent><leader>e :NvimTreeFindFile<CR>
   " }}}
@@ -218,11 +215,6 @@
     lua require('configs/compe')
     lua require('configs/hop')
     lua require('configs/autopairs')
-
-    if !exists('g:lualine_activated')
-      lua require('lualine').setup{options = {theme = 'onedark', disabled_filetypes = {'NvimTree'}}}
-      let g:lualine_activated = 1
-    endif
 
   " indent-blankline {{{
     lua require('configs/indent-blankline')
