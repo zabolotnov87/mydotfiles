@@ -151,12 +151,21 @@
 
   " appearance
   Plug 'chriskempson/base16-vim'
-  Plug 'junegunn/goyo.vim'
+  Plug 'folke/twilight.nvim'
+  Plug 'folke/zen-mode.nvim'
   Plug 'lukas-reineke/indent-blankline.nvim'
+  Plug 'windwp/windline.nvim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'lewis6991/gitsigns.nvim'
 
   " syntax and indentations
   Plug 'hallison/vim-rdoc'
   Plug 'sheerun/vim-polyglot'
+
+  " working with text objects
+  Plug 'kana/vim-textobj-user'
+  Plug 'kana/vim-textobj-line'
+  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
   " others
   Plug 'VincentCordobes/vim-translate'
@@ -164,8 +173,6 @@
   Plug 'Pocco81/AutoSave.nvim'
   Plug 'junegunn/vim-easy-align'
   Plug 'b3nj5m1n/kommentary'
-  Plug 'kana/vim-textobj-user'
-  Plug 'kana/vim-textobj-line'
   Plug 'DataWraith/auto_mkdir'
   Plug 'windwp/nvim-autopairs'
 
@@ -189,11 +196,6 @@
   " }}}
 
   " fugitive {{{
-    if !exists('s:git_status_line_added')
-      set statusline+=%{FugitiveStatusline()}
-      let s:git_status_line_added=1
-    endif
-
     nnoremap <Leader>gs :Git<CR>
     nnoremap <Leader>gb :Git blame<CR>
     nnoremap <Leader>gd :Gdiff<CR>
@@ -207,6 +209,8 @@
     nnoremap <silent><leader>e :NvimTreeFindFile<CR>
   " }}}
 
+    lua require('gitsigns').setup()
+
     lua require('configs/toggleterm')
     lua require('configs/treesitter')
     lua require('configs/lsp')
@@ -214,6 +218,20 @@
     lua require('configs/hop')
     lua require('configs/autopairs')
     lua require('configs/autosave')
+    lua require('configs/windline')
+    lua require('configs/textobjects')
+
+  " twilight {{{
+    " Twilight: toggle twilight
+    " TwilightEnable: enable twilight
+    " TwilightDisable: disable twilight
+    lua require("twilight").setup{}
+  " }}}
+
+  " zen-mode {{{
+    lua require("zen-mode").setup{}
+    nnoremap <silent> <Leader>go :ZenMode<CR>
+  " }}}
 
   " indent-blankline {{{
     lua require('configs/indent-blankline')
@@ -250,11 +268,6 @@
     let test#strategy = "neovim"
     let test#ruby#rspec#executable = 'bundle exec rspec'
     let test#ruby#bundle_exec = 0
-  " }}}
-
-  " goyo {{{
-    nnoremap <Leader>go :Goyo<CR>
-    let g:goyo_width = 100
   " }}}
 
   " vim-translate {{{
@@ -431,7 +444,7 @@
   nnoremap <leader>t :term fish<CR>
 
   " source configs
-  nnoremap S :source $MYVIMRC \| call SourceIfExists(".nvimrc")<CR>
+  nnoremap <silent> S :source $MYVIMRC \| call SourceIfExists(".nvimrc")<CR>
 
   " exit from terminal mode
   tnoremap jk <C-\><C-n>
