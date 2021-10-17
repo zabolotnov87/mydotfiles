@@ -30,6 +30,7 @@
   set autoread
 
   set autowriteall
+
   set foldmethod=indent
   set foldlevel=20
 
@@ -207,6 +208,7 @@
   " }}}
 
     lua require('configs/toggleterm')
+    lua require('configs/treesitter')
     lua require('configs/lsp')
     lua require('configs/compe')
     lua require('configs/hop')
