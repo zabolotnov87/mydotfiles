@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+BASE=$(pwd)
+
 function install_or_update {
   local pkg=$1
   brew install $pkg || brew upgrade $pkg
@@ -20,3 +22,7 @@ install_or_update "htop"
 install_or_update "languagetool"
 install_or_update "ctags"
 install_or_update "jq"
+
+install_or_update "kitty"
+mkdir -p ~/.config/kitty
+ln -sf $BASE/kitty.conf ~/.config/kitty/kitty.conf
