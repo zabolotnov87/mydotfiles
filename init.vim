@@ -489,6 +489,8 @@
 
       " Support arbre (https://github.com/activeadmin/arbre)
       autocmd BufEnter *.arb setlocal filetype=ruby
+      " Support jbuilder
+      autocmd BufEnter *.jbuilder setlocal filetype=ruby
     augroup END
 
     augroup JS
