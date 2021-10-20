@@ -21,8 +21,8 @@ end
 endsnippet
 
 snippet d "def <name>..."
-def ${1:function}${2:(${3:args})}
-	${0:body}
+def ${1:method}${2:(${3:args})}
+	$4
 end
 endsnippet
 
@@ -50,4 +50,12 @@ snippet priv "private "
 private
 
 $0
+endsnippet
+
+snippet todo "TODO: "
+TODO: $0
+endsnippet
+
+snippet sig "sig { params(...).returns(...) }"
+sig { ${1:params${2:($3).}}${4:returns($5)} }$7
 endsnippet

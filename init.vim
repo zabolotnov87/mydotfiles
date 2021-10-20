@@ -121,7 +121,11 @@
   Plug 'junegunn/fzf.vim'
   Plug 'junegunn/fzf'
   Plug 'janko-m/vim-test'
-  Plug 'phaazon/hop.nvim' " easymotion for neovim
+  Plug 'phaazon/hop.nvim'   " easymotion for neovim
+  Plug 'tpope/vim-surround' " delete/change/add parentheses/quotes/tags
+  Plug 'b3nj5m1n/kommentary'
+  Plug 'windwp/nvim-autopairs'
+  Plug 'junegunn/vim-easy-align'
 
   " interface to git
   Plug 'tpope/vim-fugitive'
@@ -155,7 +159,6 @@
   Plug 'folke/zen-mode.nvim'
   Plug 'lukas-reineke/indent-blankline.nvim'
   Plug 'windwp/windline.nvim'
-  Plug 'nvim-lua/plenary.nvim'
   Plug 'lewis6991/gitsigns.nvim'
 
   " syntax and indentations
@@ -168,13 +171,11 @@
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
   " others
+  Plug 'nvim-lua/plenary.nvim'
   Plug 'VincentCordobes/vim-translate'
   Plug 'knsh14/vim-github-link'
   Plug 'Pocco81/AutoSave.nvim'
-  Plug 'junegunn/vim-easy-align'
-  Plug 'b3nj5m1n/kommentary'
   Plug 'DataWraith/auto_mkdir'
-  Plug 'windwp/nvim-autopairs'
 
   " disable vimwiki by default
   if !exists('g:vimwiki_enabled')
@@ -451,6 +452,8 @@
 
   nnoremap <silent> <C-n> :cnext<CR>
   nnoremap <silent> <C-p> :cprevious<CR>
+
+  nnoremap <silent> <leader>bt :tabe<CR>
 " }}}
 
 " Autogroups {{{

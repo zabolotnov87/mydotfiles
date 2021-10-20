@@ -1,7 +1,6 @@
 -- Plug 'windwp/nvim-autopairs'
 
-local npairs = require("nvim-autopairs")
-npairs.setup()
+require("nvim-autopairs").setup{}
 
 require("nvim-autopairs.completion.compe").setup{
   map_cr = true,        -- map <CR> on insert mode
