@@ -14,7 +14,7 @@ local on_attach = function(client, bufnr)
     underline = true,
     update_in_insert = false,
   })
-  local signs = { Error = "❌", Warning = "⚠️", Hint = "💡", Information = "❗️" }
+  local signs = { Error = "", Warning = "", Hint = "", Information = "" }
   for type, icon in pairs(signs) do
     local hl = "LspDiagnosticsSign" .. type
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
@@ -24,7 +24,7 @@ local on_attach = function(client, bufnr)
   local opts = { noremap=true, silent=true }
 
   buf_set_keymap('n', '<leader>ld',  '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', ']m',          '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', ']f',          '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'K',           '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', '<leader>li',  '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', '<leader>lq',  '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)

@@ -292,6 +292,8 @@
       let g:fzf_ignore_list = $FZF_IGNORE_LIST
     endif
 
+    let $FZF_IGNORE_LIST_FOR_GIT_GREP = ':^'..join(split(g:fzf_ignore_list, ','), ' :^')
+
     command! -bang -nargs=* F
       \ call fzf#vim#grep(
       \   'rg --column --line-number --no-heading --color=always -g "!{' . g:fzf_ignore_list . '}" --smart-case -- '.shellescape(<q-args>),
@@ -375,6 +377,7 @@
   command! Conf call Conf()
   command! Confl call Confl()
   command! Bd %bd!|e#
+  command! -nargs=+ Gf execute 'silent Ggrep' <q-args> $FZF_IGNORE_LIST_FOR_GIT_GREP
 " }}}
 
 " Common mappings {{{
