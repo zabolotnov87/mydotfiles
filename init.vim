@@ -214,13 +214,22 @@
 
     lua require('configs/toggleterm')
     lua require('configs/treesitter')
-    lua require('configs/lsp')
     lua require('configs/compe')
     lua require('configs/hop')
     lua require('configs/autopairs')
     lua require('configs/autosave')
     lua require('configs/windline')
     lua require('configs/textobjects')
+
+  " lsp {{{
+    lua require('configs/lsp')
+
+    let guibg_linenr = synIDattr(synIDtrans(hlID('LineNr')), 'bg', 'gui')
+    exec printf("highlight LspDiagnosticsSignError guibg=%s guifg=#FF0000 gui=bold", guibg_linenr)
+    exec printf("highlight LspDiagnosticsSignWarning guibg=%s guifg=#FFA500 gui=bold", guibg_linenr)
+    exec printf("highlight LspDiagnosticsSignInformation guibg=%s guifg=None gui=bold", guibg_linenr)
+    exec printf("highlight LspDiagnosticsSignHint guibg=%s guifg=#0000FF gui=bold", guibg_linenr)
+  " }}}
 
   " twilight {{{
     " Twilight: toggle twilight
@@ -497,6 +506,8 @@
       autocmd BufEnter *.arb setlocal filetype=ruby
       " Support jbuilder
       autocmd BufEnter *.jbuilder setlocal filetype=ruby
+      " Support sorbet rbi
+      autocmd BufEnter *.rbi setlocal filetype=ruby
     augroup END
 
     augroup JS

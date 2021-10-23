@@ -14,11 +14,20 @@ local on_attach = function(client, bufnr)
     underline = true,
     update_in_insert = false,
   })
-  local signs = { Error = "", Warning = "", Hint = "", Information = "" }
+
+  local signs = { Error = "", Warning = "", Hint = "", Information = "" }
   for type, icon in pairs(signs) do
     local hl = "LspDiagnosticsSign" .. type
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
   end
+
+  vim.cmd [[
+    let guibg_linenr = synIDattr(synIDtrans(hlID('LineNr')), 'bg', 'gui')
+    exec printf("highlight LspDiagnosticsSignError guibg=%s guifg=#FF0000 gui=bold", guibg_linenr)
+    exec printf("highlight LspDiagnosticsSignWarning guibg=%s guifg=#FFA500 gui=bold", guibg_linenr)
+    exec printf("highlight LspDiagnosticsSignInformation guibg=%s guifg=None gui=bold", guibg_linenr)
+    exec printf("highlight LspDiagnosticsSignHint guibg=%s guifg=#0000FF gui=bold", guibg_linenr)
+  ]]
 
   -- Mappings
   local opts = { noremap=true, silent=true }

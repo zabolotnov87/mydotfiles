@@ -14,6 +14,6 @@ autosave.setup{
   },
   write_all_buffers = false,
   on_off_commands = true,
-  clean_command_line_interval = 0,
+  clean_command_line_interval = 650,
   debounce_delay = 135
 }
