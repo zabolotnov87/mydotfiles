@@ -315,15 +315,15 @@
     command! -bang -nargs=? -complete=dir Files
       \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
-    nnoremap <leader>w "zyiw:exe "F ".@z.""<CR>
+    nnoremap <leader>fw "zyiw:exe "F ".@z.""<CR>
+    nnoremap <leader>ff :Files<CR>
+    nnoremap <leader>fs :BLines<CR>
+    nnoremap <leader>fb :Buffers<CR>
+    nnoremap <leader>fm :Marks<CR>
+    nnoremap <leader>fx :Windows<CR>
+    nnoremap <leader>fz :Commands<CR>
     nnoremap <leader>gw "zyiw:exe "Gf ".@z.""<CR>
-    nnoremap <leader>f :Files<CR>
-    nnoremap <leader>s :BLines<CR>
-    nnoremap <leader>bs :Buffers<CR>
-    nnoremap <leader>m :Marks<CR>
     nnoremap <leader>gf :GFiles?<CR>
-    nnoremap <leader>x :Windows<CR>
-    nnoremap <leader>z :Commands<CR>
   " }}}
 
 " }}}
@@ -426,7 +426,7 @@
 
   " close buffer
   nnoremap <leader>k :bd!<CR>
-  nnoremap <leader>c ZZ<CR>
+  nnoremap <leader>c <C-w>c
 
   " vmap for maintain Visual Mode after shifting > and <
   vnoremap < <gv
@@ -468,6 +468,7 @@
   nnoremap <silent> <C-p> :cprevious<CR>
 
   nnoremap <silent> <leader>bt :tabe<CR>
+  nnoremap <leader>w :w<CR>
 " }}}
 
 " Autogroups {{{
