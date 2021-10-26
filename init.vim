@@ -176,6 +176,7 @@
   Plug 'knsh14/vim-github-link'
   Plug 'Pocco81/AutoSave.nvim'
   Plug 'DataWraith/auto_mkdir'
+  Plug 'ludovicchabant/vim-gutentags'
 
   " disable vimwiki by default
   if !exists('g:vimwiki_enabled')
@@ -200,7 +201,6 @@
     nnoremap <Leader>gs :Git<CR>
     nnoremap <Leader>gb :Git blame<CR>
     nnoremap <Leader>gd :Gdiff<CR>
-    nnoremap <leader>gg "zyiw:exe "Ggrep ".@z.""<CR>
   " }}}
 
   " nvim-tree {{{
@@ -316,12 +316,14 @@
       \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
     nnoremap <leader>w "zyiw:exe "F ".@z.""<CR>
+    nnoremap <leader>gw "zyiw:exe "Gf ".@z.""<CR>
     nnoremap <leader>f :Files<CR>
     nnoremap <leader>s :BLines<CR>
     nnoremap <leader>bs :Buffers<CR>
     nnoremap <leader>m :Marks<CR>
     nnoremap <leader>gf :GFiles?<CR>
     nnoremap <leader>x :Windows<CR>
+    nnoremap <leader>z :Commands<CR>
   " }}}
 
 " }}}
@@ -386,7 +388,7 @@
   command! Conf call Conf()
   command! Confl call Confl()
   command! Bd %bd!|e#
-  command! -nargs=+ Gf execute 'silent Ggrep' <q-args> $FZF_IGNORE_LIST_FOR_GIT_GREP
+  command! -nargs=+ Gf execute 'silent Ggrep' <q-args> $FZF_IGNORE_LIST_FOR_GIT_GREP . ' | copen'
 " }}}
 
 " Common mappings {{{
