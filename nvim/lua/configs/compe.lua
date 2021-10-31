@@ -16,11 +16,12 @@ require'compe'.setup {
 
   source = {
     path = true;
-    buffer = true;
-    calc = true;
+    tags = false;
+    buffer = { priority = 5000};
+    calc = false;
     nvim_lua = true;
-    nvim_lsp = true;
-    ultisnips = true;
+    nvim_lsp = { priority = 500 };
+    ultisnips = { priority = 10000};
   };
 }
 

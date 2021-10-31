@@ -35,9 +35,12 @@ alias gup    "git up"
 alias gbd    "git b -D"
 alias gclean "git co -- .; git clean -fd"
 alias gds    "git ds"
-alias grp    "git remote prune origin"
 alias cpb    "git rev-parse --abbrev-ref HEAD | pbcopy"
 alias gdl    "git d HEAD^.."
+alias gdlf   "git d HEAD^.. --name-only"
+alias gst    "git stash"
+alias gr     "git rebase"
+alias glp    "git log -p"
 
 # Bundler
 alias bi "bundle install"

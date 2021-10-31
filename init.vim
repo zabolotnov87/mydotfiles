@@ -176,7 +176,6 @@
   Plug 'knsh14/vim-github-link'
   Plug 'Pocco81/AutoSave.nvim'
   Plug 'DataWraith/auto_mkdir'
-  Plug 'ludovicchabant/vim-gutentags'
 
   " disable vimwiki by default
   if !exists('g:vimwiki_enabled')
@@ -239,7 +238,7 @@
   " }}}
 
   " zen-mode {{{
-    lua require("zen-mode").setup{}
+    lua require("configs/zenmode")
     nnoremap <silent> <Leader>go :ZenMode<CR>
   " }}}
 
@@ -317,11 +316,11 @@
 
     nnoremap <leader>fw "zyiw:exe "F ".@z.""<CR>
     nnoremap <leader>ff :Files<CR>
-    nnoremap <leader>fs :BLines<CR>
+    nnoremap <leader>fl :BLines<CR>
     nnoremap <leader>fb :Buffers<CR>
     nnoremap <leader>fm :Marks<CR>
     nnoremap <leader>fx :Windows<CR>
-    nnoremap <leader>fz :Commands<CR>
+    nnoremap <leader>fc :Commands<CR>
     nnoremap <leader>gw "zyiw:exe "Gf ".@z.""<CR>
     nnoremap <leader>gf :GFiles?<CR>
   " }}}
