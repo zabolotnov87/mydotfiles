@@ -316,6 +316,7 @@
 
     nnoremap <leader>fw "zyiw:exe "F ".@z.""<CR>
     nnoremap <leader>ff :Files<CR>
+    nnoremap <leader>fh :History<CR>
     nnoremap <leader>fl :BLines<CR>
     nnoremap <leader>fb :Buffers<CR>
     nnoremap <leader>fm :Marks<CR>
