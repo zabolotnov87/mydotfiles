@@ -88,7 +88,7 @@
   set showcmd
 
   " completion settings
-  set completeopt=menuone,noselect
+  set completeopt=menu,menuone,noselect
   set wildmode=list:longest,list:full
   set wildmenu
   set shortmess+=c " don't pass messages to ins-completion-menu
@@ -141,7 +141,12 @@
   Plug 'kyazdani42/nvim-web-devicons'
 
   " autocompletion
-  Plug 'hrsh7th/nvim-compe'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-cmdline'
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 
   " lsp
   Plug 'neovim/nvim-lspconfig'
@@ -213,7 +218,7 @@
 
     lua require('configs/toggleterm')
     lua require('configs/treesitter')
-    lua require('configs/compe')
+    lua require('configs/cmp')
     lua require('configs/hop')
     lua require('configs/autopairs')
     lua require('configs/autosave')
@@ -221,13 +226,17 @@
     lua require('configs/textobjects')
 
   " lsp {{{
+    function! SetupLspDiagnosticHighlight() abort
+      let guibg_linenr = synIDattr(synIDtrans(hlID('LineNr')), 'bg', 'gui')
+      exec printf("highlight LspDiagnosticsSignError guibg=%s guifg=#FF0000 gui=bold", guibg_linenr)
+      exec printf("highlight LspDiagnosticsSignWarning guibg=%s guifg=#FFA500 gui=bold", guibg_linenr)
+      exec printf("highlight LspDiagnosticsSignInformation guibg=%s guifg=None gui=bold", guibg_linenr)
+      exec printf("highlight LspDiagnosticsSignHint guibg=%s guifg=#0000FF gui=bold", guibg_linenr)
+    endfunction
+
     lua require('configs/lsp')
 
-    let guibg_linenr = synIDattr(synIDtrans(hlID('LineNr')), 'bg', 'gui')
-    exec printf("highlight LspDiagnosticsSignError guibg=%s guifg=#FF0000 gui=bold", guibg_linenr)
-    exec printf("highlight LspDiagnosticsSignWarning guibg=%s guifg=#FFA500 gui=bold", guibg_linenr)
-    exec printf("highlight LspDiagnosticsSignInformation guibg=%s guifg=None gui=bold", guibg_linenr)
-    exec printf("highlight LspDiagnosticsSignHint guibg=%s guifg=#0000FF gui=bold", guibg_linenr)
+    call SetupLspDiagnosticHighlight()
   " }}}
 
   " twilight {{{
