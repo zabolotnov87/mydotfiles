@@ -476,7 +476,7 @@
   nnoremap <silent> <C-n> :cnext<CR>
   nnoremap <silent> <C-p> :cprevious<CR>
 
-  nnoremap <silent> <leader>bt :tabe<CR>
+  nnoremap <silent> <leader>nb :tabe<CR>
   nnoremap <leader>w :w<CR>
 " }}}
 
