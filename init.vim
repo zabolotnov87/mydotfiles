@@ -181,6 +181,7 @@
   Plug 'knsh14/vim-github-link'
   Plug 'Pocco81/AutoSave.nvim'
   Plug 'DataWraith/auto_mkdir'
+  Plug 'kassio/neoterm'
 
   " disable vimwiki by default
   if !exists('g:vimwiki_enabled')
@@ -273,19 +274,31 @@
           \ }]
   " }}}
 
+  " neoterm {{{
+    let g:neoterm_shell='fish'
+    let g:neoterm_default_mod = 'below'
+  " }}}
+
   " easy align {{{
     xmap ga <Plug>(EasyAlign)
     nmap ga <Plug>(EasyAlign)
   " }}}
 
   " vim tests {{{
+    function! NeotermCustom(cmd)
+      Tclear
+      exec 'T ' . a:cmd
+      Topen
+    endfunction
+
+    let g:test#custom_strategies = { 'neoterm_custom': function('NeotermCustom') }
+    let g:test#strategy = 'neoterm_custom'
+    let test#ruby#rspec#executable = 'bundle exec rspec'
+    let test#ruby#bundle_exec = 0
+
     nnoremap <silent> <leader>r :TestNearest<CR>
     nnoremap <silent> <leader>ar :TestFile<CR>
     nnoremap <silent> <leader>lt :TestVisit<CR>
-
-    let test#strategy = "neovim"
-    let test#ruby#rspec#executable = 'bundle exec rspec'
-    let test#ruby#bundle_exec = 0
   " }}}
 
   " vim-translate {{{
