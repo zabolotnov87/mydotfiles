@@ -88,7 +88,7 @@
   set showcmd
 
   " completion settings
-  set completeopt=menu,menuone,noselect
+  set completeopt=menuone,noselect
   set wildmode=list:longest,list:full
   set wildmenu
   set shortmess+=c " don't pass messages to ins-completion-menu
@@ -132,13 +132,10 @@
 
   " manage terminal windows
   Plug 'akinsho/toggleterm.nvim'
+  Plug 'kassio/neoterm' " for vim-test
 
   " Snippets manager
   Plug 'SirVer/ultisnips'
-
-  " file explorer
-  Plug 'kyazdani42/nvim-tree.lua'
-  Plug 'kyazdani42/nvim-web-devicons'
 
   " autocompletion
   Plug 'hrsh7th/cmp-nvim-lsp'
@@ -155,7 +152,7 @@
 
   " frontend
   Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-  Plug 'mattn/emmet-vim'
+  " Plug 'mattn/emmet-vim'
   Plug 'peitalin/vim-jsx-typescript'
 
   " appearance
@@ -164,7 +161,7 @@
   Plug 'folke/zen-mode.nvim'
   Plug 'lukas-reineke/indent-blankline.nvim'
   Plug 'windwp/windline.nvim'
-  Plug 'lewis6991/gitsigns.nvim'
+  " Plug 'lewis6991/gitsigns.nvim'
 
   " syntax and indentations
   Plug 'hallison/vim-rdoc'
@@ -181,7 +178,6 @@
   Plug 'knsh14/vim-github-link'
   Plug 'Pocco81/AutoSave.nvim'
   Plug 'DataWraith/auto_mkdir'
-  Plug 'kassio/neoterm'
 
   " disable vimwiki by default
   if !exists('g:vimwiki_enabled')
@@ -191,6 +187,12 @@
 
   call plug#end()
 " }}}
+
+" Clear all default mappings which comes from plugs
+if !exists('g:mapclear')
+  let g:mapclear = 1
+  mapclear
+endif
 
 " Plugins Settings {{{
   " ultisnips {{{
@@ -208,14 +210,9 @@
     nnoremap <Leader>gd :Gdiff<CR>
   " }}}
 
-  " nvim-tree {{{
-    lua require('nvim-tree').setup{disable_netrw = false, update_cwd = true, view = {width = 40}}
+    " lua require('gitsigns').setup()
 
-    nnoremap <silent><C-e> :NvimTreeToggle<CR>
-    nnoremap <silent><leader>e :NvimTreeFindFile<CR>
-  " }}}
-
-    lua require('gitsigns').setup()
+    lua require('kommentary.config').use_default_mappings()
 
     lua require('configs/toggleterm')
     lua require('configs/treesitter')
@@ -276,6 +273,7 @@
 
   " neoterm {{{
     let g:neoterm_shell='fish'
+    let g:neoterm_automap_keys = v:false
     let g:neoterm_default_mod = 'below'
   " }}}
 
@@ -489,7 +487,7 @@
   nnoremap <silent> <C-n> :cnext<CR>
   nnoremap <silent> <C-p> :cprevious<CR>
 
-  nnoremap <silent> <leader>nb :tabe<CR>
+  nnoremap <silent> <leader>nt :tabe<CR>
   nnoremap <leader>w :w<CR>
 " }}}
 
