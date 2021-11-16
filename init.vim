@@ -3,7 +3,6 @@
 " Common settings {{{
   syntax enable
   filetype plugin indent on
-
   let mapleader=','
 
   set nocompatible
@@ -488,7 +487,8 @@ endif
   nnoremap <silent> <C-p> :cprevious<CR>
 
   nnoremap <silent> <leader>nt :tabe<CR>
-  nnoremap <leader>w :w<CR>
+  nnoremap <leader>w :wa<CR>
+  nnoremap <leader>x :xa<CR>
 " }}}
 
 " Autogroups {{{
