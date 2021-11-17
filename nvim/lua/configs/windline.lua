@@ -77,7 +77,7 @@ basic.file = {
             return {
                 { b_components.cache_file_size(), 'default' },
                 { ' ', '' },
-                { b_components.cache_file_name('[No Name]', 'unique'), 'magenta' },
+                { b_components.full_file_name, 'magenta' },
                 { b_components.line_col_lua, 'white' },
                 { b_components.progress_lua, '' },
                 { ' ', '' },
@@ -87,7 +87,7 @@ basic.file = {
             return {
                 { b_components.cache_file_size(), 'default' },
                 { ' ', '' },
-                { b_components.cache_file_name('[No Name]', 'unique'), 'magenta' },
+                { b_components.full_file_name, 'magenta' },
                 { ' ', '' },
                 { b_components.file_modified(' '), 'magenta' },
             }
@@ -152,18 +152,6 @@ local quickfix = {
     show_last_status = true,
 }
 
-local explorer = {
-    filetypes = { 'fern', 'NvimTree', 'lir' },
-    active = {
-        { '  ', { 'black', 'blue' } },
-        { helper.separators.slant_right, { 'blue', 'NormalBg' } },
-        { b_components.divider, '' },
-        { b_components.file_name(''), { 'white', 'NormalBg' } },
-    },
-    always_active = true,
-    show_last_status = true,
-}
-
 basic.lsp_name = {
     width = breakpoint_width,
     name = 'lsp_name',
@@ -216,6 +204,5 @@ windline.setup({
     statuslines = {
         default,
         quickfix,
-        explorer,
     },
 })

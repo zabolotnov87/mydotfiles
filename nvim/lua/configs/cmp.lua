@@ -1,6 +1,7 @@
 -- Setup nvim-cmp
 
 local cmp = require'cmp'
+local cmp_buffer = require('cmp_buffer')
 
 cmp.setup({
   snippet = {
@@ -36,9 +37,15 @@ cmp.setup({
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'ultisnips' },
-    { name = 'buffer' },
+    { name = 'buffer', opts = {
+        get_bufnrs = function()
+          return vim.api.nvim_list_bufs()
+        end
+      },
+    },
     { name = 'cmdline' },
-  })
+  }),
 })
+
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
