@@ -178,10 +178,6 @@
   Plug 'Pocco81/AutoSave.nvim'
   Plug 'DataWraith/auto_mkdir'
 
-  " linting and formatting
-  let g:ale_disable_lsp = 1
-  Plug 'dense-analysis/ale'
-
   " disable vimwiki by default
   if !exists('g:vimwiki_enabled')
     let g:loaded_vimwiki = 1
@@ -198,35 +194,6 @@ if !exists('g:mapclear')
 endif
 
 " Plugins Settings {{{
-  " ale {{{
-    let g:ale_set_loclist = 1
-    let g:ale_set_quickfix = 0
-    let g:ale_open_list = 1
-    let g:ale_linters = {'ruby': ['rubocop']}
-    let g:ale_linters_explicit = 1
-    let g:ale_fixers = {'ruby': ['rubocop']}
-    let g:ale_ruby_rubocop_executable = 'rubocop-daemon-wrapper'
-    let g:ale_sign_error = ''
-    let g:ale_sign_warning = ''
-    let g:ale_virtualtext_cursor = 1
-    let g:ale_virtualtext_prefix = '► '
-    let g:ale_enabled = 0
-
-    function! SetupAleDiagnosticHighlight() abort
-      let guibg_linenr = synIDattr(synIDtrans(hlID('LineNr')), 'bg', 'gui')
-      exec printf("highlight ALEErrorSign guibg=%s guifg=#FF0000 gui=bold", guibg_linenr)
-      exec printf("highlight ALEWarningSign guibg=%s guifg=#FFA500 gui=bold", guibg_linenr)
-    endfunction
-
-    augroup Ale
-      autocmd!
-      autocmd FileType ruby nnoremap <silent> <Leader>lf :ALEFix<CR>
-      autocmd User ALELintPre call SetupAleDiagnosticHighlight()
-    augroup END
-
-    call SetupAleDiagnosticHighlight()
-  " }}}
-
   " ultisnips {{{
     let g:UltiSnipsExpandTrigger='<c-o>'
     let g:UltiSnipsJumpForwardTrigger='<c-j>'
@@ -519,6 +486,7 @@ endif
   " quickfix navigation
   nnoremap <silent> <C-n> :cnext<CR>
   nnoremap <silent> <C-p> :cprevious<CR>
+
   " locklist navigation
   nnoremap <silent> ]e :lnext<CR>
   nnoremap <silent> [e :lprevious<CR>
