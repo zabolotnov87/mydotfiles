@@ -151,7 +151,6 @@
 
   " frontend
   Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-  " Plug 'mattn/emmet-vim'
   Plug 'peitalin/vim-jsx-typescript'
 
   " appearance
@@ -251,10 +250,6 @@ endif
 
   " vim-github-link {{{
     nnoremap gcp :GetCommitLink<CR>
-  " }}}
-
-  " emmet {{{
-    let g:user_emmet_leader_key='<C-r>'
   " }}}
 
   " vimwiki {{{
