@@ -159,8 +159,6 @@
   Plug 'folke/twilight.nvim'
   Plug 'folke/zen-mode.nvim'
   Plug 'lukas-reineke/indent-blankline.nvim'
-  Plug 'windwp/windline.nvim'
-  " Plug 'lewis6991/gitsigns.nvim'
 
   " syntax and indentations
   Plug 'hallison/vim-rdoc'
@@ -209,8 +207,6 @@ endif
     nnoremap <Leader>gd :Gdiff<CR>
   " }}}
 
-    " lua require('gitsigns').setup()
-
     lua require('kommentary.config').use_default_mappings()
 
     lua require('configs/toggleterm')
@@ -219,7 +215,6 @@ endif
     lua require('configs/hop')
     lua require('configs/autopairs')
     lua require('configs/autosave')
-    lua require('configs/windline')
     lua require('configs/textobjects')
 
   " lsp {{{
@@ -488,8 +483,8 @@ endif
   nnoremap <silent> <C-p> :cprevious<CR>
 
   " locklist navigation
-  nnoremap <silent> ]e :lnext<CR>
-  nnoremap <silent> [e :lprevious<CR>
+  nnoremap <silent> ]w :lnext<CR>
+  nnoremap <silent> [w :lprevious<CR>
 
   nnoremap <silent> <leader>nt :tabe<CR>
   nnoremap <leader>w :wa<CR>
