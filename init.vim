@@ -36,8 +36,9 @@
   set autoindent
   set smartindent
 
-  " Always show statusline
-  set laststatus=2
+  set laststatus=2 " always show statusline
+  set statusline=
+
 
   set colorcolumn=100
 
@@ -174,6 +175,8 @@
   Plug 'knsh14/vim-github-link'
   Plug 'Pocco81/AutoSave.nvim'
   Plug 'DataWraith/auto_mkdir'
+  Plug 'neomake/neomake'
+  Plug 'dense-analysis/ale'
 
   " disable vimwiki by default
   if !exists('g:vimwiki_enabled')
@@ -191,6 +194,48 @@ if !exists('g:mapclear')
 endif
 
 " Plugins Settings {{{
+  " ale {{{
+    let g:ale_set_loclist = 1
+    let g:ale_set_quickfix = 0
+    " let g:ale_open_list = 1
+    let g:ale_linters = {'ruby': ['rubocop']}
+    let g:ale_linters_explicit = 1
+    let g:ale_fixers = {'ruby': ['rubocop']}
+    let g:ale_ruby_rubocop_executable = 'rubocop-daemon-wrapper'
+    " let g:ale_sign_error = ''
+    " let g:ale_sign_warning = ''
+    let g:ale_virtualtext_cursor = 1
+    let g:ale_virtualtext_prefix = '► '
+    " let g:ale_enabled = 0
+
+    function! SetupAleDiagnosticHighlight() abort
+      let guibg_linenr = synIDattr(synIDtrans(hlID('LineNr')), 'bg', 'gui')
+      exec printf("highlight ALEErrorSign guibg=%s guifg=#FF0000 gui=bold", guibg_linenr)
+      exec printf("highlight ALEWarningSign guibg=%s guifg=#FFA500 gui=bold", guibg_linenr)
+    endfunction
+
+    nnoremap <silent> <Leader>af :ALEFix<CR>
+
+    augroup Ale
+      autocmd!
+      autocmd User ALELintPre call SetupAleDiagnosticHighlight()
+    augroup END
+
+    call SetupAleDiagnosticHighlight()
+  " }}}
+
+  " neomake {{{
+    let g:neomake_ruby_rd_maker = {
+        \ 'exe': 'rubocop-daemon-wrapper',
+        \ 'args': ['--format', 'emacs', '--display-cop-names'],
+        \ 'postprocess': function('neomake#makers#ft#ruby#RubocopEntryProcess'),
+        \ 'errorformat': '%f:%l:%c: %t: %m,%E%f:%l: %m',
+        \ 'output_stream': 'stdout',
+        \ }
+
+    let g:neomake_ruby_enabled_makers = ['rd']
+  " }}}
+
   " ultisnips {{{
     let g:UltiSnipsExpandTrigger='<c-o>'
     let g:UltiSnipsJumpForwardTrigger='<c-j>'
@@ -536,7 +581,9 @@ endif
     augroup END
 " }}}
 
-" Setup colorscheme {{{
+" Setup status line and colorscheme {{{
+  set statusline+=%f
+
   " `~/.vimrc_background` is touched by chriskempson/base16-shell
   if filereadable(expand("~/.vimrc_background"))
     let base16colorspace=256
