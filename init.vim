@@ -308,7 +308,7 @@ endif
   " neoterm {{{
     let g:neoterm_shell='fish'
     let g:neoterm_automap_keys = v:false
-    let g:neoterm_default_mod = 'below'
+    let g:neoterm_default_mod = 'botright'
   " }}}
 
   " easy align {{{
@@ -318,7 +318,7 @@ endif
 
   " vim tests {{{
     function! NeotermCustom(cmd)
-      Tclear
+      exec 'T clear'
       exec 'T ' . a:cmd
       Topen
     endfunction
