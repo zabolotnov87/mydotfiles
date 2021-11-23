@@ -5,7 +5,7 @@ set -euo pipefail
 BASE=$(pwd)
 
 brew tap homebrew/cask-fonts
-brew install --cask font-hack-nerd-font
+brew install --cask font-fira-code
 
 cp $BASE/fonts/* ~/Library/Fonts/
 
