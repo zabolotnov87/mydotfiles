@@ -33,8 +33,8 @@
   set foldmethod=indent
   set foldlevel=20
 
-  " set autoindent
-  " set smartindent
+  set autoindent
+  set smartindent
 
   set laststatus=2 " always show statusline
   set statusline=
@@ -100,7 +100,7 @@
 
   set ignorecase
   set smartcase
-  " set incsearch
+  set incsearch
   set hlsearch  " Enable search highlighting,
   nohlsearch    " but do not highlight last search on startup
 " }}}
@@ -530,6 +530,8 @@ endif
   nnoremap <silent> <leader>nt :tabe<CR>
   nnoremap <leader>w :wa<CR>
   nnoremap <leader>x :xa<CR>
+
+  nnoremap * :keepjumps normal! mi*`i<CR>
 " }}}
 
 " Autogroups {{{
