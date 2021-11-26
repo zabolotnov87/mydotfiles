@@ -37,7 +37,7 @@ cmp.setup({
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'ultisnips' },
-    { name = 'buffer', opts = {
+    { name = 'buffer', options = {
         get_bufnrs = function()
           return vim.api.nvim_list_bufs()
         end
