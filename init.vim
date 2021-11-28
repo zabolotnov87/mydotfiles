@@ -37,8 +37,6 @@
   set smartindent
 
   set laststatus=2 " always show statusline
-  set statusline=
-
 
   set colorcolumn=100
 
@@ -177,6 +175,7 @@
   Plug 'DataWraith/auto_mkdir'
   Plug 'neomake/neomake'
   Plug 'dense-analysis/ale'
+  Plug 'jsfaint/gen_tags.vim'
 
   " disable vimwiki by default
   if !exists('g:vimwiki_enabled')
@@ -194,6 +193,11 @@ if !exists('g:mapclear')
 endif
 
 " Plugins Settings {{{
+  " gen_tags {{{
+    let g:loaded_gentags#gtags = 1
+    let g:gen_tags#blacklist = ['spec']
+  " }}}
+
   " ale {{{
     let g:ale_set_loclist = 1
     let g:ale_set_quickfix = 0
@@ -205,9 +209,9 @@ endif
     let g:ale_ruby_rubocop_auto_correct_all = 1
     " let g:ale_sign_error = ''
     " let g:ale_sign_warning = ''
-    let g:ale_virtualtext_cursor = 1
-    let g:ale_virtualtext_prefix = '► '
-    " let g:ale_enabled = 0
+    " let g:ale_virtualtext_cursor = 1
+    " let g:ale_virtualtext_prefix = '► '
+    let g:ale_enabled = 0
 
     function! SetupAleDiagnosticHighlight() abort
       let guibg_linenr = synIDattr(synIDtrans(hlID('LineNr')), 'bg', 'gui')
