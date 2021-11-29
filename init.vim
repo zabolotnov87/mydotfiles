@@ -23,8 +23,6 @@
   " Buffer should still exist if window is closed
   set hidden
 
-  set updatetime=300
-
   " Automatically read changed files
   set autoread
 
@@ -56,9 +54,6 @@
   set backspace=indent,eol,start  " Makes backspace key more powerful.
 
   set termguicolors
-
-  " Indicate fast terminal conn for faster redraw
-  set ttyfast
 
   " Disable vim auto visual mode using mouse
   set mouse-=a
@@ -122,7 +117,7 @@
   Plug 'phaazon/hop.nvim'   " easymotion for neovim
   Plug 'tpope/vim-surround' " delete/change/add parentheses/quotes/tags
   Plug 'b3nj5m1n/kommentary'
-  Plug 'windwp/nvim-autopairs'
+  Plug 'windwp/nvim-autopairs' " ?
   Plug 'junegunn/vim-easy-align'
 
   " interface to git
@@ -135,7 +130,7 @@
   " Snippets manager
   Plug 'SirVer/ultisnips'
 
-  " autocompletion
+  " autocompletion ?
   Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'hrsh7th/cmp-buffer'
   Plug 'hrsh7th/cmp-path'
@@ -147,10 +142,6 @@
   Plug 'neovim/nvim-lspconfig'
 
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-
-  " frontend
-  Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-  Plug 'peitalin/vim-jsx-typescript'
 
   " appearance
   Plug 'chriskempson/base16-vim'
@@ -173,7 +164,6 @@
   Plug 'knsh14/vim-github-link'
   Plug 'Pocco81/AutoSave.nvim'
   Plug 'DataWraith/auto_mkdir'
-  Plug 'neomake/neomake'
   Plug 'dense-analysis/ale'
   Plug 'jsfaint/gen_tags.vim'
 
@@ -186,7 +176,7 @@
   call plug#end()
 " }}}
 
-" Clear all default mappings which comes from plugs
+" Clear all default mappings which comes from plugins
 if !exists('g:mapclear')
   let g:mapclear = 1
   mapclear
@@ -196,6 +186,7 @@ endif
   " gen_tags {{{
     let g:loaded_gentags#gtags = 1
     let g:gen_tags#blacklist = ['spec']
+    let g:gen_tags#ctags_opts = '--languages=ruby'
   " }}}
 
   " ale {{{
@@ -227,18 +218,6 @@ endif
     augroup END
 
     call SetupAleDiagnosticHighlight()
-  " }}}
-
-  " neomake {{{
-    let g:neomake_ruby_rd_maker = {
-        \ 'exe': 'rubocop-daemon-wrapper',
-        \ 'args': ['--format', 'emacs', '--display-cop-names'],
-        \ 'postprocess': function('neomake#makers#ft#ruby#RubocopEntryProcess'),
-        \ 'errorformat': '%f:%l:%c: %t: %m,%E%f:%l: %m',
-        \ 'output_stream': 'stdout',
-        \ }
-
-    let g:neomake_ruby_enabled_makers = ['rd']
   " }}}
 
   " ultisnips {{{
@@ -470,15 +449,6 @@ endif
   nnoremap <C-k> <C-w>k
   nnoremap <C-l> <C-w>l
   nnoremap <C-h> <C-w>h
-  nnoremap <A-j> <C-w>j
-  nnoremap <A-k> <C-w>k
-  nnoremap <A-l> <C-w>l
-  nnoremap <A-h> <C-w>h
-  " in terminal mode (neovim specific)
-  tnoremap <A-h> <C-\><C-n><C-w>h
-  tnoremap <A-j> <C-\><C-n><C-w>j
-  tnoremap <A-k> <C-\><C-n><C-w>k
-  tnoremap <A-l> <C-\><C-n><C-w>l
 
   nnoremap <silent>H :tabprevious<CR>
   nnoremap <silent>L :tabnext<CR>
@@ -508,7 +478,7 @@ endif
   nnoremap <silent> <leader><SPace> :nohlsearch<cr>
 
   " copy buffer path to clipboard
-  nnoremap cp :let @+=expand('%')<CR>
+  nnoremap cpl :let @+=expand('%')<CR>
   " copy buffer absolute path to clipboard
   nnoremap cpa :let @+=expand('%:p')<CR>
   " copy buffer path with line number to clipboard
@@ -588,9 +558,7 @@ endif
     augroup END
 " }}}
 
-" Setup status line and colorscheme {{{
-  set statusline+=%f
-
+" Setup colorscheme {{{
   " `~/.vimrc_background` is touched by chriskempson/base16-shell
   if filereadable(expand("~/.vimrc_background"))
     let base16colorspace=256
