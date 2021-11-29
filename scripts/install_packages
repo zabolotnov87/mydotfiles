@@ -22,6 +22,7 @@ install_or_update "htop"
 install_or_update "languagetool"
 install_or_update "ctags"
 install_or_update "jq"
+install_or_update "deno"
 
 install_or_update "kitty"
 mkdir -p ~/.config/kitty

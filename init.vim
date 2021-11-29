@@ -130,13 +130,13 @@
   " Snippets manager
   Plug 'SirVer/ultisnips'
 
-  " autocompletion ?
-  Plug 'hrsh7th/cmp-nvim-lsp'
-  Plug 'hrsh7th/cmp-buffer'
-  Plug 'hrsh7th/cmp-path'
-  Plug 'hrsh7th/cmp-cmdline'
-  Plug 'hrsh7th/nvim-cmp'
-  Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+  " autocompletion
+  Plug 'vim-denops/denops.vim'
+  Plug 'Shougo/ddc.vim'
+  Plug 'Shougo/ddc-around'
+  Plug 'Shougo/ddc-matcher_head'
+  Plug 'Shougo/ddc-sorter_rank'
+  Plug 'tani/ddc-fuzzy'
 
   " lsp
   Plug 'neovim/nvim-lspconfig'
@@ -183,6 +183,45 @@ if !exists('g:mapclear')
 endif
 
 " Plugins Settings {{{
+  " ddc {{{
+    call ddc#custom#patch_global('sources', ['around'])
+
+    " call ddc#custom#patch_global('sourceOptions', {
+    "   \ '_': {
+    "   \   'matchers': ['matcher_head'],
+    "   \   'sorters': ['sorter_rank']},
+    "   \ })
+
+    call ddc#custom#patch_global('sourceOptions', {
+      \   '_': {
+      \     'ignoreCase': v:true,
+      \     'matchers': ['matcher_fuzzy'],
+      \     'sorters': ['sorter_fuzzy'],
+      \     'converters': ['converter_fuzzy']
+      \   }
+      \ })
+
+    call ddc#custom#patch_global('filterParams', {
+      \   'matcher_fuzzy': {
+      \     'splitMode': 'character'
+      \   }
+      \ })
+
+    " Navigate by completion list by ctrl-j (down) and ctrl-k (up)
+    inoremap <c-j> <c-n>
+    inoremap <c-k> <c-p>
+
+    inoremap <silent><expr> <TAB>
+      \ pumvisible() ? '<C-n>' :
+      \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+      \ '<TAB>' : ddc#map#manual_complete()
+
+    " <S-TAB>: completion back.
+    inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
+
+    call ddc#enable()
+  " }}}
+
   " gen_tags {{{
     let g:loaded_gentags#gtags = 1
     let g:gen_tags#blacklist = ['spec']
@@ -239,7 +278,6 @@ endif
 
     lua require('configs/toggleterm')
     lua require('configs/treesitter')
-    lua require('configs/cmp')
     lua require('configs/hop')
     lua require('configs/autopairs')
     lua require('configs/autosave')
@@ -430,10 +468,6 @@ endif
 " }}}
 
 " Common mappings {{{
-  " Navigate by completion list by ctrl-j (down) and ctrl-k (up)
-  inoremap <c-j> <c-n>
-  inoremap <c-k> <c-p>
-
   " Act like D and C
   nnoremap Y y$
 
