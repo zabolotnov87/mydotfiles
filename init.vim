@@ -293,10 +293,10 @@
   " lsp {{{
     function! SetupLspDiagnosticHighlight() abort
       let guibg_linenr = synIDattr(synIDtrans(hlID('LineNr')), 'bg', 'gui')
-      exec printf("highlight LspDiagnosticsSignError guibg=%s guifg=#FF0000 gui=bold", guibg_linenr)
-      exec printf("highlight LspDiagnosticsSignWarning guibg=%s guifg=#FFA500 gui=bold", guibg_linenr)
-      exec printf("highlight LspDiagnosticsSignInformation guibg=%s guifg=None gui=bold", guibg_linenr)
-      exec printf("highlight LspDiagnosticsSignHint guibg=%s guifg=#0000FF gui=bold", guibg_linenr)
+      exec printf("highlight DiagnosticSignError guibg=%s guifg=#FF0000 gui=bold", guibg_linenr)
+      exec printf("highlight DiagnosticSignWarn guibg=%s guifg=#FFA500 gui=bold", guibg_linenr)
+      exec printf("highlight DiagnosticSignInfo guibg=%s guifg=None gui=bold", guibg_linenr)
+      exec printf("highlight DiagnosticSignHint guibg=%s guifg=#0000FF gui=bold", guibg_linenr)
     endfunction
 
     lua require('configs/lsp')
