@@ -114,7 +114,6 @@
   Plug 'phaazon/hop.nvim'   " easymotion for neovim
   Plug 'tpope/vim-surround' " delete/change/add parentheses/quotes/tags
   Plug 'b3nj5m1n/kommentary'
-  Plug 'windwp/nvim-autopairs' " ?
   Plug 'junegunn/vim-easy-align'
 
   " interface to git
@@ -135,6 +134,9 @@
   Plug 'Shougo/ddc-sorter_rank'
   Plug 'tani/ddc-fuzzy'
   Plug 'matsui54/ddc-ultisnips'
+  Plug 'matsui54/ddc-buffer'
+  Plug 'delphinus/ddc-treesitter'
+  Plug 'Shougo/ddc-nvim-lsp'
 
   " lsp
   Plug 'neovim/nvim-lspconfig'
@@ -157,7 +159,8 @@
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
   " others
-  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-lua/plenary.nvim'  " general utils
+  Plug 'windwp/nvim-autopairs'
   Plug 'VincentCordobes/vim-translate'
   Plug 'knsh14/vim-github-link'
   Plug 'Pocco81/AutoSave.nvim'
@@ -172,30 +175,41 @@
   Plug 'vimwiki/vimwiki'
 
   call plug#end()
-" }}}
 
-" Clear all default mappings which comes from plugins
-if !exists('g:mapclear')
-  let g:mapclear = 1
-  mapclear
-endif
+  " Clear all default mappings which comes from plugins
+  if !exists('g:mapclear')
+    let g:mapclear = 1
+    mapclear
+  endif
+" }}}
 
 " Plugins Settings {{{
   " autocompletion (via ddc plugin) {{{
     set completeopt=menuone,noselect
     set shortmess+=c " don't pass messages to ins-completion-menu
 
-    call ddc#custom#patch_global('sources', ['around', 'ultisnips'])
+    call ddc#custom#patch_global('sources', ['around', 'ultisnips', 'buffer', 'treesitter', 'nvim-lsp'])
 
     call ddc#custom#patch_global('sourceOptions', {
       \   'ultisnips': {'mark': 'US'},
       \   'around': {'mark': 'A'},
+      \   'buffer': {'mark': 'B'},
+      \   'treesitter': {'mark': 'T'},
+      \   'nvim-lsp': {'mark': 'LSP', 'forceCompletionPattern': '\.\w*|:\w*|->\w*'},
       \   '_': {
       \     'ignoreCase': v:true,
       \     'matchers': ['matcher_fuzzy'],
       \     'sorters': ['sorter_fuzzy'],
       \     'converters': ['converter_fuzzy']
       \   }
+      \ })
+
+    call ddc#custom#patch_global('sourceParams', {
+      \ 'buffer': {
+      \   'requireSameFiletype': v:false,
+      \   'fromAltBuf': v:true,
+      \   'forceCollect': v:true,
+      \ },
       \ })
 
     call ddc#custom#patch_global('filterParams', {
