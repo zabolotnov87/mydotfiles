@@ -80,11 +80,8 @@
   " show (partial) command in the last line of the screen
   set showcmd
 
-  " completion settings
-  set completeopt=menuone,noselect
-  set wildmode=list:longest,list:full
   set wildmenu
-  set shortmess+=c " don't pass messages to ins-completion-menu
+  set wildmode=list:longest,list:full
 
   " Execute normal mode commands in Russian keyboard
   set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
@@ -137,6 +134,7 @@
   Plug 'Shougo/ddc-matcher_head'
   Plug 'Shougo/ddc-sorter_rank'
   Plug 'tani/ddc-fuzzy'
+  Plug 'matsui54/ddc-ultisnips'
 
   " lsp
   Plug 'neovim/nvim-lspconfig'
@@ -183,16 +181,15 @@ if !exists('g:mapclear')
 endif
 
 " Plugins Settings {{{
-  " ddc {{{
-    call ddc#custom#patch_global('sources', ['around'])
+  " autocompletion (via ddc plugin) {{{
+    set completeopt=menuone,noselect
+    set shortmess+=c " don't pass messages to ins-completion-menu
 
-    " call ddc#custom#patch_global('sourceOptions', {
-    "   \ '_': {
-    "   \   'matchers': ['matcher_head'],
-    "   \   'sorters': ['sorter_rank']},
-    "   \ })
+    call ddc#custom#patch_global('sources', ['around', 'ultisnips'])
 
     call ddc#custom#patch_global('sourceOptions', {
+      \   'ultisnips': {'mark': 'US'},
+      \   'around': {'mark': 'A'},
       \   '_': {
       \     'ignoreCase': v:true,
       \     'matchers': ['matcher_fuzzy'],
@@ -207,17 +204,13 @@ endif
       \   }
       \ })
 
-    " Navigate by completion list by ctrl-j (down) and ctrl-k (up)
-    inoremap <c-j> <c-n>
-    inoremap <c-k> <c-p>
-
     inoremap <silent><expr> <TAB>
       \ pumvisible() ? '<C-n>' :
       \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
       \ '<TAB>' : ddc#map#manual_complete()
 
-    " <S-TAB>: completion back.
-    inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
+    inoremap <silent><expr> <C-j> pumvisible() ? '<C-n>' : '<Down>'
+    inoremap <silent><expr> <C-k> pumvisible() ? '<C-p>' : '<Up>'
 
     call ddc#enable()
   " }}}
