@@ -93,6 +93,7 @@
   set incsearch
   set hlsearch  " Enable search highlighting,
   nohlsearch    " but do not highlight last search on startup
+
 " }}}
 
 " Apply local settings {{{
@@ -184,6 +185,25 @@
 " }}}
 
 " Plugins Settings {{{
+  " netrw {{{
+    let g:netrw_keepdir = 0
+    let g:netrw_localcopydircmd = 'cp -r'
+
+    nnoremap <leader>dd :Lexplore %:p:h<CR>
+    nnoremap <Leader>da :Lexplore<CR>
+
+    function! NetrwMapping()
+      nmap <buffer> o <CR>
+      nmap <buffer> O <CR>:Lexplore<CR>
+      nmap <buffer> <Leader>dd :Lexplore<CR>
+    endfunction
+
+    augroup netrw_mapping
+      autocmd!
+      autocmd filetype netrw call NetrwMapping()
+    augroup END
+  " }}}
+
   " autocompletion (via ddc plugin) {{{
     set completeopt=menuone,noselect
     set shortmess+=c " don't pass messages to ins-completion-menu
