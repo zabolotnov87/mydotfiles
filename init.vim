@@ -581,7 +581,7 @@
       autocmd FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 
       " Allow to open source code of selected plugin in new tab
-      autocmd FileType vim nnoremap <silent> <leader>o :normal vil<CR> :call
+      autocmd FileType vim nmap <buffer> <leader>o :normal vil<CR> :call
         \ OpenPlug(<SID>get_selected_text())<CR>
 
       autocmd TermOpen * setlocal nonumber norelativenumber
@@ -595,7 +595,7 @@
       autocmd Filetype ruby set keywordprg=ri\ -f\ rdoc
 
       " Allow to open source code of selected gem in new tab
-      autocmd FileType ruby nnoremap <silent> <leader>bo :normal vil<CR> :call
+      autocmd FileType ruby nmap <buffer> <leader>o :normal vil<CR> :call
         \ OpenGem(<SID>get_selected_text())<CR>
 
       " Expose command Bo to open source code of a gem
