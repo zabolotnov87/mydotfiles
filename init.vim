@@ -186,16 +186,17 @@
 
 " Plugins Settings {{{
   " netrw {{{
-    let g:netrw_keepdir = 0
     let g:netrw_localcopydircmd = 'cp -r'
 
     nnoremap <leader>dd :Lexplore %:p:h<CR>
     nnoremap <Leader>da :Lexplore<CR>
 
     function! NetrwMapping()
-      nmap <buffer> o <CR>
-      nmap <buffer> O <CR>:Lexplore<CR>
-      nmap <buffer> <Leader>dd :Lexplore<CR>
+      nmap <buffer><nowait> o <CR>
+      nmap <buffer> <C-j> <C-w>j
+      nmap <buffer> <C-k> <C-w>k
+      nmap <buffer> <C-l> <C-w>l
+      nmap <buffer> <C-h> <C-w>h
     endfunction
 
     augroup netrw_mapping
