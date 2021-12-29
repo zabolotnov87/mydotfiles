@@ -146,7 +146,6 @@
 
   " appearance
   Plug 'chriskempson/base16-vim'
-  Plug 'folke/twilight.nvim'
   Plug 'folke/zen-mode.nvim'
   Plug 'lukas-reineke/indent-blankline.nvim'
 
@@ -162,7 +161,7 @@
   " others
   Plug 'nvim-lua/plenary.nvim'  " general utils
   Plug 'windwp/nvim-autopairs'
-  Plug 'VincentCordobes/vim-translate'
+  Plug 'preservim/nerdtree'
   Plug 'knsh14/vim-github-link'
   Plug 'Pocco81/AutoSave.nvim'
   Plug 'DataWraith/auto_mkdir'
@@ -185,24 +184,11 @@
 " }}}
 
 " Plugins Settings {{{
-  " netrw {{{
-    let g:netrw_localcopydircmd = 'cp -r'
-
-    nnoremap <leader>dd :Lexplore %:p:h<CR>
-    nnoremap <Leader>da :Lexplore<CR>
-
-    function! NetrwMapping()
-      nmap <buffer><nowait> o <CR>
-      nmap <buffer> <C-j> <C-w>j
-      nmap <buffer> <C-k> <C-w>k
-      nmap <buffer> <C-l> <C-w>l
-      nmap <buffer> <C-h> <C-w>h
-    endfunction
-
-    augroup netrw_mapping
-      autocmd!
-      autocmd filetype netrw call NetrwMapping()
-    augroup END
+  " nerdtree {{{
+    let NERDTreeShowHidden=1
+    let NERDTreeWinSize = 45
+    nnoremap <silent> <C-e> :NERDTreeToggle<CR>
+    nnoremap <silent> <Leader>e :NERDTreeFind<CR>
   " }}}
 
   " autocompletion (via ddc plugin) {{{
@@ -323,13 +309,6 @@
     lua require('configs/lsp')
 
     call SetupLspDiagnosticHighlight()
-  " }}}
-
-  " twilight {{{
-    " Twilight: toggle twilight
-    " TwilightEnable: enable twilight
-    " TwilightDisable: disable twilight
-    lua require("twilight").setup{}
   " }}}
 
   " zen-mode {{{
