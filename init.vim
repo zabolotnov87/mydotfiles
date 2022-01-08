@@ -55,8 +55,7 @@
 
   set termguicolors
 
-  " Disable vim auto visual mode using mouse
-  set mouse-=a
+  set mouse=a
 
   set ruler       " show the cursor position all the time
   set cursorline  " color current line
