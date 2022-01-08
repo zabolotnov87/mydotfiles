@@ -1,6 +1,6 @@
 " vim:foldmethod=marker:foldminlines=1
 
-" Common settings {{{
+" Basic settings {{{
   syntax enable
   filetype plugin indent on
   let mapleader=','
@@ -92,7 +92,6 @@
   set incsearch
   set hlsearch  " Enable search highlighting,
   nohlsearch    " but do not highlight last search on startup
-
 " }}}
 
 " Apply local settings {{{
@@ -158,9 +157,9 @@
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
   " others
-  Plug 'nvim-lua/plenary.nvim'  " general utils
+  Plug 'nvim-lua/plenary.nvim' " general utils
   Plug 'windwp/nvim-autopairs'
-  Plug 'preservim/nerdtree'
+  Plug 'preservim/nerdtree'    " file system explorer
   Plug 'knsh14/vim-github-link'
   Plug 'Pocco81/AutoSave.nvim'
   Plug 'DataWraith/auto_mkdir'
@@ -407,7 +406,6 @@
     nnoremap <leader>gw "zyiw:exe "Gf ".@z.""<CR>
     nnoremap <leader>gf :GFiles?<CR>
   " }}}
-
 " }}}
 
 " Functions {{{
@@ -557,7 +555,6 @@
       autocmd BufWritePre * :call <SID>strip_trailing_whitespaces()
 
       autocmd FileType gitcommit setlocal colorcolumn=80
-      autocmd FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 
       " Allow to open source code of selected plugin in new tab
       autocmd FileType vim nmap <buffer> <leader>o :normal vil<CR> :call
@@ -570,9 +567,6 @@
 
     augroup Ruby
       autocmd!
-      autocmd FileType ruby compiler ruby
-      autocmd Filetype ruby set keywordprg=ri\ -f\ rdoc
-
       " Allow to open source code of selected gem in new tab
       autocmd FileType ruby nmap <buffer> <leader>o :normal vil<CR> :call
         \ OpenGem(<SID>get_selected_text())<CR>
