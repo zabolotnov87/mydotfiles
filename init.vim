@@ -284,6 +284,10 @@
     nnoremap <Leader>gs :Git<CR>
     nnoremap <Leader>gb :Git blame<CR>
     nnoremap <Leader>gd :Gdiff<CR>
+    augroup Fugitive
+      autocmd!
+      autocmd FileType fugitive nmap <buffer> q gq
+    augroup END
   " }}}
 
     lua require('kommentary.config').use_default_mappings()
@@ -357,7 +361,6 @@
 
     nnoremap <silent> <leader>r :TestNearest<CR>
     nnoremap <silent> <leader>ar :TestFile<CR>
-    nnoremap <silent> <leader>lt :TestVisit<CR>
   " }}}
 
   " vim-translate {{{
@@ -538,6 +541,7 @@
   " locklist navigation
   nnoremap <silent> ]w :lnext<CR>
   nnoremap <silent> [w :lprevious<CR>
+  nnoremap <silent> <leader>l :lopen<CR>
 
   nnoremap <silent> <leader>nt :tabe<CR>
   nnoremap <leader>w :wa<CR>
