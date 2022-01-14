@@ -55,7 +55,8 @@
 
   set termguicolors
 
-  set mouse=a
+  " Disable mouse
+  set mouse-=a
 
   set ruler       " show the cursor position all the time
   set cursorline  " color current line
@@ -286,7 +287,7 @@
     nnoremap <Leader>gd :Gdiff<CR>
     augroup Fugitive
       autocmd!
-      autocmd FileType fugitive nmap <buffer> q gq
+      autocmd FileType fugitive,fugitiveblame nmap <buffer> q gq
     augroup END
   " }}}
 
