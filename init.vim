@@ -568,6 +568,7 @@
       autocmd TermOpen * setlocal nonumber norelativenumber
 
       autocmd TextYankPost * silent! lua vim.highlight.on_yank{timeout=150, on_visual=false}
+      autocmd FileType lspinfo nmap <buffer> q <esc>
     augroup END
 
     augroup Ruby
