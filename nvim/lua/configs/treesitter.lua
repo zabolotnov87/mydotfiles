@@ -5,6 +5,7 @@ require("nvim-treesitter.configs").setup{
     "javascript",
     "typescript",
     "lua",
+    "rust",
   },
   highlight = {
     -- false will disable the whole extension

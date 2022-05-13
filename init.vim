@@ -239,6 +239,8 @@
     let g:loaded_gentags#gtags = 1
     let g:gen_tags#blacklist = ['spec']
     let g:gen_tags#ctags_opts = '--languages=ruby'
+    let g:gen_tags#ctags_auto_gen = 1
+    let g:gen_tags#ctags_auto_update = 1
   " }}}
 
   " ale {{{
@@ -542,7 +544,7 @@
   " locklist navigation
   nnoremap <silent> ]w :lnext<CR>
   nnoremap <silent> [w :lprevious<CR>
-  nnoremap <silent> <leader>l :lopen<CR>
+  nnoremap <silent> <leader>lo :lopen<CR>
 
   nnoremap <silent> <leader>nt :tabe<CR>
   nnoremap <leader>w :wa<CR>
