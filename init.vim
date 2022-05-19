@@ -159,7 +159,6 @@
 
   " others
   Plug 'nvim-lua/plenary.nvim' " general utils
-  Plug 'windwp/nvim-autopairs'
   Plug 'preservim/nerdtree'    " file system explorer
   Plug 'knsh14/vim-github-link'
   Plug 'Pocco81/AutoSave.nvim'
