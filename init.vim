@@ -297,7 +297,6 @@
     lua require('configs/toggleterm')
     lua require('configs/treesitter')
     lua require('configs/hop')
-    lua require('configs/autopairs')
     lua require('configs/autosave')
     lua require('configs/textobjects')
 
@@ -363,14 +362,6 @@
 
     nnoremap <silent> <leader>r :TestNearest<CR>
     nnoremap <silent> <leader>ar :TestFile<CR>
-  " }}}
-
-  " vim-translate {{{
-    let g:translate#default_languages = {
-      \ 'ru': 'en',
-      \ 'en': 'ru'
-      \ }
-    vnoremap <silent> <leader>t :TranslateVisual<CR>
   " }}}
 
   " fzf {{{
