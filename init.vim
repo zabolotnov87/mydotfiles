@@ -235,11 +235,10 @@
   " }}}
 
   " gen_tags {{{
-    let g:loaded_gentags#gtags = 1
+    let g:loaded_gentags#gtags = 1 " disable gtags
     let g:gen_tags#blacklist = ['spec']
     let g:gen_tags#ctags_opts = '--languages=ruby'
     let g:gen_tags#ctags_auto_gen = 1
-    let g:gen_tags#ctags_auto_update = 1
   " }}}
 
   " ale {{{
