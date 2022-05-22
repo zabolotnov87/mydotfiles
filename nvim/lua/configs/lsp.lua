@@ -26,19 +26,14 @@ local on_attach = function(client, bufnr)
   -- Mappings
   local opts = { noremap=true, silent=true }
 
-  buf_set_keymap('n', '<leader>lde', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', '<leader>ldf', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  -- TODO: set loclist automatically vim.diagnostic.setloclist()
+  --
+  buf_set_keymap('n', '<c-]>',       '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'K',           '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', '<leader>li',  '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<leader>le',  '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   buf_set_keymap('n', ']e',          '<cmd>lua vim.lsp.diagnostic.goto_next({popup_opts = {focusable = false }})<cr>', opts)
   buf_set_keymap('n', '[e',          '<cmd>lua vim.lsp.diagnostic.goto_prev({popup_opts = {focusable = false }})<cr>', opts)
   buf_set_keymap('n', '<leader>la',  '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', '<leader>lf',  '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-  buf_set_keymap('n', '<leader>ls',  '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<leader>lwa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<leader>lwr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<leader>lwl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '=',           '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
   buf_set_keymap('n', '<leader>lt',  '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   buf_set_keymap('n', '<leader>lr',  '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap('n', '<leader>lR',  '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
@@ -46,7 +41,11 @@ end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-local servers = vim.g.lsp_servers or {}
+local servers = vim.g.lsp_servers or {
+  'rust_analyzer',
+  'gopls',
+  'tsserver',
+}
 
 for _, server in ipairs(servers) do
   lsp[server].setup {
