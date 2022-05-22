@@ -315,17 +315,11 @@
 
   " zen-mode {{{
     lua require("configs/zenmode")
-    nnoremap <silent> <Leader>go :ZenMode<CR>
   " }}}
 
   " indent-blankline {{{
     lua require('configs/indent-blankline')
     let g:indent_blankline_enabled = v:false
-    nnoremap <leader>it :IndentBlanklineToggle<CR>
-  " }}}
-
-  " vim-github-link {{{
-    nnoremap gcp :GetCommitLink<CR>
   " }}}
 
   " vimwiki {{{
