@@ -530,7 +530,6 @@
 
   nnoremap <silent> <leader>nt :tabe<CR>
   nnoremap <leader>w :wa<CR>
-  nnoremap <leader>x :xa<CR>
 
   nnoremap * :keepjumps normal! mi*`i<CR>
 " }}}
