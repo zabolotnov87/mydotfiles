@@ -484,7 +484,6 @@
   nnoremap <leader>k :bd!<CR>
   nnoremap <leader>c <C-w>c
 
-  " vmap for maintain Visual Mode after shifting > and <
   vnoremap < <gv
   vnoremap > >gv
 
