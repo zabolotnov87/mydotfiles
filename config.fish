@@ -14,9 +14,9 @@ alias efc  "vi ~/.config/fish/config.fish && lfc"
 alias evrc "vi ~/.config/nvim/init.vim"
 alias elc  "vi ~/.config.fish.local && lfc"
 alias efp  "vi ~/.config/fish/functions/fish_prompt.fish"
-alias pf  "ps aux | fzf"
+alias pf   "ps aux | fzf"
 alias drmi "docker images -qf dangling=true | xargs docker rmi -f"
-alias t "tree"
+alias t    "tree"
 
 # Git
 alias ga     "git a -p"
@@ -109,11 +109,16 @@ function rn
   find . -type f -name $name -not -path './vendor/*' -print | xargs sed -i '' -e "s/$old/$new/g"
 end
 
+if test -e /opt/homebrew/bin/brew
+  eval $(/opt/homebrew/bin/brew shellenv)
+end
+
 bind \cb fco
 bind \ct fzf
 
 set -e -g FZF_DEFAULT_OPTS
 set -U FZF_DEFAULT_OPTS '--reverse --height 60%'
+mkdir -p $HOME/tmp
 set -gx FZF_DEFAULT_OPTS_FILE "$HOME/tmp/fzf_default_opts"
 
 test -e $FZF_DEFAULT_OPTS_FILE; or echo $FZF_DEFAULT_OPTS > $FZF_DEFAULT_OPTS_FILE
@@ -130,26 +135,23 @@ mkdir -p ~/bin
 fish_add_path ~/bin
 
 # Rust
-fish_add_path ~/.cargo/bin
-
-# Go
-set -gx GOPATH ~/go
-set -gx GOBIN $GOPATH/bin
-mkdir -p $GOBIN
-fish_add_path $GOBIN
+if test -e ~/.cargo/bin
+  fish_add_path ~/.cargo/bin
+end
 
 # Remove greeting
 set fish_greeting
 
 # Configure direnv
+set -gx DIRENV_LOG_FORMAT ""
 eval (direnv hook fish)
 if test -e .envrc
   direnv allow
 end
 
-# Setup asdf
-set -gx DIRENV_LOG_FORMAT ""
-source ~/.asdf/asdf.fish
+if test -e ~/.asdf/asdf.fish
+  source ~/.asdf/asdf.fish
+end
 
 # Setup base16 colorscheme (shell, fzf)
 set -l base16_dir ~/.config/base16
@@ -162,4 +164,6 @@ if test -e ~/.base16_fzf
 end
 
 # Local settings
-source ~/.config.fish.local
+if test -e ~/.config.fish.local
+  source ~/.config.fish.local
+end

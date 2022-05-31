@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -euo pipefail
+
+BASE=$(pwd)
+
+xcode-select --install || echo 'dev tools are already installed'
+
+# Install homebrew
+which brew || bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+eval $(/opt/homebrew/bin/brew shellenv)
+
+# Basic utils
+brew install rectangle
+brew install coreutils
+brew install gpg
+brew install direnv
+brew install rg
+brew install tree
+brew install htop
+brew install languagetool
+brew install ctags
+brew install jq
+brew install kitty
+
+# Configure kitty
+mkdir -p ~/.config/kitty
+ln -sf $BASE/kitty.conf ~/.config/kitty/kitty.conf

@@ -2,34 +2,34 @@ SHELL = bash
 
 .PHONY: fonts
 
-default: packages git fish fzf asdf vim tmux base16 fonts done
+default: brew git fish fzf langs neovim tmux base16 fonts done
 
-packages:
-	./scripts/install_packages
+brew:
+	./scripts/brew
 
 git:
-	./scripts/install_git
+	./scripts/git
 
 fish:
-	./scripts/install_fish
+	./scripts/fish
 
 fzf:
-	./scripts/install_fzf
+	./scripts/fzf
 
-asdf:
-	./scripts/install_asdf
+langs:
+	./scripts/langs
 
-vim:
-	./scripts/install_vim
+neovim:
+	./scripts/neovim
 
 tmux:
-	./scripts/install_tmux
+	./scripts/tmux
 
 base16:
-	./scripts/install_base16
+	./scripts/base16
 
 fonts:
-	./scripts/install_fonts
+	./scripts/fonts
 
 done:
 	@printf "\nDone! Please, restart shell.\n"

@@ -4,17 +4,11 @@ set -euo pipefail
 
 BASE=$(pwd)
 
-brew install fish || brew upgrade fish
+eval $(/opt/homebrew/bin/brew shellenv)
 
 mkdir -p ~/.config/fish
 ln -sf $BASE/config.fish ~/.config/fish/config.fish
 ln -sf $BASE/fish_plugins ~/.config/fish/fish_plugins
-
-# Make fish default shell
-if [ ! $(grep "fish" /etc/shells) ]; then
-  sudo echo "/usr/local/bin/fish" >> /etc/shells
-  chsh -s /usr/local/bin/fish
-fi
 
 if [ ! -f ~/.config.fish.local ]; then
   cat << EOF > ~/.config.fish.local
@@ -22,5 +16,14 @@ if [ ! -f ~/.config.fish.local ]; then
 EOF
 fi
 
+brew install fish
+
 echo 'Install Fisher (https://github.com/jorgebucaran/fisher)'
 fish -c 'curl -sL https://git.io/fisher | source && fisher update'
+
+if [ ! $(grep "fish" /etc/shells) ]; then
+  echo $(which fish) | sudo tee -a /etc/shells
+fi
+
+# Make fish default shell
+chsh -s $(which fish)

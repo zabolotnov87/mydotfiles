@@ -4,10 +4,12 @@ set -euo pipefail
 
 BASE=$(pwd)
 
+eval $(/opt/homebrew/bin/brew shellenv)
+
+brew install git
+
 GIT_NAME='Sergey Zabolotnov'
 GIT_EMAIL='sergey.zabolotnov@gmail.com'
-
-brew install git || brew upgrade git
 
 ln -sf $BASE/gitignore ~/.gitignore
 ln -sf $BASE/gitconfig ~/.gitconfig
