@@ -64,7 +64,7 @@
 
   " wrap long lines
   set wrap
-  set showbreak=↪\
+  set showbreak=
 
   " display extra whitespace
   set listchars=tab:▸\ ,trail:·,extends:❯,precedes:❮,nbsp:×
@@ -458,6 +458,7 @@
   command! Confl call Confl()
   command! Bd %bd!|e#
   command! -nargs=+ Gf execute 'silent Ggrep' <q-args> $FZF_IGNORE_LIST_FOR_GIT_GREP . ' | copen'
+  command! Todo silent grep -R TODO .
 " }}}
 
 " Common mappings {{{
@@ -552,6 +553,10 @@
 
       autocmd TextYankPost * silent! lua vim.highlight.on_yank{timeout=150, on_visual=false}
       autocmd FileType lspinfo nmap <buffer> q <esc>
+
+      " Automatically open quickfix and locklist
+      autocmd QuickFixCmdPost [^l]* cwindow
+      autocmd QuickFixCmdPost l*    lwindow
     augroup END
 
     augroup Ruby
@@ -571,6 +576,10 @@
       autocmd BufEnter *.jbuilder setlocal filetype=ruby
       " Support sorbet rbi
       autocmd BufEnter *.rbi setlocal filetype=ruby
+    augroup END
+
+    augroup AutomaticallyOpenQucklistAndLoclist
+      autocmd!
     augroup END
 
     augroup JS
