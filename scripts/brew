@@ -22,6 +22,7 @@ brew install languagetool
 brew install ctags
 brew install jq
 brew install kitty
+brew install httpie
 
 # Configure kitty
 mkdir -p ~/.config/kitty
