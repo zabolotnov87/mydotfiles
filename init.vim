@@ -241,7 +241,7 @@
     let g:gen_tags#ctags_auto_gen = 1
   " }}}
 
-  " ale {{{
+  " ale (used for ruby only) {{{
     let g:ale_set_loclist = 1
     let g:ale_set_quickfix = 0
     " let g:ale_open_list = 1
