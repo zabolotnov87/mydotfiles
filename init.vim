@@ -527,7 +527,6 @@
   " locklist navigation
   nnoremap <silent> ]w :lnext<CR>
   nnoremap <silent> [w :lprevious<CR>
-  nnoremap <silent> <leader>lo :lopen<CR>
 
   nnoremap <silent> <leader>nt :tabe<CR>
   nnoremap <leader>w :wa<CR>
