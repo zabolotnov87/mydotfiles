@@ -235,10 +235,11 @@
   " }}}
 
   " gen_tags {{{
-    let g:loaded_gentags#gtags = 1 " disable gtags
-    let g:gen_tags#blacklist = ['spec']
-    let g:gen_tags#ctags_opts = '--languages=ruby'
-    let g:gen_tags#ctags_auto_gen = 1
+    let g:loaded_gentags#gtags = 1 " disable gtags for osx
+    " for git, store tags into `<project folder>/.git/tags_dir`
+    let g:gen_tags#use_cache_dir = 0
+    let g:gen_tags#ctags_auto_gen = 0 " disable auto generation
+    " let g:gen_tags#ctags_opts = '--languages=ruby'
   " }}}
 
   " ale (used for ruby only) {{{
