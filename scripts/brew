@@ -19,7 +19,7 @@ brew install rg
 brew install tree
 brew install htop
 brew install languagetool
-brew install ctags
+brew install universal-ctags
 brew install jq
 brew install kitty
 brew install httpie
