@@ -26,17 +26,16 @@ local on_attach = function(client, bufnr)
   -- Mappings
   local opts = { noremap=true, silent=true }
 
-  -- TODO: set loclist automatically vim.diagnostic.setloclist()
-  --
-  buf_set_keymap('n', '<c-]>',       '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'K',           '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', ']e',          '<cmd>lua vim.lsp.diagnostic.goto_next({popup_opts = {focusable = false }})<cr>', opts)
-  buf_set_keymap('n', '[e',          '<cmd>lua vim.lsp.diagnostic.goto_prev({popup_opts = {focusable = false }})<cr>', opts)
-  buf_set_keymap('n', '<leader>la',  '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', '=',           '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-  buf_set_keymap('n', '<leader>lt',  '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<leader>lr',  '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<leader>lR',  '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<c-]>',      '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K',          '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', '<leader>ll', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
+  buf_set_keymap('n', ']e',         '<cmd>lua vim.diagnostic.goto_next({popup_opts = {focusable = false }})<cr>', opts)
+  buf_set_keymap('n', '[e',         '<cmd>lua vim.diagnostic.goto_prev({popup_opts = {focusable = false }})<cr>', opts)
+  buf_set_keymap('n', '<leader>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', '=',          '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  buf_set_keymap('n', '<leader>lt', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<leader>lr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<leader>lR', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()

@@ -526,8 +526,9 @@
   nnoremap <silent> <C-p> :cprevious<CR>
 
   " locklist navigation
-  nnoremap <silent> ]w :lnext<CR>
-  nnoremap <silent> [w :lprevious<CR>
+  nnoremap <silent> <leader>ll :lopen<CR>
+  nnoremap <silent> ]e :lnext<CR>
+  nnoremap <silent> [e :lprevious<CR>
 
   nnoremap <silent> <leader>nt :tabe<CR>
   nnoremap <leader>w :wa<CR>
@@ -576,10 +577,6 @@
       autocmd BufEnter *.jbuilder setlocal filetype=ruby
       " Support sorbet rbi
       autocmd BufEnter *.rbi setlocal filetype=ruby
-    augroup END
-
-    augroup AutomaticallyOpenQucklistAndLoclist
-      autocmd!
     augroup END
 
     augroup JS
