@@ -323,14 +323,6 @@
     let g:indent_blankline_enabled = v:false
   " }}}
 
-  " vimwiki {{{
-    let g:vimwiki_list = [{
-          \ 'path': '~/Dropbox/wiki/',
-          \ 'syntax': 'markdown',
-          \ 'ext': '.md',
-          \ }]
-  " }}}
-
   " neoterm {{{
     let g:neoterm_shell='fish'
     let g:neoterm_automap_keys = v:false
@@ -534,6 +526,9 @@
   nnoremap <leader>w :wa<CR>
 
   nnoremap * :keepjumps normal! mi*`i<CR>
+
+  " Search word under the cursor and populate quickfix
+  nnoremap <leader>sw "zyiw:exe "silent grep -R --exclude-dir={".g:fzf_ignore_list."} ".@z." ."<CR>
 " }}}
 
 " Autogroups {{{
