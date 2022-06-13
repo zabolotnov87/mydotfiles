@@ -181,6 +181,14 @@
   endif
 " }}}
 
+" Commands required by plugins settings {{{
+  command! -nargs=+ S execute 'silent grep -R --exclude-dir={'
+                                              \ . g:fzf_ignore_list
+                                              \ . '} '
+                                              \ . <q-args>
+                                              \ . ' .'
+" }}}
+
 " Plugins Settings {{{
   " nerdtree {{{
     let NERDTreeShowHidden=1
@@ -280,6 +288,24 @@
     let g:UltiSnipsListSnippets='<c-l>'
     let g:UltiSnipsSnippetDirectories=[$HOME.'/.config/nvim/snips']
     let g:UltiSnipsEditSplit='vertical'
+  " }}}
+
+  " vimwiki {{{
+    let g:vimwiki_list = [{
+      \ 'path': '~/Dropbox/wiki/',
+      \ 'syntax': 'markdown',
+      \ 'ext': '.md',
+      \ 'auto_tags': 1,
+      \ }]
+
+    if exists('g:vimwiki_enabled')
+      augroup Vimwiki
+        autocmd!
+        " Search by tags
+        autocmd FileType vimwiki nnoremap <silent> <leader>st "zyiw:exe "S :".@z.":"<CR>
+        autocmd FileType vimwiki command! -buffer -nargs=* -complete=custom,vimwiki#tags#complete_tags St :S :<args>:
+      augroup END
+    endif
   " }}}
 
   " fugitive {{{
@@ -451,7 +477,7 @@
   command! Confl call Confl()
   command! Bd %bd!|e#
   command! -nargs=+ Gf execute 'silent Ggrep' <q-args> $FZF_IGNORE_LIST_FOR_GIT_GREP . ' | copen'
-  command! Todo silent grep -R TODO .
+  command! Todo :S TODO
 " }}}
 
 " Common mappings {{{
@@ -528,7 +554,7 @@
   nnoremap * :keepjumps normal! mi*`i<CR>
 
   " Search word under the cursor and populate quickfix
-  nnoremap <leader>sw "zyiw:exe "silent grep -R --exclude-dir={".g:fzf_ignore_list."} ".@z." ."<CR>
+  nnoremap <silent> <leader>sw "zyiw:exe "S ".@z<CR>
 " }}}
 
 " Autogroups {{{
