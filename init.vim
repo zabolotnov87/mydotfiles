@@ -93,6 +93,9 @@
   set incsearch
   set hlsearch  " Enable search highlighting,
   nohlsearch    " but do not highlight last search on startup
+
+  " Use ripgrep for search instead of grep
+  set grepprg=rg\ --vimgrep\ --smart-case\ --follow
 " }}}
 
 " Apply local settings {{{
@@ -182,11 +185,10 @@
 " }}}
 
 " Commands required by plugins settings {{{
-  command! -nargs=+ S execute 'silent grep -R --exclude-dir={'
-                                              \ . g:fzf_ignore_list
-                                              \ . '} '
-                                              \ . <q-args>
-                                              \ . ' .'
+  command! -nargs=+ Grep execute 'silent grep!'
+        \ . ' --line-number'
+        \ . ' --no-heading'
+        \ . ' -g "!{' . g:fzf_ignore_list . '}" ' . <q-args> . ' .'
 " }}}
 
 " Plugins Settings {{{
@@ -302,8 +304,8 @@
       augroup Vimwiki
         autocmd!
         " Search by tags
-        autocmd FileType vimwiki nnoremap <silent> <leader>st "zyiw:exe "S :".@z.":"<CR>
-        autocmd FileType vimwiki command! -buffer -nargs=* -complete=custom,vimwiki#tags#complete_tags St :S :<args>:
+        autocmd FileType vimwiki nnoremap <silent> <leader>st "zyiw:exe "Grep :".@z.":"<CR>
+        autocmd FileType vimwiki command! -buffer -nargs=* -complete=custom,vimwiki#tags#complete_tags St :Grep :<args>:
       augroup END
     endif
   " }}}
