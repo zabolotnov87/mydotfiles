@@ -478,7 +478,7 @@
   command! Conf call Conf()
   command! Confl call Confl()
   command! Bd %bd!|e#
-  command! -nargs=+ Gf execute 'silent Ggrep' <q-args> $FZF_IGNORE_LIST_FOR_GIT_GREP . ' | copen'
+  command! -nargs=+ Gf execute 'silent Ggrep' <q-args> . ' -- ' . $FZF_IGNORE_LIST_FOR_GIT_GREP . ' | copen'
   command! Todo :S TODO
 " }}}
 
