@@ -5,8 +5,6 @@
   filetype plugin indent on
   let mapleader=','
 
-  set nocompatible
-  set shell=/bin/bash
   set exrc
   set secure
   set modelines=1
@@ -14,11 +12,9 @@
   " ALWAYS use the clipboard for ALL operations
   set clipboard+=unnamedplus
 
-  " This enables us to undo files even if you exit Vim.
-  if has('persistent_undo')
-    set undofile
-    set undodir=~/tmp/nvim/undo/
-  endif
+  " This enables us to undo files even if you exit Vim
+  set undofile
+  set undodir=~/tmp/nvim/undo/
 
   " Buffer should still exist if window is closed
   set hidden
@@ -36,8 +32,6 @@
 
   set laststatus=2 " always show statusline
 
-  set colorcolumn=100
-
   " Increase maximum amount of memory (in Kbyte) to use for pattern matching.
   set maxmempattern=20000
 
@@ -51,8 +45,6 @@
   set shiftround
   set expandtab
 
-  set backspace=indent,eol,start  " Makes backspace key more powerful.
-
   set termguicolors
 
   " Disable mouse
@@ -60,12 +52,13 @@
 
   set ruler       " show the cursor position all the time
   set cursorline  " color current line
-  set list        " show invisible characters
 
   " wrap long lines
   set wrap
   set showbreak=
 
+  " show invisible characters
+  set list
   " display extra whitespace
   set listchars=tab:▸\ ,trail:·,extends:❯,precedes:❮,nbsp:×
 
@@ -149,7 +142,6 @@
   " appearance
   Plug 'chriskempson/base16-vim'
   Plug 'folke/zen-mode.nvim'
-  Plug 'lukas-reineke/indent-blankline.nvim'
 
   " syntax and indentations
   Plug 'hallison/vim-rdoc'
@@ -184,11 +176,6 @@
   endif
 " }}}
 
-" Commands required by plugins settings {{{
-  command! -nargs=+ Grep execute 'silent grep!'
-        \ . ' --line-number'
-        \ . ' --no-heading'
-        \ . ' -g "!{' . g:fzf_ignore_list . '}" ' . <q-args> . ' .'
 " }}}
 
 " Plugins Settings {{{
@@ -346,11 +333,6 @@
     lua require("configs/zenmode")
   " }}}
 
-  " indent-blankline {{{
-    lua require('configs/indent-blankline')
-    let g:indent_blankline_enabled = v:false
-  " }}}
-
   " neoterm {{{
     let g:neoterm_shell='fish'
     let g:neoterm_automap_keys = v:false
@@ -479,6 +461,10 @@
   command! Confl call Confl()
   command! Bd %bd!|e#
   command! -nargs=+ Gf execute 'silent Ggrep' <q-args> . ' -- ' . $FZF_IGNORE_LIST_FOR_GIT_GREP . ' | copen'
+  command! -nargs=+ Grep execute 'silent grep!'
+        \ . ' --line-number'
+        \ . ' --no-heading'
+        \ . ' -g "!{' . g:fzf_ignore_list . '}" ' . <q-args> . ' .'
   command! Todo :Grep TODO
 " }}}
 

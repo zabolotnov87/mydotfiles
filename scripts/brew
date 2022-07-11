@@ -11,7 +11,7 @@ which brew || bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/i
 eval $(/opt/homebrew/bin/brew shellenv)
 
 # Basic utils
-brew install rectangle
+brew install rectangle # see ../RectangleConfig.json
 brew install coreutils
 brew install gpg
 brew install direnv
