@@ -47,8 +47,7 @@
 
   set termguicolors
 
-  " Disable mouse
-  set mouse-=a
+  set mouse=nvi
 
   set ruler       " show the cursor position all the time
   set cursorline  " color current line
