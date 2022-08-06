@@ -156,7 +156,7 @@
   Plug 'nvim-lua/plenary.nvim' " general utils
   Plug 'preservim/nerdtree'    " file system explorer
   Plug 'knsh14/vim-github-link'
-  Plug 'Pocco81/AutoSave.nvim'
+  Plug 'pocco81/auto-save.nvim'
   Plug 'DataWraith/auto_mkdir'
   Plug 'dense-analysis/ale'
   Plug 'jsfaint/gen_tags.vim'
