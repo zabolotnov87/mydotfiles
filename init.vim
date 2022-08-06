@@ -542,7 +542,7 @@
   nnoremap * :keepjumps normal! mi*`i<CR>
 
   " Search word under the cursor and populate quickfix
-  nnoremap <silent> <leader>sw "zyiw:exe "S ".@z<CR>
+  nnoremap <silent> <leader>sw "zyiw:exe "Grep ".@z<CR>
 " }}}
 
 " Autogroups {{{
