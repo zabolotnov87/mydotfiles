@@ -121,18 +121,6 @@
   " Snippets manager
   Plug 'SirVer/ultisnips'
 
-  " autocompletion
-  Plug 'vim-denops/denops.vim'
-  Plug 'Shougo/ddc.vim'
-  Plug 'Shougo/ddc-around'
-  Plug 'Shougo/ddc-matcher_head'
-  Plug 'Shougo/ddc-sorter_rank'
-  Plug 'tani/ddc-fuzzy'
-  Plug 'matsui54/ddc-ultisnips'
-  Plug 'matsui54/ddc-buffer'
-  Plug 'delphinus/ddc-treesitter'
-  Plug 'Shougo/ddc-nvim-lsp'
-
   " lsp
   Plug 'neovim/nvim-lspconfig'
 
@@ -181,51 +169,6 @@
     let NERDTreeWinSize = 45
     nnoremap <silent> <C-e> :NERDTreeToggle<CR>
     nnoremap <silent> <Leader>e :NERDTreeFind<CR>
-  " }}}
-
-  " autocompletion (via ddc plugin) {{{
-    set completeopt=menuone,noselect
-    set shortmess+=c " don't pass messages to ins-completion-menu
-
-    call ddc#custom#patch_global('sources', ['around', 'ultisnips', 'buffer', 'treesitter', 'nvim-lsp'])
-
-    call ddc#custom#patch_global('sourceOptions', {
-      \   'ultisnips': {'mark': 'US'},
-      \   'around': {'mark': 'A'},
-      \   'buffer': {'mark': 'B'},
-      \   'treesitter': {'mark': 'T'},
-      \   'nvim-lsp': {'mark': 'LSP', 'forceCompletionPattern': '\.\w*|:\w*|->\w*'},
-      \   '_': {
-      \     'ignoreCase': v:true,
-      \     'matchers': ['matcher_fuzzy'],
-      \     'sorters': ['sorter_fuzzy'],
-      \     'converters': ['converter_fuzzy']
-      \   }
-      \ })
-
-    call ddc#custom#patch_global('sourceParams', {
-      \ 'buffer': {
-      \   'requireSameFiletype': v:false,
-      \   'fromAltBuf': v:true,
-      \   'forceCollect': v:true,
-      \ },
-      \ })
-
-    call ddc#custom#patch_global('filterParams', {
-      \   'matcher_fuzzy': {
-      \     'splitMode': 'character'
-      \   }
-      \ })
-
-    inoremap <silent><expr> <TAB>
-      \ pumvisible() ? '<C-n>' :
-      \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-      \ '<TAB>' : ddc#map#manual_complete()
-
-    inoremap <silent><expr> <C-j> pumvisible() ? '<C-n>' : '<Down>'
-    inoremap <silent><expr> <C-k> pumvisible() ? '<C-p>' : '<Up>'
-
-    call ddc#enable()
   " }}}
 
   " gen_tags {{{
