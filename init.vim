@@ -179,20 +179,15 @@
     " let g:gen_tags#ctags_opts = '--languages=ruby'
   " }}}
 
-  " ale (used for ruby only) {{{
-    let g:ale_set_loclist = 1
+  " ale (used for ruby only, disabled by default) {{{
+    let g:ale_enabled = 0
+    let g:ale_set_loclist = 0
     let g:ale_set_quickfix = 0
-    " let g:ale_open_list = 1
     let g:ale_linters = {'ruby': ['rubocop']}
     let g:ale_linters_explicit = 1
     let g:ale_fixers = {'ruby': ['rubocop']}
     let g:ale_ruby_rubocop_executable = 'rubocop-daemon-wrapper'
     let g:ale_ruby_rubocop_auto_correct_all = 1
-    " let g:ale_sign_error = ''
-    " let g:ale_sign_warning = ''
-    " let g:ale_virtualtext_cursor = 1
-    " let g:ale_virtualtext_prefix = '► '
-    let g:ale_enabled = 0
 
     function! SetupAleDiagnosticHighlight() abort
       let guibg_linenr = synIDattr(synIDtrans(hlID('LineNr')), 'bg', 'gui')
@@ -201,6 +196,8 @@
     endfunction
 
     nnoremap <silent> <Leader>af :ALEFix<CR>
+    nnoremap <silent> ]e :ALENextWrap<CR>
+    nnoremap <silent> [e :ALEPreviousWrap<CR>
 
     augroup Ale
       autocmd!
@@ -470,11 +467,6 @@
   " quickfix navigation
   nnoremap <silent> <C-n> :cnext<CR>
   nnoremap <silent> <C-p> :cprevious<CR>
-
-  " locklist navigation
-  nnoremap <silent> <leader>ll :lopen<CR>
-  nnoremap <silent> ]e :lnext<CR>
-  nnoremap <silent> [e :lprevious<CR>
 
   nnoremap <silent> <leader>nt :tabe<CR>
   nnoremap <leader>w :wa<CR>
