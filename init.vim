@@ -176,8 +176,6 @@
   endif
 " }}}
 
-" }}}
-
 " Plugins Settings {{{
   " nerdtree {{{
     let NERDTreeShowHidden=1
