@@ -391,6 +391,20 @@
       execute 'source' a:file
     endif
   endfunction
+
+  function! RubyGoToSpec() abort
+    let current_path = expand('%')
+    let spec_path = substitute(current_path, '.rb', '_spec.rb', 'g')
+    let spec_path = 'spec/' . substitute(spec_path, 'app/', '', 'g')
+    execute('e ' . spec_path)
+  endfunction
+
+  function! RubyGoFromSpec() abort
+    let spec_path = expand('%')
+    let path = substitute(spec_path, '_spec', '', 'g')
+    let path = substitute(path, 'spec/', 'app/', 'g')
+    execute('e ' . path)
+  endfunction
 " }}}
 
 " Commands {{{
@@ -518,6 +532,9 @@
       autocmd BufEnter *.jbuilder setlocal filetype=ruby
       " Support sorbet rbi
       autocmd BufEnter *.rbi setlocal filetype=ruby
+
+      autocmd FileType ruby command! GoToSpec call RubyGoToSpec()
+      autocmd FileType ruby command! GoFromSpec call RubyGoFromSpec()
     augroup END
 
     augroup JS
