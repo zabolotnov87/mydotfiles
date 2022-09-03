@@ -28,7 +28,6 @@ brew install neovim
 brew install deno
 
 # Need for UltiSnip plugin (see SirVer/ultisnips)
-brew install python3
 python3 -m pip install --user --upgrade pynvim
 
 gem install neovim
