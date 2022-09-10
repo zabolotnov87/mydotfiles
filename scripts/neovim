@@ -24,19 +24,10 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 
 brew install neovim
 
-# Used for autocompletion
-brew install deno
-
 # Need for UltiSnip plugin (see SirVer/ultisnips)
 python3 -m pip install --user --upgrade pynvim
 
 gem install neovim
 npm install -g neovim
 
-# Install LSP server for typescript (tsserver)
-npm install -g typescript typescript-language-server
-
 nvim +PlugInstall +qall
-
-# Install LSP server for rust
-brew install "rust-analyzer"

@@ -11,12 +11,9 @@ alias wiki "pushd ~/Dropbox/wiki && nvim index.md"
 alias b    "popd"
 alias etc  "vi ~/.tmux.conf && ltc"
 alias efc  "vi ~/.config/fish/config.fish && lfc"
-alias evrc "vi ~/.config/nvim/init.vim"
 alias elc  "vi ~/.config.fish.local && lfc"
-alias efp  "vi ~/.config/fish/functions/fish_prompt.fish"
 alias pf   "ps aux | fzf"
 alias drmi "docker images -qf dangling=true | xargs docker rmi -f"
-alias t    "tree"
 
 # Git
 alias ga     "git a -p"
@@ -30,7 +27,6 @@ alias gu     "git up"
 alias gb     "git b"
 alias gp     "git put"
 alias gd     "git d"
-alias gm     "git merge"
 alias gup    "git up"
 alias gbd    "git b -D"
 alias gclean "git add .; git reset HEAD; git co -- .; git clean -fd"
@@ -38,7 +34,6 @@ alias gds    "git ds"
 alias cpb    "git rev-parse --abbrev-ref HEAD | pbcopy"
 alias gdl    "git d HEAD^.."
 alias gdlf   "git d HEAD^.. --name-only"
-alias gst    "git stash"
 alias gr     "git rebase"
 alias glp    "git log -p"
 
@@ -134,7 +129,6 @@ set -gx LANG en_US.UTF-8
 mkdir -p ~/bin
 fish_add_path ~/bin
 
-# Rust
 if test -e ~/.cargo/bin
   fish_add_path ~/.cargo/bin
 end
@@ -163,7 +157,7 @@ if test -e ~/.base16_fzf
   source ~/.base16_fzf
 end
 
-# Local settings
+# Apply Local settings
 if test -e ~/.config.fish.local
   source ~/.config.fish.local
 end
