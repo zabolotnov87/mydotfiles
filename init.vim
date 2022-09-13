@@ -1,11 +1,8 @@
 " vim:foldmethod=marker:foldminlines=1
 
 " Basic settings {{{
-  syntax enable
-  filetype plugin indent on
   let mapleader=','
 
-  set exrc
   set secure
   set modelines=1
 
@@ -27,10 +24,8 @@
   set foldmethod=indent
   set foldlevel=20
 
-  set autoindent
-  set smartindent
-
-  set laststatus=2 " always show statusline
+  " always show statusline
+  set laststatus=2
 
   " Increase maximum amount of memory (in Kbyte) to use for pattern matching.
   set maxmempattern=20000
@@ -38,12 +33,14 @@
   set noswapfile " Don't use swapfile
   set nobackup   " Don't create annoying backup files
 
-  " Tabs
+  " Indenting
   set tabstop=2
   set softtabstop=2
   set shiftwidth=2
   set shiftround
   set expandtab
+  set autoindent
+  set smartindent
 
   set termguicolors
 
@@ -62,7 +59,8 @@
   set listchars=tab:▸\ ,trail:·,extends:❯,precedes:❮,nbsp:×
 
   set colorcolumn=100
-  set numberwidth=5
+
+  set numberwidth=2
   set relativenumber
   set number
 
@@ -74,9 +72,6 @@
 
   set wildmenu
   set wildmode=list:longest,list:full
-
-  " Execute normal mode commands in Russian keyboard
-  set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
 
   set signcolumn=yes
 
@@ -114,9 +109,8 @@
   " interface to git
   Plug 'tpope/vim-fugitive'
 
-  " manage terminal windows
-  Plug 'akinsho/toggleterm.nvim'
-  Plug 'kassio/neoterm' " for vim-test
+  " terminal manager for vim-test
+  Plug 'kassio/neoterm'
 
   " Snippets manager
   Plug 'SirVer/ultisnips'
@@ -163,11 +157,16 @@
 " }}}
 
 " Plugins Settings {{{
+    lua require('hop').setup { keys = 'etovxqpdygfblzhckisuran', term_seq_bias = 0.5 }
+    lua require('kommentary.config').use_default_mappings()
+    lua require("zen-mode").setup { plugins = { twilight = false } }
+
+    lua require('configs/treesitter')
+    lua require('configs/autosave')
+
   " nerdtree {{{
     let NERDTreeShowHidden=1
     let NERDTreeWinSize = 45
-    nnoremap <silent> <C-e> :NERDTreeToggle<CR>
-    nnoremap <silent> <Leader>e :NERDTreeFind<CR>
   " }}}
 
   " ale (used for ruby only, disabled by default) {{{
@@ -186,10 +185,6 @@
       exec printf("highlight ALEErrorSign guibg=%s guifg=#FF0000 gui=bold", guibg_linenr)
       exec printf("highlight ALEWarningSign guibg=%s guifg=#FFA500 gui=bold", guibg_linenr)
     endfunction
-
-    nnoremap <silent> <Leader>af :ALEFix<CR>
-    nnoremap <silent> ]e :ALENextWrap<CR>
-    nnoremap <silent> [e :ALEPreviousWrap<CR>
 
     augroup Ale
       autocmd!
@@ -215,34 +210,7 @@
       \ 'ext': '.md',
       \ 'auto_tags': 1,
       \ }]
-
-    if exists('g:vimwiki_enabled')
-      augroup Vimwiki
-        autocmd!
-        " Search by tags
-        autocmd FileType vimwiki nnoremap <silent> <leader>st "zyiw:exe "Grep :".@z.":"<CR>
-        autocmd FileType vimwiki command! -buffer -nargs=* -complete=custom,vimwiki#tags#complete_tags St :Grep :<args>:
-      augroup END
-    endif
   " }}}
-
-  " fugitive {{{
-    nnoremap <Leader>gs :Git<CR>
-    nnoremap <Leader>gb :Git blame<CR>
-    nnoremap <Leader>gd :Gdiff<CR>
-    augroup Fugitive
-      autocmd!
-      autocmd FileType fugitive,fugitiveblame nmap <buffer> q gq
-    augroup END
-  " }}}
-
-    lua require('kommentary.config').use_default_mappings()
-
-    lua require('configs/toggleterm')
-    lua require('configs/treesitter')
-    lua require('configs/hop')
-    lua require('configs/autosave')
-    lua require('configs/textobjects')
 
   " lsp {{{
     function! SetupLspDiagnosticHighlight() abort
@@ -258,19 +226,10 @@
     call SetupLspDiagnosticHighlight()
   " }}}
 
-  " zen-mode {{{
-    lua require("configs/zenmode")
-  " }}}
-
   " neoterm {{{
     let g:neoterm_shell='fish'
     let g:neoterm_automap_keys = v:false
     let g:neoterm_default_mod = 'botright'
-  " }}}
-
-  " easy align {{{
-    xmap ga <Plug>(EasyAlign)
-    nmap ga <Plug>(EasyAlign)
   " }}}
 
   " vim tests {{{
@@ -284,9 +243,6 @@
     let g:test#strategy = 'neoterm_custom'
     let test#ruby#rspec#executable = 'bundle exec rspec'
     let test#ruby#bundle_exec = 0
-
-    nnoremap <silent> <leader>r :TestNearest<CR>
-    nnoremap <silent> <leader>ar :TestFile<CR>
   " }}}
 
   " fzf {{{
@@ -411,16 +367,25 @@
   command! Todo :Grep TODO
 " }}}
 
-" Common mappings {{{
-  " Act like D and C
-  nnoremap Y y$
-
+" Mappings {{{
   " fast exit to normal mode
-  inoremap jk <esc>
-  vnoremap <C-c> <esc>
+  inoremap jk <Esc>
+
+  " go to beginning and end
+  inoremap <C-b> <Esc>^i
+  inoremap <C-e> <End>
+
+  " navigate within insert mode
+  inoremap <C-j> <Down>
+  inoremap <C-k> <Up>
+  inoremap <C-l> <Right>
+  inoremap <C-h> <Left>
 
   " space open/closes folds
   nnoremap <space> za
+
+  " Act like D and C
+  nnoremap Y y$
 
   " switching windows
   nnoremap <C-j> <C-w>j
@@ -428,31 +393,34 @@
   nnoremap <C-l> <C-w>l
   nnoremap <C-h> <C-w>h
 
+  " navigate between tabs
   nnoremap <silent>H :tabprevious<CR>
   nnoremap <silent>L :tabnext<CR>
 
   " close buffer
   nnoremap <leader>k :bd!<CR>
+  " close window
   nnoremap <leader>c <C-w>c
 
-  vnoremap < <gv
-  vnoremap > >gv
+  " save changes
+  nnoremap <leader>w :wa<CR>
 
   " split
   nnoremap <Leader>h :split<CR><C-w>j
-  nnoremap <Leader>v :vsplit<CR><C-w>w
-
-  " move visual block
-  vnoremap J :m '>+1<CR>gv=gv
-  vnoremap K :m '<-2<CR>gv=gv
+  nnoremap <Leader>v :vsplit<CR><C-w>l
 
   " move to beginning/end of line
   nnoremap B ^
   nnoremap E g_
+
+  " move to beginning/end of line
   vnoremap B ^
   vnoremap E g_
+  vnoremap < <gv
+  vnoremap > >gv
 
-  nnoremap <silent> <leader><SPace> :nohlsearch<cr>
+  " Turn off higlhlight of searching
+  nnoremap <silent> <leader><space> :nohlsearch<cr>
 
   " copy buffer path to clipboard
   nnoremap cpl :let @+=expand('%')<CR>
@@ -474,19 +442,60 @@
   nnoremap <silent> <C-n> :cnext<CR>
   nnoremap <silent> <C-p> :cprevious<CR>
 
-  nnoremap <silent> <leader>nt :tabe<CR>
-  nnoremap <leader>w :wa<CR>
+  " open new tab
+  nnoremap <silent> <leader>b :tabe<CR>
 
   nnoremap * :keepjumps normal! mi*`i<CR>
 
-  " Search word under the cursor and populate quickfix
+  " search word under the cursor and populate quickfix
   nnoremap <silent> <leader>sw "zyiw:exe "Grep ".@z<CR>
+
+  " nerdtree
+  nnoremap <silent> <C-e> :NERDTreeToggle<CR>
+  nnoremap <silent> <Leader>e :NERDTreeFind<CR>
+
+  " ale (used for ruby only, disabled by default)
+  nnoremap <silent> <Leader>af :ALEFix<CR>
+  nnoremap <silent> ]e :ALENextWrap<CR>
+  nnoremap <silent> [e :ALEPreviousWrap<CR>
+
+  " fugitive
+  nnoremap <Leader>gs :Git<CR>
+  nnoremap <Leader>gb :Git blame<CR>
+  nnoremap <Leader>gd :Gdiff<CR>
+
+  " easy align
+  xmap ga <Plug>(EasyAlign)
+  nmap ga <Plug>(EasyAlign)
+
+  " vim tests
+  nnoremap <silent> <leader>r :TestNearest<CR>
+  nnoremap <silent> <leader>ar :TestFile<CR>
+
+  " fzf
+  nnoremap <leader>fw "zyiw:exe "F ".@z.""<CR>
+  nnoremap <leader>ff :Files<CR>
+  nnoremap <leader>fh :History<CR>
+  nnoremap <leader>fl :BLines<CR>
+  nnoremap <leader>fb :Buffers<CR>
+  nnoremap <leader>fm :Marks<CR>
+  nnoremap <leader>fx :Windows<CR>
+  nnoremap <leader>fc :Commands<CR>
+  nnoremap <leader>gw "zyiw:exe "Gf ".@z.""<CR>
+  nnoremap <leader>gf :GFiles?<CR>
+
+  " hop
+  nnoremap <silent> <leader><leader>w :lua require('hop').hint_words()<CR>
+  vnoremap <silent> <leader><leader>w :lua require('hop').hint_words()<CR>
+  nnoremap <silent> <leader><leader>l :lua require('hop').hint_lines()<CR>
+  vnoremap <silent> <leader><leader>l :lua require('hop').hint_lines()<CR>
+  nnoremap <silent> <leader><leader>f :lua require('hop').hint_char1()<CR>
+  vnoremap <silent> <leader><leader>f :lua require('hop').hint_char1()<CR>
 " }}}
 
 " Autogroups {{{
-    augroup Common
+    augroup General
       autocmd!
-
       " Strip trailing whitespaces
       autocmd BufWritePre *.sql let b:noStripWhiteSpaces=1
       autocmd BufWritePre * :call <SID>strip_trailing_whitespaces()
@@ -494,28 +503,26 @@
       autocmd FileType gitcommit setlocal colorcolumn=80
 
       " Allow to open source code of selected plugin in new tab
-      autocmd FileType vim nmap <buffer> <leader>o :normal vil<CR> :call
-        \ OpenPlug(<SID>get_selected_text())<CR>
+      autocmd FileType vim nmap <buffer> <leader>o :normal vil<CR> :call OpenPlug(<SID>get_selected_text())<CR>
 
       autocmd TermOpen * setlocal nonumber norelativenumber
 
       autocmd TextYankPost * silent! lua vim.highlight.on_yank{timeout=150, on_visual=false}
-      autocmd FileType lspinfo nmap <buffer> q <esc>
 
       " Automatically open quickfix and locklist
       autocmd QuickFixCmdPost [^l]* cwindow
       autocmd QuickFixCmdPost l*    lwindow
+
+      autocmd FileType fugitive,fugitiveblame nmap <buffer> q gq
+      autocmd FileType lspinfo nmap <buffer> q <Esc>
     augroup END
 
     augroup Ruby
       autocmd!
       " Allow to open source code of selected gem in new tab
-      autocmd FileType ruby nmap <buffer> <leader>o :normal vil<CR> :call
-        \ OpenGem(<SID>get_selected_text())<CR>
+      autocmd FileType ruby nmap <buffer> <leader>o :normal vil<CR> :call OpenGem(<SID>get_selected_text())<CR>
 
       " Expose command Bo to open source code of a gem
-      " Example of usage:
-      "   :Bo activerecord
       autocmd Filetype ruby command! -nargs=1 Bo call OpenGem(<q-args>)
 
       " Support arbre (https://github.com/activeadmin/arbre)
