@@ -113,7 +113,7 @@
   Plug 'kassio/neoterm'
 
   " Snippets manager
-  Plug 'SirVer/ultisnips'
+  " Plug 'SirVer/ultisnips'
 
   " lsp
   Plug 'neovim/nvim-lspconfig'
@@ -195,12 +195,12 @@
   " }}}
 
   " ultisnips {{{
-    let g:UltiSnipsExpandTrigger='<c-o>'
-    let g:UltiSnipsJumpForwardTrigger='<c-j>'
-    let g:UltiSnipsJumpBackwardTrigger='<c-k>'
-    let g:UltiSnipsListSnippets='<c-l>'
-    let g:UltiSnipsSnippetDirectories=[$HOME.'/.config/nvim/snips']
-    let g:UltiSnipsEditSplit='vertical'
+    " let g:UltiSnipsExpandTrigger='<c-o>'
+    " let g:UltiSnipsJumpForwardTrigger='<c-j>'
+    " let g:UltiSnipsJumpBackwardTrigger='<c-k>'
+    " let g:UltiSnipsListSnippets='<c-l>'
+    " let g:UltiSnipsSnippetDirectories=[$HOME.'/.config/nvim/snips']
+    " let g:UltiSnipsEditSplit='vertical'
   " }}}
 
   " vimwiki {{{
