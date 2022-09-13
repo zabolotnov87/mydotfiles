@@ -4,10 +4,6 @@ SHELL = bash
 
 default: brew git fish fzf langs neovim tmux base16 fonts done
 
-nvchad:
-	rm -rf ~/.config/nvim
-	git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
-
 brew:
 	./scripts/brew
 
