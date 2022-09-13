@@ -1,5 +1,12 @@
 " vim:foldmethod=marker:foldminlines=1
 
+" TODO:
+"   [ ] add snippets (lua)
+"   [ ] improve text objects (treesitter)
+"   [ ] improve lsp (+ mason)
+"   [ ] autocomplete
+"   [ ] try to replace ale by something written in lua
+
 " Basic settings {{{
   let mapleader=','
 
