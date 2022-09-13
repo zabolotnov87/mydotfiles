@@ -271,17 +271,6 @@
     " Likewise, Files command with preview window
     command! -bang -nargs=? -complete=dir Files
       \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-
-    nnoremap <leader>fw "zyiw:exe "F ".@z.""<CR>
-    nnoremap <leader>ff :Files<CR>
-    nnoremap <leader>fh :History<CR>
-    nnoremap <leader>fl :BLines<CR>
-    nnoremap <leader>fb :Buffers<CR>
-    nnoremap <leader>fm :Marks<CR>
-    nnoremap <leader>fx :Windows<CR>
-    nnoremap <leader>fc :Commands<CR>
-    nnoremap <leader>gw "zyiw:exe "Gf ".@z.""<CR>
-    nnoremap <leader>gf :GFiles?<CR>
   " }}}
 " }}}
 
