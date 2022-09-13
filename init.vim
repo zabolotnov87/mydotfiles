@@ -67,7 +67,7 @@
 
   set colorcolumn=100
 
-  set numberwidth=2
+  set numberwidth=5
   set relativenumber
   set number
 
