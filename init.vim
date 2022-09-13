@@ -80,7 +80,7 @@
   set wildmenu
   set wildmode=list:longest,list:full
 
-  set signcolumn=yes
+  set signcolumn=auto
 
   set ignorecase
   set smartcase
