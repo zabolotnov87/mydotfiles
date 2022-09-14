@@ -14,7 +14,7 @@
   set modelines=1
 
   " ALWAYS use the clipboard for ALL operations
-  set clipboard+=unnamedplus
+  set clipboard=unnamedplus
 
   " This enables us to undo files even if you exit Vim
   set undofile
@@ -438,6 +438,10 @@
 
   " open new tab
   nnoremap <silent> <leader>b :tabe<CR>
+
+  " Don't copy the replaced text after pasting in visual mode
+  " https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text#Alternative_mapping_for_paste
+  xnoremap <silent> p p:let @+=@0<CR>:let @"=@0<CR>
 
   nnoremap * :keepjumps normal! mi*`i<CR>
 
