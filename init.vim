@@ -144,7 +144,6 @@
   Plug 'nvim-lua/plenary.nvim' " general utils
   Plug 'preservim/nerdtree'    " file system explorer
   Plug 'knsh14/vim-github-link'
-  Plug 'pocco81/auto-save.nvim'
   Plug 'DataWraith/auto_mkdir'
   Plug 'dense-analysis/ale'
 
@@ -169,7 +168,6 @@
     lua require("zen-mode").setup { plugins = { twilight = false } }
 
     lua require('configs/treesitter')
-    lua require('configs/autosave')
 
   " nerdtree {{{
     let NERDTreeShowHidden=1
