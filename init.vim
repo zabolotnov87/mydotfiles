@@ -397,7 +397,7 @@
   nnoremap <leader>c <C-w>c
 
   " save changes
-  nnoremap <leader>w :wa<CR>
+  nnoremap <leader>w :w<CR>
 
   " split
   nnoremap <Leader>h :split<CR><C-w>j
