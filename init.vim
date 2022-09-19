@@ -120,7 +120,7 @@
   Plug 'kassio/neoterm'
 
   " Snippets manager
-  " Plug 'SirVer/ultisnips'
+  Plug 'L3MON4D3/LuaSnip', {'tag': 'v1.*'}
 
   " lsp
   Plug 'neovim/nvim-lspconfig'
@@ -166,6 +166,7 @@
     lua require('hop').setup { keys = 'etovxqpdygfblzhckisuran', term_seq_bias = 0.5 }
     lua require('kommentary.config').use_default_mappings()
     lua require("zen-mode").setup { plugins = { twilight = false } }
+    lua require("luasnip.loaders.from_snipmate").lazy_load()
 
     lua require('configs/treesitter')
 
@@ -197,15 +198,6 @@
     augroup END
 
     call SetupAleDiagnosticHighlight()
-  " }}}
-
-  " ultisnips {{{
-    " let g:UltiSnipsExpandTrigger='<c-o>'
-    " let g:UltiSnipsJumpForwardTrigger='<c-j>'
-    " let g:UltiSnipsJumpBackwardTrigger='<c-k>'
-    " let g:UltiSnipsListSnippets='<c-l>'
-    " let g:UltiSnipsSnippetDirectories=[$HOME.'/.config/nvim/snips']
-    " let g:UltiSnipsEditSplit='vertical'
   " }}}
 
   " vimwiki {{{
@@ -489,6 +481,19 @@
   vnoremap <silent> <leader><leader>l :lua require('hop').hint_lines()<CR>
   nnoremap <silent> <leader><leader>f :lua require('hop').hint_char1()<CR>
   vnoremap <silent> <leader><leader>f :lua require('hop').hint_char1()<CR>
+
+  " LuaSnip
+  "
+  " press <Tab> to expand or jump in a snippet. These can also be mapped separately
+  " via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
+  imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
+  " -1 for jumping backwards.
+  inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
+  snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
+  snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
+  " For changing choices in choiceNodes (not strictly necessary for a basic setup).
+  imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+  smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
 " }}}
 
 " Autogroups {{{
