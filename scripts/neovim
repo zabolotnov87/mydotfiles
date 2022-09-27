@@ -24,9 +24,6 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 
 brew install neovim
 
-# Need for UltiSnip plugin (see SirVer/ultisnips)
-python3 -m pip install --user --upgrade pynvim
-
 gem install neovim
 npm install -g neovim
 

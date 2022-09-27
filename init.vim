@@ -10,7 +10,11 @@
 " Basic settings {{{
   let mapleader=','
 
+  " allows loading local executing local nvimrc
+  set exrc
+  " disallows the use of :autocmd, shell and write commands in local
   set secure
+
   set modelines=1
 
   " ALWAYS use the clipboard for ALL operations
