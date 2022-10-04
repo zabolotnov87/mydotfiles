@@ -1,7 +1,7 @@
 " vim:foldmethod=marker:foldminlines=1
 
 " TODO:
-"   [ ] add snippets (lua)
+"   [x] add snippets (lua)
 "   [ ] improve text objects (treesitter)
 "   [ ] improve lsp (+ mason)
 "   [ ] autocomplete
@@ -171,6 +171,8 @@
     lua require('kommentary.config').use_default_mappings()
     lua require("zen-mode").setup { plugins = { twilight = false } }
     lua require("luasnip.loaders.from_snipmate").lazy_load()
+    lua require("luasnip").config.setup({store_selection_keys="<Tab>"})
+
 
     lua require('configs/treesitter')
 
@@ -355,6 +357,7 @@
         \ . ' --no-heading'
         \ . ' -g "!{' . g:fzf_ignore_list . '}" ' . <q-args> . ' .'
   command! Todo :Grep TODO
+  command! LuaSnipEdit :lua require('luasnip.loaders').edit_snippet_files()
 " }}}
 
 " Mappings {{{

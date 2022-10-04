@@ -1,0 +1,8 @@
+snippet < <%= ... %>
+	<%= ${1} %>
+
+snippet env ENV[name]
+	ENV['${1}']
+
+snippet envf ENV.fetch(name, default_value)
+	ENV.fetch('${1}', ${2})
