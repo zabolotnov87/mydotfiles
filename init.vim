@@ -396,7 +396,7 @@
   nnoremap <leader>c <C-w>c
 
   " save changes
-  nnoremap <leader>w :w<CR>
+  nnoremap <leader>s :w<CR>
 
   " split
   nnoremap <Leader>h :split<CR><C-w>j
@@ -443,9 +443,6 @@
   xnoremap <silent> p p:let @+=@0<CR>:let @"=@0<CR>
 
   nnoremap * :keepjumps normal! mi*`i<CR>
-
-  " search word under the cursor and populate quickfix
-  nnoremap <silent> <leader>sw "zyiw:exe "Grep ".@z<CR>
 
   " nerdtree
   nnoremap <silent> <C-e> :NERDTreeToggle<CR>
