@@ -76,7 +76,7 @@
   set number
 
   " have some context around the current line always on screen
-  set scrolloff=3
+  " set scrolloff=3
 
   " show (partial) command in the last line of the screen
   set showcmd
