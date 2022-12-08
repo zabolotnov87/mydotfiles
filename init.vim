@@ -22,21 +22,11 @@
 
   " This enables us to undo files even if you exit Vim
   set undofile
-  set undodir=~/tmp/nvim/undo/
-
-  " Buffer should still exist if window is closed
-  set hidden
-
-  " Automatically read changed files
-  set autoread
 
   set autowriteall
 
   set foldmethod=indent
   set foldlevel=20
-
-  " always show statusline
-  set laststatus=2
 
   " Increase maximum amount of memory (in Kbyte) to use for pattern matching.
   set maxmempattern=20000
@@ -50,14 +40,10 @@
   set shiftwidth=2
   set shiftround
   set expandtab
-  set autoindent
   set smartindent
 
   set termguicolors
 
-  set mouse=nvi
-
-  set ruler       " show the cursor position all the time
   set cursorline  " color current line
 
   " wrap long lines
@@ -75,22 +61,13 @@
   set relativenumber
   set number
 
-  " have some context around the current line always on screen
-  " set scrolloff=3
-
-  " show (partial) command in the last line of the screen
-  set showcmd
-
-  set wildmenu
   set wildmode=list:longest,list:full
 
   set signcolumn=auto
 
   set ignorecase
   set smartcase
-  set incsearch
-  set hlsearch  " Enable search highlighting,
-  nohlsearch    " but do not highlight last search on startup
+  nohlsearch    " do not highlight last search on startup
 
   " Use ripgrep for search instead of grep
   set grepprg=rg\ --vimgrep\ --smart-case\ --follow
