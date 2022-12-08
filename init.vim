@@ -18,7 +18,7 @@
   set modelines=1
 
   " ALWAYS use the clipboard for ALL operations
-  set clipboard=unnamedplus
+  set clipboard+=unnamedplus
 
   " This enables us to undo files even if you exit Vim
   set undofile
@@ -26,6 +26,7 @@
   set autowriteall
 
   set foldmethod=indent
+  " Do not close folds automatically
   set foldlevel=20
 
   " Increase maximum amount of memory (in Kbyte) to use for pattern matching.
@@ -42,13 +43,11 @@
   set expandtab
   set smartindent
 
+  " Enables 24-bit RGB color in the Terminal UI
   set termguicolors
 
-  set cursorline  " color current line
-
-  " wrap long lines
-  set wrap
-  set showbreak=
+  " color current line
+  set cursorline
 
   " show invisible characters
   set list
@@ -100,12 +99,13 @@
   " terminal manager for vim-test
   Plug 'kassio/neoterm'
 
-  " Snippets manager
+  " snippets manager
   Plug 'L3MON4D3/LuaSnip', {'tag': 'v1.*'}
 
   " lsp
   Plug 'neovim/nvim-lspconfig'
 
+  " treesitter and text objects
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
   Plug 'kana/vim-textobj-user'
@@ -119,10 +119,15 @@
   Plug 'hallison/vim-rdoc'
   Plug 'sheerun/vim-polyglot'
 
-  " others
-  Plug 'nvim-lua/plenary.nvim' " general utils
-  Plug 'preservim/nerdtree'    " file system explorer
+  " general utils
+  Plug 'nvim-lua/plenary.nvim'
+
+  " file system explorer
+  Plug 'preservim/nerdtree'
+
+  " generate github links
   Plug 'knsh14/vim-github-link'
+
   Plug 'DataWraith/auto_mkdir'
   Plug 'dense-analysis/ale'
 
