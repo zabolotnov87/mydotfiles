@@ -130,6 +130,9 @@
   Plug 'neovim/nvim-lspconfig'
 
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+  Plug 'kana/vim-textobj-user'
+  Plug 'kana/vim-textobj-line'
 
   " appearance
   Plug 'chriskempson/base16-vim'
@@ -138,11 +141,6 @@
   " syntax and indentations
   Plug 'hallison/vim-rdoc'
   Plug 'sheerun/vim-polyglot'
-
-  " working with text objects
-  Plug 'kana/vim-textobj-user'
-  Plug 'kana/vim-textobj-line'
-  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
   " others
   Plug 'nvim-lua/plenary.nvim' " general utils
