@@ -170,11 +170,9 @@
     lua require('hop').setup { keys = 'etovxqpdygfblzhckisuran', term_seq_bias = 0.5 }
     lua require('kommentary.config').use_default_mappings()
     lua require("zen-mode").setup { plugins = { twilight = false } }
-    lua require("luasnip.loaders.from_snipmate").lazy_load()
-    lua require("luasnip").config.setup({store_selection_keys="<Tab>"})
-
 
     lua require('configs/treesitter')
+    lua require("configs/luasnip")
 
   " nerdtree {{{
     let NERDTreeShowHidden=1
