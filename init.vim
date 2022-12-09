@@ -401,7 +401,7 @@
   nnoremap cpn :let @+=printf('%s:%d', expand('%'), expand(line('.')))<CR>
 
   " open terminal in current buffer
-  nnoremap <leader>t :term fish<CR>
+  nnoremap <leader>t :term NEOVIM_TERM=1 fish<CR>
 
   " source configs
   nnoremap <silent> S :source $MYVIMRC \| call SourceIfExists(".nvimrc")<CR>

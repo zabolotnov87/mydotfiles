@@ -151,6 +151,7 @@ end
 set -l base16_dir ~/.config/base16
 set -gx BASE16_SHELL_HOOKS $base16_dir/hooks
 if test -e $base16_dir/shell/profile_helper.fish
+  and ! set $NEOVIM_TERM -q
   source $base16_dir/shell/profile_helper.fish
 end
 if test -e ~/.base16_fzf
