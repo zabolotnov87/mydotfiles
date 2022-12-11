@@ -189,7 +189,6 @@
       \ 'path': '~/Dropbox/wiki/',
       \ 'syntax': 'markdown',
       \ 'ext': '.md',
-      \ 'auto_tags': 1,
       \ }]
   " }}}
 
