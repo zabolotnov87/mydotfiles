@@ -266,7 +266,7 @@
     return @a
   endfunction
 
-  function! OpenPlug(plug) abort
+  function! FOpenPlug(plug) abort
     let without_opts = split(a:plug, ',')[0]
     let normalized_name = substitute(without_opts, "Plug", "", "")
     let normalized_name = substitute(normalized_name, " ", "", "g")
@@ -277,7 +277,7 @@
     execute('e ' . path_to_plug)
   endfunction
 
-  function! OpenGem(gem) abort
+  function! FOpenGem(gem) abort
     let without_opts = split(a:gem, ',')[0]
     let normalized_name = substitute(without_opts, "gem", "", "")
     let normalized_name = substitute(normalized_name, " ", "", "g")
@@ -287,46 +287,63 @@
     execute('e . ')
   endfunction
 
-  function! Conf() abort
+  function! FConf() abort
     execute 'tabe '.$MYVIMRC
     execute 'lcd %:p:h'
   endfunction
 
-  function! Confl() abort
+  function! FConfl() abort
     execute 'tabe .nvimrc | split | e .nvimrc_before_plugs'
   endfunction
 
-  function! SourceIfExists(file) abort
+  function! FSourceIfExists(file) abort
     if filereadable(expand(a:file))
       execute 'source' a:file
     endif
   endfunction
 
-  function! RubyGoToSpec() abort
+  function! FRubyGoToSpec() abort
     let current_path = expand('%')
     let spec_path = substitute(current_path, '.rb', '_spec.rb', 'g')
     let spec_path = 'spec/' . substitute(spec_path, 'app/', '', 'g')
     execute('e ' . spec_path)
   endfunction
 
-  function! RubyGoFromSpec() abort
+  function! FRubyGoFromSpec() abort
     let spec_path = expand('%')
     let path = substitute(spec_path, '_spec', '', 'g')
     let path = substitute(path, 'spec/', 'app/', 'g')
     execute('e ' . path)
   endfunction
+
+  function! FGitGrep(pattern) abort
+    execute 'silent Ggrep ' . a:pattern . ' -- ' . $FZF_IGNORE_LIST_FOR_GIT_GREP . ' | copen'
+  endfunction
+
+  function! FGrep(pattern) abort
+    execute 'silent grep!'
+            \ . ' --line-number'
+            \ . ' --no-heading'
+            \ . ' -g "!{' . g:fzf_ignore_list . '}" ' . a:pattern . ' .'
+  endfunction
+
+  function! FSmartGrep(pattern) abort
+    if isdirectory('.git')
+      call FGitGrep(a:pattern)
+    else
+      call FGrep(a:pattern)
+    endif
+  endfunction
 " }}}
 
 " Commands {{{
-  command! Conf call Conf()
-  command! Confl call Confl()
+  command! Conf call FConf()
+  command! Confl call FConfl()
   command! Bd %bd!|e#
-  command! -nargs=+ Gf execute 'silent Ggrep' <q-args> . ' -- ' . $FZF_IGNORE_LIST_FOR_GIT_GREP . ' | copen'
-  command! -nargs=+ Grep execute 'silent grep!'
-        \ . ' --line-number'
-        \ . ' --no-heading'
-        \ . ' -g "!{' . g:fzf_ignore_list . '}" ' . <q-args> . ' .'
-  command! Todo :Grep TODO
+  command! -nargs=+ GGrep call FGitGrep(<q-args>)
+  command! -nargs=+ Grep call FGrep(<q-args>)
+  command! -nargs=+ SGrep call FSmartGrep(<q-args>)
+  command! Todo :SGrep TODO
   command! LuaSnipEdit :lua require('luasnip.loaders').edit_snippet_files()
 " }}}
 
@@ -396,7 +413,7 @@
   nnoremap <leader>t :term NEOVIM_TERM=1 fish<CR>
 
   " source configs
-  nnoremap <silent> S :source $MYVIMRC \| call SourceIfExists(".nvimrc")<CR>
+  nnoremap <silent> S :source $MYVIMRC \| call FSourceIfExists(".nvimrc")<CR>
 
   " exit from terminal mode
   tnoremap jk <C-\><C-n>
@@ -445,7 +462,7 @@
   nnoremap <leader>fm :Marks<CR>
   nnoremap <leader>fx :Windows<CR>
   nnoremap <leader>fc :Commands<CR>
-  nnoremap <leader>gw "zyiw:exe "Gf ".@z.""<CR>
+  nnoremap <leader>gw "zyiw:exe "SGrep ".@z.""<CR>
   nnoremap <leader>gf :GFiles?<CR>
 
   " hop
@@ -480,7 +497,7 @@
       autocmd FileType gitcommit setlocal colorcolumn=80
 
       " Allow to open source code of selected plugin in new tab
-      autocmd FileType vim nmap <buffer> <leader>o :normal vil<CR> :call OpenPlug(<SID>get_selected_text())<CR>
+      autocmd FileType vim nmap <buffer> <leader>o :normal vil<CR> :call FOpenPlug(<SID>get_selected_text())<CR>
 
       autocmd TermOpen * setlocal nonumber norelativenumber
 
@@ -497,10 +514,10 @@
     augroup Ruby
       autocmd!
       " Allow to open source code of selected gem in new tab
-      autocmd FileType ruby nmap <buffer> <leader>o :normal vil<CR> :call OpenGem(<SID>get_selected_text())<CR>
+      autocmd FileType ruby nmap <buffer> <leader>o :normal vil<CR> :call FOpenGem(<SID>get_selected_text())<CR>
 
       " Expose command Bo to open source code of a gem
-      autocmd Filetype ruby command! -nargs=1 Bo call OpenGem(<q-args>)
+      autocmd Filetype ruby command! -nargs=1 Bo call FOpenGem(<q-args>)
 
       " Support arbre (https://github.com/activeadmin/arbre)
       autocmd BufEnter *.arb setlocal filetype=ruby
@@ -509,8 +526,8 @@
       " Support sorbet rbi
       autocmd BufEnter *.rbi setlocal filetype=ruby
 
-      autocmd FileType ruby command! GoToSpec call RubyGoToSpec()
-      autocmd FileType ruby command! GoFromSpec call RubyGoFromSpec()
+      autocmd FileType ruby command! GoToSpec call FRubyGoToSpec()
+      autocmd FileType ruby command! GoFromSpec call FRubyGoFromSpec()
     augroup END
 
     augroup JS
