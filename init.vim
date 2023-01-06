@@ -159,7 +159,7 @@
     let g:ale_linters = {'ruby': ['rubocop']}
     let g:ale_linters_explicit = 1
     let g:ale_fixers = {'ruby': ['rubocop']}
-    " let g:ale_ruby_rubocop_options = '--server'
+    " let g:ale_ruby_rubocop_options = '--server --disable-pending-cops'
     " let g:ale_ruby_rubocop_executable = 'rubocop-daemon-wrapper'
     let g:ale_ruby_rubocop_auto_correct_all = 1
 
