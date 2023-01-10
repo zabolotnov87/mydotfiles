@@ -121,6 +121,9 @@
   " generate github links
   Plug 'knsh14/vim-github-link'
 
+  " manage tag files
+  Plug 'ludovicchabant/vim-gutentags'
+
   Plug 'DataWraith/auto_mkdir'
   Plug 'dense-analysis/ale'
 
@@ -146,6 +149,10 @@
 
     lua require('configs/treesitter')
     lua require("configs/luasnip")
+
+  " gutentags {{{
+    let g:gutentags_ctags_exclude = ['*.js', '*.html', '*.erb', '*.rbi', '*.xml', '*.json', '*.ts']
+  " }}}
 
   " nerdtree {{{
     let NERDTreeShowHidden=1
