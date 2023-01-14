@@ -207,7 +207,7 @@
   " }}}
 
   " neoterm {{{
-    let g:neoterm_shell='fish'
+    let g:neoterm_shell='NEOVIM_TERM=1 fish'
     let g:neoterm_automap_keys = v:false
     let g:neoterm_default_mod = 'botright'
   " }}}
@@ -221,7 +221,7 @@
 
     let g:test#custom_strategies = { 'neoterm_custom': function('NeotermCustom') }
     let g:test#strategy = 'neoterm_custom'
-    let test#ruby#rspec#executable = 'bundle exec rspec'
+    let test#ruby#rspec#executable = 'bundle exec rspec --format documentation'
     let test#ruby#bundle_exec = 0
   " }}}
 
