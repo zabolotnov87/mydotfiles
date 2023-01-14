@@ -27,6 +27,12 @@ ruby = {
     t({"", "  "}), i(0),
     t({"", "end"}),
   }),
+
+  s({trig="cl"}, {
+    t("class "), i(1),
+    t({"", "  "}), i(0),
+    t({"", "end"}),
+  })
 }
 
 ls.add_snippets("ruby", ruby)
