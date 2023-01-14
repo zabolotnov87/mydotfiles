@@ -32,7 +32,13 @@ ruby = {
     t("class "), i(1),
     t({"", "  "}), i(0),
     t({"", "end"}),
-  })
+  }),
+
+  s({trig="mo"}, {
+    t("module "), i(1),
+    t({"", "  "}), i(0),
+    t({"", "end"}),
+  }),
 }
 
 ls.add_snippets("ruby", ruby)
