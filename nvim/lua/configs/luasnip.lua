@@ -23,7 +23,7 @@ ruby = {
   s({trig="pry"}, {t("require 'pry'; ::Kernel.binding.pry")}),
 
   s({trig="d"}, {
-    t("def "), i(1, "method"), sn(2, {t("("), i(1, "args"), t(")")}),
+    t("def "), i(1),
     t({"", "  "}), i(0),
     t({"", "end"}),
   }),
@@ -39,6 +39,39 @@ ruby = {
     t({"", "  "}), i(0),
     t({"", "end"}),
   }),
+
+  s({trig="rr"}, {
+    t("require 'rails_helper'"),
+    t({"", ""}),
+    t({"", ""}),
+    t("describe "), i(1), t(" do"),
+    t({"", "  "}), i(0),
+    t({"", "end"}),
+  }),
+
+  s({trig="de"}, {
+    t("describe '"), i(1), t("' do"),
+    t({"", "  "}), i(0),
+    t({"", "end"}),
+  }),
+
+  s({trig="it"}, {
+    t("it '"), i(1), t("' do"),
+    t({"", "  "}), i(0),
+    t({"", "end"}),
+  }),
+
+  s({trig="con"}, {
+    t("context '"), i(1), t("' do"),
+    t({"", "  "}), i(0),
+    t({"", "end"}),
+  }),
+
+  s({trig="l"}, {
+    t("let(:"), i(1), t(")"), t(" do"),
+    t({"", "  "}), i(0),
+    t({"", "end"}),
+  })
 }
 
 ls.add_snippets("ruby", ruby)
