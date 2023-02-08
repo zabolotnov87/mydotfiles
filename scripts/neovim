@@ -18,9 +18,13 @@ if [ ! -d ~/.config/nvim/snippets ]; then
   ln -sf $BASE/nvim/snippets ~/.config/nvim/snippets
 fi
 
-# # About vim-plug: https://github.com/junegunn/vim-plug
-curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+which nvim || brew install neovim
 
-brew install neovim
+PLUG_VIM=$HOME/.local/share/nvim/site/autoload/plug.vim
+
+if [ ! -f $PLUG_VIM ]; then
+  # # About vim-plug: https://github.com/junegunn/vim-plug
+  curl -fLo $PLUG_VIM --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
+
 nvim +PlugInstall +qall
