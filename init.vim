@@ -65,12 +65,6 @@
   set grepprg=rg\ --vimgrep\ --smart-case\ --follow
 " }}}
 
-" Apply local settings {{{
-  if filereadable('.nvimrc_before_plugs')
-    source .nvimrc_before_plugs
-  endif
-" }}}
-
 " Plugins {{{
   let g:plug_window='new'
 
@@ -127,19 +121,9 @@
   Plug 'DataWraith/auto_mkdir'
   Plug 'dense-analysis/ale'
 
-  " disable vimwiki by default
-  if !exists('g:vimwiki_enabled')
-    let g:loaded_vimwiki = 1
-  endif
   Plug 'vimwiki/vimwiki'
 
   call plug#end()
-
-  " Clear all default mappings which comes from plugins
-  if !exists('g:mapclear')
-    let g:mapclear = 1
-    mapclear
-  endif
 " }}}
 
 " Plugins Settings {{{
@@ -185,11 +169,16 @@
   " }}}
 
   " vimwiki {{{
-    let g:vimwiki_list = [{
-      \ 'path': '~/Dropbox/wiki/',
-      \ 'syntax': 'markdown',
-      \ 'ext': '.md',
-      \ }]
+    let g:vimwiki_key_mappings = { 'all_maps': 0 }
+    let g:vimwiki_global_ext = 0
+    let g:vimwiki_list = [{ 'path': '~/Dropbox/wiki/', 'syntax': 'markdown', 'ext': '.md' }]
+
+    " Settings for a local wiki:
+    "
+    " set colorcolumn=0
+    " set linebreak
+    " let g:vimwiki_key_mappings = { 'all_maps': 1 }
+    " let g:vimwiki_global_ext = 1
   " }}}
 
   " lsp {{{
@@ -300,7 +289,7 @@
   endfunction
 
   function! FConfl() abort
-    execute 'tabe .nvimrc | split | e .nvimrc_before_plugs'
+    execute 'tabe .nvimrc'
   endfunction
 
   function! FSourceIfExists(file) abort

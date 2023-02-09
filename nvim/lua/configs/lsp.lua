@@ -40,11 +40,7 @@ end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-local servers = vim.g.lsp_servers or {
-  'rust_analyzer',
-  'gopls',
-  'tsserver',
-}
+local servers = vim.g.lsp_servers or {}
 
 for _, server in ipairs(servers) do
   lsp[server].setup {
