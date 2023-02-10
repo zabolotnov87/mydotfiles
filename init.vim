@@ -1,70 +1,5 @@
 " vim:foldmethod=marker:foldminlines=1
 
-" Basic settings {{{
-  let mapleader=','
-
-  " allows loading local executing local nvimrc
-  set exrc
-  " disallows the use of :autocmd, shell and write commands in local
-  set secure
-
-  set modelines=1
-
-  " ALWAYS use the clipboard for ALL operations
-  set clipboard+=unnamedplus
-
-  " This enables us to undo files even if you exit Vim
-  set undofile
-
-  set autowriteall
-
-  set foldmethod=indent
-  " Do not close folds automatically
-  set foldlevel=20
-
-  " Increase maximum amount of memory (in Kbyte) to use for pattern matching.
-  set maxmempattern=20000
-
-  set noswapfile " Don't use swapfile
-  set nobackup   " Don't create annoying backup files
-
-  " Indenting
-  set tabstop=2
-  set softtabstop=2
-  set shiftwidth=2
-  set shiftround
-  set expandtab
-  set smartindent
-
-  " Enables 24-bit RGB color in the Terminal UI
-  set termguicolors
-
-  " color current line
-  set cursorline
-
-  " show invisible characters
-  set list
-  " display extra whitespace
-  set listchars=tab:▸\ ,trail:·,extends:❯,precedes:❮,nbsp:×
-
-  set colorcolumn=100
-
-  set numberwidth=5
-  set relativenumber
-  set number
-
-  set wildmode=list:longest,list:full
-
-  set signcolumn=auto
-
-  set ignorecase
-  set smartcase
-  nohlsearch    " do not highlight last search on startup
-
-  " Use ripgrep for search instead of grep
-  set grepprg=rg\ --vimgrep\ --smart-case\ --follow
-" }}}
-
 " Plugins {{{
   let g:plug_window='new'
 
@@ -94,7 +29,7 @@
 
   " treesitter and text objects
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+  " Plug 'nvim-treesitter/nvim-treesitter-textobjects'
   Plug 'kana/vim-textobj-user'
   Plug 'kana/vim-textobj-line'
 
@@ -124,6 +59,72 @@
   Plug 'vimwiki/vimwiki'
 
   call plug#end()
+" }}}
+
+" Basic settings {{{
+  let mapleader=','
+
+  " allows loading local executing local nvimrc
+  set exrc
+  " disallows the use of :autocmd, shell and write commands in local
+  set secure
+
+  set modelines=1
+
+  " ALWAYS use the clipboard for ALL operations
+  set clipboard+=unnamedplus
+
+  " This enables us to undo files even if you exit Vim
+  set undofile
+
+  set autowriteall
+
+  set foldmethod=indent
+  " Do not close folds automatically
+  set foldlevel=20
+
+  " Increase maximum amount of memory (in Kbyte) to use for pattern matching.
+  set maxmempattern=20000
+
+  set noswapfile " Don't use swapfile
+  set nobackup   " Don't create annoying backup files
+
+  " Tabs
+  set tabstop=2
+  set softtabstop=2
+  set expandtab
+  set shiftwidth=2
+  set shiftround
+
+  set autoindent
+  set smartindent
+
+  " Enables 24-bit RGB color in the Terminal UI
+  set termguicolors
+
+  " color current line
+  set cursorline
+
+  " show invisible characters
+  set list
+  " display extra whitespace
+  set listchars=tab:▸\ ,trail:·,extends:❯,precedes:❮,nbsp:×
+
+  set colorcolumn=100
+
+  set numberwidth=5
+  set number
+  set relativenumber
+
+  set wildmode=list:longest,list:full
+
+  " searching
+  set ignorecase
+  set smartcase
+  nohlsearch    " do not highlight last search on startup
+
+  " Use ripgrep for search instead of grep
+  set grepprg=rg\ --vimgrep\ --smart-case\ --follow
 " }}}
 
 " Plugins Settings {{{
@@ -337,9 +338,9 @@
   command! Confl call FConfl()
   command! Bd %bd!|e#
   command! -nargs=+ GGrep call FGitGrep(<q-args>)
-  command! -nargs=+ Grep call FGrep(<q-args>)
-  command! -nargs=+ SGrep call FSmartGrep(<q-args>)
-  command! Todo :SGrep TODO
+  command! -nargs=+ FGrep call FGrep(<q-args>)
+  command! -nargs=+ Grep call FSmartGrep(<q-args>)
+  command! Todo :Grep TODO
   command! LuaSnipEdit :lua require('luasnip.loaders').edit_snippet_files()
 " }}}
 
@@ -363,11 +364,20 @@
   " Act like D and C
   nnoremap Y y$
 
+  " Search mappings: These will make it so that going to the
+  " next one in a search will center on the line it's found in.
+  nnoremap n nzzzv
+  nnoremap N Nzzzv
+
   " switching windows
   nnoremap <C-j> <C-w>j
   nnoremap <C-k> <C-w>k
   nnoremap <C-l> <C-w>l
   nnoremap <C-h> <C-w>h
+
+  " expand current window
+  nnoremap <leader>E <C-w>\|<C-w>_
+  nnoremap <leader>R <C-w>=
 
   " navigate between tabs
   nnoremap <silent>H :tabprevious<CR>
@@ -458,7 +468,7 @@
   nnoremap <leader>fm :Marks<CR>
   nnoremap <leader>fx :Windows<CR>
   nnoremap <leader>fc :Commands<CR>
-  nnoremap <leader>gw "zyiw:exe "SGrep ".@z.""<CR>
+  nnoremap <leader>gw "zyiw:exe "Grep ".@z.""<CR>
   nnoremap <leader>gf :GFiles?<CR>
 
   " hop
@@ -481,12 +491,13 @@
   " " For changing choices in choiceNodes (not strictly necessary for a basic setup).
   " imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
   " smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+
 " }}}
 
 " Autogroups {{{
     augroup General
       autocmd!
-      " Strip trailing whitespaces
+      " Strip trailing whitespaces (except sql)
       autocmd BufWritePre *.sql let b:noStripWhiteSpaces=1
       autocmd BufWritePre * :call <SID>strip_trailing_whitespaces()
 
@@ -505,6 +516,9 @@
 
       autocmd FileType fugitive,fugitiveblame nmap <buffer> q gq
       autocmd FileType lspinfo nmap <buffer> q <Esc>
+
+      " Remember cursor position
+      autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
     augroup END
 
     augroup Ruby
@@ -515,22 +529,10 @@
       " Expose command Bo to open source code of a gem
       autocmd Filetype ruby command! -nargs=1 Bo call FOpenGem(<q-args>)
 
-      " Support arbre (https://github.com/activeadmin/arbre)
-      autocmd BufEnter *.arb setlocal filetype=ruby
-      " Support jbuilder
-      autocmd BufEnter *.jbuilder setlocal filetype=ruby
-      " Support sorbet rbi
-      autocmd BufEnter *.rbi setlocal filetype=ruby
-
       autocmd FileType ruby command! GoToSpec call FRubyGoToSpec()
       autocmd FileType ruby command! GoFromSpec call FRubyGoFromSpec()
-    augroup END
 
-    augroup JS
-      autocmd!
-      autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
-      autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
-      autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
+      autocmd BufNewFile,BufRead *.rb,*.jbuilder,*.arb,*.gemspec setlocal filetype=ruby
     augroup END
 " }}}
 

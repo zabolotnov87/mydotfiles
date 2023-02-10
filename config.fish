@@ -139,9 +139,6 @@ set fish_greeting
 # Configure direnv
 set -gx DIRENV_LOG_FORMAT ""
 eval (direnv hook fish)
-if test -e .envrc
-  direnv allow
-end
 
 if test -e ~/.asdf/asdf.fish
   source ~/.asdf/asdf.fish
