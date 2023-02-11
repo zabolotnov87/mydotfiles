@@ -174,10 +174,13 @@
     let g:vimwiki_global_ext = 0
     let g:vimwiki_list = [{ 'path': '~/Dropbox/wiki/', 'syntax': 'markdown', 'ext': '.md' }]
 
+    augroup VimWikiLocal
+      autocmd!
+      autocmd FileType vimwiki set colorcolumn=0|set linebreak|set noexpandtab|set nolist
+    augroup END
+
     " Settings for a local wiki:
     "
-    " set colorcolumn=0
-    " set linebreak
     " let g:vimwiki_key_mappings = { 'all_maps': 1 }
     " let g:vimwiki_global_ext = 1
   " }}}
