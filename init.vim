@@ -371,6 +371,7 @@
   " next one in a search will center on the line it's found in.
   nnoremap n nzzzv
   nnoremap N Nzzzv
+  nnoremap <C-]> <C-]>zzzv
 
   " switching windows
   nnoremap <C-j> <C-w>j
