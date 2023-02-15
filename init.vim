@@ -146,11 +146,15 @@
 
   " ale (used for ruby only, disabled by default) {{{
     let g:ale_enabled = 0
+    let g:ale_virtualtext_cursor = 0
     let g:ale_set_loclist = 0
     let g:ale_set_quickfix = 0
     let g:ale_linters = {'ruby': ['rubocop']}
     let g:ale_linters_explicit = 1
     let g:ale_fixers = {'ruby': ['rubocop']}
+    let g:ale_sign_warning = 'W'
+    let g:ale_sign_error = 'E'
+    let g:ale_sign_info = 'I'
     " let g:ale_ruby_rubocop_options = '--server --disable-pending-cops'
     " let g:ale_ruby_rubocop_executable = 'rubocop-daemon-wrapper'
     let g:ale_ruby_rubocop_auto_correct_all = 1
