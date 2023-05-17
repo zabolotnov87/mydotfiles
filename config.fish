@@ -61,6 +61,7 @@ function fco -d "Fuzzy-find branch"
     set -l branch (string replace -r '\s' '' $branch)
     set -l branch (string replace -r 'remotes\/origin\/' '' $branch)
     commandline -it -- $branch
+    commandline -f repaint
   end
 end
 
