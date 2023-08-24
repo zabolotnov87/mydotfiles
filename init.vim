@@ -35,10 +35,8 @@
 
   " appearance
   Plug 'chriskempson/base16-vim'
-  Plug 'folke/zen-mode.nvim'
 
   " syntax and indentations
-  Plug 'hallison/vim-rdoc'
   Plug 'sheerun/vim-polyglot'
 
   " general utils
@@ -69,6 +67,7 @@
   " disallows the use of :autocmd, shell and write commands in local
   set secure
 
+  " the number of lines that is checked for set commands (example: 'vim:foldmethod=marker')
   set modelines=1
 
   " ALWAYS use the clipboard for ALL operations
@@ -83,7 +82,7 @@
   " Do not close folds automatically
   set foldlevel=20
 
-  " Increase maximum amount of memory (in Kbyte) to use for pattern matching.
+  " Increase maximum amount of memory (in Kbyte) to use for pattern matching
   set maxmempattern=20000
 
   set noswapfile " Don't use swapfile
@@ -96,7 +95,7 @@
   set shiftwidth=2
   set shiftround
 
-  set autoindent
+  set autoindent " Copy indent from current line when starting a new line
   set smartindent
 
   " Enables 24-bit RGB color in the Terminal UI
@@ -130,7 +129,6 @@
 " Plugins Settings {{{
     lua require('hop').setup { keys = 'etovxqpdygfblzhckisuran', term_seq_bias = 0.5 }
     lua require('kommentary.config').use_default_mappings()
-    lua require("zen-mode").setup { plugins = { twilight = false } }
 
     lua require('configs/treesitter')
     lua require("configs/luasnip")
