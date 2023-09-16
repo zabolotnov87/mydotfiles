@@ -9,6 +9,4 @@ eval $(/opt/homebrew/bin/brew shellenv)
 brew tap homebrew/cask-fonts
 brew install --cask font-fira-code
 
-cp $BASE/fonts/* ~/Library/Fonts/
-
 echo 'The fonts are installed.'

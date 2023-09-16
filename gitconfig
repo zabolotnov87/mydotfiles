@@ -27,8 +27,6 @@
   last = log -1 HEAD
   rc = rebase --continue
   rs = rebase --skip
-  unstage = reset HEAD
-  undo = reset --soft HEAD^
   s = status -s
   g = grep --break --heading --line-number
 [format]

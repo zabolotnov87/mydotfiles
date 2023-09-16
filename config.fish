@@ -1,6 +1,5 @@
 # Common aliases
 alias ll   "ls -alh"
-alias tmux "env TERM=xterm-256color tmux"
 alias tls  "tmux list-sessions"
 alias vim  "new_or_fg nvim"
 alias vi   "vim"
@@ -13,7 +12,6 @@ alias etc  "vi ~/.tmux.conf && ltc"
 alias efc  "vi ~/.config/fish/config.fish && lfc"
 alias elc  "vi ~/.config.fish.local && lfc"
 alias pf   "ps aux | fzf"
-alias drmi "docker images -qf dangling=true | xargs docker rmi -f"
 
 # Git
 alias ga     "git a -p"
@@ -23,7 +21,6 @@ alias gls    "git ls"
 alias gg     "git g"
 alias gl     "git last"
 alias gc     "git c"
-alias gu     "git up"
 alias gb     "git b"
 alias gp     "git put"
 alias gd     "git d"
