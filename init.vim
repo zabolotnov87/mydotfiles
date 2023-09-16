@@ -7,8 +7,8 @@
   call plug#begin(s:plugs_path)
 
   " must have
+  Plug '~/.fzf'
   Plug 'junegunn/fzf.vim'
-  Plug 'junegunn/fzf'
   Plug 'janko-m/vim-test'
   Plug 'phaazon/hop.nvim'   " easymotion for neovim
   Plug 'tpope/vim-surround' " delete/change/add parentheses/quotes/tags

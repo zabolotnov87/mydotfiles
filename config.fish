@@ -39,10 +39,6 @@ alias bi "bundle install"
 alias be "bundle exec"
 alias bo "bundle open"
 
-function fzf
-  env FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS fzf
-end
-
 function ta
   tmux attach-session -t $argv || tmux new -As $argv
 end
@@ -106,16 +102,14 @@ if test -e /opt/homebrew/bin/brew
   eval $(/opt/homebrew/bin/brew shellenv)
 end
 
+# Configure fzf
 bind \cb fco
 bind \ct fzf
-
 set -e -g FZF_DEFAULT_OPTS
 set -U FZF_DEFAULT_OPTS '--reverse --height 60%'
 mkdir -p $HOME/tmp
 set -gx FZF_DEFAULT_OPTS_FILE "$HOME/tmp/fzf_default_opts"
-
 test -e $FZF_DEFAULT_OPTS_FILE; or echo $FZF_DEFAULT_OPTS > $FZF_DEFAULT_OPTS_FILE
-
 set -gx FZF_IGNORE_LIST 'node_modules,.git,tmp,vendor,sorbet'
 set -gx FZF_DEFAULT_COMMAND 'rg --files --hidden --follow --no-ignore-vcs -g "!{$FZF_IGNORE_LIST}"'
 set -gx FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
