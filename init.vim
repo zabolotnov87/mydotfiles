@@ -128,7 +128,7 @@
   " }}}
 
   " hop {{{
-    lua require('hop').setup { keys = 'etovxqpdygfblzhckisuran', term_seq_bias = 0.5 }
+    lua require('hop').setup { keys = 'etovxpdygfblzhckisuran', quit_key = 'q', term_seq_bias = 0.5 }
   " }}}
 
   " kommentary {{{
