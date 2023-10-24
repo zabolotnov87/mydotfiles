@@ -31,8 +31,9 @@
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
-  " text objects
+  " framework for defining text objects, see https://github.com/kana/vim-textobj-user/wiki
   Plug 'kana/vim-textobj-user'
+  " al/il for the current line
   Plug 'kana/vim-textobj-line'
 
   " appearance
