@@ -1,11 +1,19 @@
 require("nvim-treesitter.configs").setup{
   -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   ensure_installed = {
+    "vimdoc",
+    "vim",
     "ruby",
     "javascript",
     "typescript",
     "lua",
     "rust",
+    "go",
+    "c",
+    "fish",
+  },
+  ident = {
+    enable = true
   },
   highlight = {
     -- false will disable the whole extension
