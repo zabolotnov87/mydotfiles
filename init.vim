@@ -127,11 +127,18 @@
 " }}}
 
 " Plugins Settings {{{
-    lua require('hop').setup { keys = 'etovxqpdygfblzhckisuran', term_seq_bias = 0.5 }
-    lua require('kommentary.config').use_default_mappings()
-
+  " require lua modules {{{
     lua require('configs/treesitter')
     lua require("configs/luasnip")
+  " }}}
+
+  " hop {{{
+    lua require('hop').setup { keys = 'etovxqpdygfblzhckisuran', term_seq_bias = 0.5 }
+  " }}}
+
+  " kommentary {{{
+    lua require('kommentary.config').use_default_mappings()
+  " }}}
 
   " gutentags {{{
     let g:gutentags_ctags_exclude = ['*.js', '*.html', '*.erb', '*.rbi', '*.xml', '*.json', '*.ts']
@@ -250,7 +257,7 @@
 " }}}
 
 " Functions {{{
-  function! s:strip_trailing_whitespaces()
+  function! s:strip_trailing_whitespaces() " {{{
     if exists('b:noStripWhiteSpaces')
       return
     endif
@@ -261,14 +268,14 @@
     %s/\s\+$//e
     let @/=_s
     call cursor(l, c)
-  endfunction
+  endfunction " }}}
 
-  function! s:get_selected_text()
+  function! s:get_selected_text() " {{{
     silent! normal! gv"ay
     return @a
-  endfunction
+  endfunction " }}}
 
-  function! FOpenPlug(plug) abort
+  function! FOpenPlug(plug) abort " {{{
     let without_opts = split(a:plug, ',')[0]
     let normalized_name = substitute(without_opts, "Plug", "", "")
     let normalized_name = substitute(normalized_name, " ", "", "g")
@@ -277,9 +284,9 @@
     let path_to_plug = s:plugs_path . '/' . plug_name
     execute('lcd ' . path_to_plug)
     execute('e ' . path_to_plug)
-  endfunction
+  endfunction " }}}
 
-  function! FOpenGem(gem) abort
+  function! FOpenGem(gem) abort " {{{
     let without_opts = split(a:gem, ',')[0]
     let normalized_name = substitute(without_opts, "gem", "", "")
     let normalized_name = substitute(normalized_name, " ", "", "g")
@@ -287,55 +294,55 @@
     let path_to_gem = system('bundle info --path ' . normalized_name)
     execute('lcd ' . path_to_gem)
     execute('e . ')
-  endfunction
+  endfunction " }}}
 
-  function! FConf() abort
+  function! FConf() abort " {{{
     execute 'tabe '.$MYVIMRC
     execute 'lcd %:p:h'
-  endfunction
+  endfunction " }}}
 
-  function! FConfl() abort
+  function! FConfl() abort " {{{
     execute 'tabe .nvimrc'
-  endfunction
+  endfunction " }}}
 
-  function! FSourceIfExists(file) abort
+  function! FSourceIfExists(file) abort " {{{
     if filereadable(expand(a:file))
       execute 'source' a:file
     endif
-  endfunction
+  endfunction " }}}
 
-  function! FRubyGoToSpec() abort
+  function! FRubyGoToSpec() abort " {{{
     let current_path = expand('%')
     let spec_path = substitute(current_path, '.rb', '_spec.rb', 'g')
     let spec_path = 'spec/' . substitute(spec_path, 'app/', '', 'g')
     execute('e ' . spec_path)
-  endfunction
+  endfunction " }}}
 
-  function! FRubyGoFromSpec() abort
+  function! FRubyGoFromSpec() abort " {{{
     let spec_path = expand('%')
     let path = substitute(spec_path, '_spec', '', 'g')
     let path = substitute(path, 'spec/', 'app/', 'g')
     execute('e ' . path)
-  endfunction
+  endfunction " }}}
 
-  function! FGitGrep(pattern) abort
+  function! FGitGrep(pattern) abort " {{{
     execute 'silent Ggrep ' . a:pattern . ' -- ' . $FZF_IGNORE_LIST_FOR_GIT_GREP . ' | copen'
-  endfunction
+  endfunction " }}}
 
-  function! FGrep(pattern) abort
+  function! FGrep(pattern) abort " {{{
     execute 'silent grep!'
             \ . ' --line-number'
             \ . ' --no-heading'
             \ . ' -g "!{' . g:fzf_ignore_list . '}" ' . a:pattern . ' .'
-  endfunction
+  endfunction " }}}
 
-  function! FSmartGrep(pattern) abort
+  function! FSmartGrep(pattern) abort " {{{
     if isdirectory('.git')
       call FGitGrep(a:pattern)
     else
       call FGrep(a:pattern)
     endif
-  endfunction
+  endfunction " }}}
 " }}}
 
 " Commands {{{
@@ -485,10 +492,11 @@
   nnoremap <silent> <leader><leader>f :lua require('hop').hint_char1()<CR>
   vnoremap <silent> <leader><leader>f :lua require('hop').hint_char1()<CR>
 
-  " LuaSnip
+  " luasnip
   "
   " press <Tab> to expand or jump in a snippet. These can also be mapped separately
   " via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
+  "
   imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
   " -1 for jumping backwards.
   inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
@@ -501,7 +509,7 @@
 " }}}
 
 " Autogroups {{{
-    augroup General
+    augroup General " {{{
       autocmd!
       " Strip trailing whitespaces (except sql)
       autocmd BufWritePre *.sql let b:noStripWhiteSpaces=1
@@ -509,7 +517,7 @@
 
       autocmd FileType gitcommit setlocal colorcolumn=80
 
-      " Allow to open source code of selected plugin in new tab
+      " Allow to open source code of selected vim plugin in new tab
       autocmd FileType vim nmap <buffer> <leader>o :normal vil<CR> :call FOpenPlug(<SID>get_selected_text())<CR>
 
       autocmd TermOpen * setlocal nonumber norelativenumber
@@ -522,21 +530,21 @@
 
       autocmd FileType fugitive,fugitiveblame nmap <buffer> q gq
       autocmd FileType lspinfo nmap <buffer> q <Esc>
-    augroup END
+    augroup END " }}}
 
-    augroup Ruby
+    augroup Ruby " {{{
       autocmd!
-      " Allow to open source code of selected gem in new tab
+
+      autocmd BufNewFile,BufRead *.rb,*.jbuilder,*.arb,*.gemspec setlocal filetype=ruby
+
+      " Allow to open source code of the selected gem in a new tab
       autocmd FileType ruby nmap <buffer> <leader>o :normal vil<CR> :call FOpenGem(<SID>get_selected_text())<CR>
 
-      " Expose command Bo to open source code of a gem
       autocmd Filetype ruby command! -nargs=1 Bo call FOpenGem(<q-args>)
-
       autocmd FileType ruby command! GoToSpec call FRubyGoToSpec()
       autocmd FileType ruby command! GoFromSpec call FRubyGoFromSpec()
 
-      autocmd BufNewFile,BufRead *.rb,*.jbuilder,*.arb,*.gemspec setlocal filetype=ruby
-    augroup END
+    augroup END " }}}
 " }}}
 
 " Setup colorscheme {{{
