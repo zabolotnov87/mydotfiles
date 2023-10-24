@@ -27,9 +27,11 @@
   " lsp
   Plug 'neovim/nvim-lspconfig'
 
-  " treesitter and text objects
+  " treesitter-related staff
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  " Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+
+  " text objects
   Plug 'kana/vim-textobj-user'
   Plug 'kana/vim-textobj-line'
 
@@ -79,8 +81,7 @@
   set autowriteall
 
   set foldmethod=indent
-  " Do not close folds automatically
-  set foldlevel=20
+  set nofoldenable " disable folding at startup
 
   " Increase maximum amount of memory (in Kbyte) to use for pattern matching
   set maxmempattern=20000
