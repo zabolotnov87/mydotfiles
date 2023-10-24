@@ -95,9 +95,6 @@
   set shiftwidth=2
   set shiftround
 
-  set autoindent " Copy indent from current line when starting a new line
-  set smartindent
-
   " Enables 24-bit RGB color in the Terminal UI
   set termguicolors
 
