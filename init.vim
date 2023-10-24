@@ -522,9 +522,6 @@
 
       autocmd FileType fugitive,fugitiveblame nmap <buffer> q gq
       autocmd FileType lspinfo nmap <buffer> q <Esc>
-
-      " Remember cursor position
-      autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
     augroup END
 
     augroup Ruby
