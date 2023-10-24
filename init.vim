@@ -30,6 +30,7 @@
   " treesitter-related staff
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+  Plug 'mfussenegger/nvim-treehopper'
 
   " framework for defining text objects, see https://github.com/kana/vim-textobj-user/wiki
   Plug 'kana/vim-textobj-user'
@@ -502,6 +503,9 @@
   " imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
   " smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
 
+  " treehopper
+  omap     <silent> m :<C-U>lua require('tsht').nodes()<CR>
+  xnoremap <silent> m :lua require('tsht').nodes()<CR>
 " }}}
 
 " Autogroups {{{
