@@ -38,9 +38,6 @@
   " appearance
   Plug 'chriskempson/base16-vim'
 
-  " syntax and indentations
-  Plug 'sheerun/vim-polyglot'
-
   " general utils
   Plug 'nvim-lua/plenary.nvim'
 
