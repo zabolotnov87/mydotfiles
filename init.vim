@@ -80,7 +80,7 @@
   set autowriteall
 
   set foldmethod=indent
-  set nofoldenable " disable folding at startup
+  set foldlevel=20 " do not close folds automatically
 
   " Increase maximum amount of memory (in Kbyte) to use for pattern matching
   set maxmempattern=20000
