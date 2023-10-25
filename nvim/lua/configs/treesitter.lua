@@ -27,10 +27,10 @@ require("nvim-treesitter.configs").setup{
   incremental_selection = {
     enable = true,
     keymaps = {
-      init_selection = "<CR>", -- set to `false` to disable one of the mappings
+      init_selection    = '<CR>', -- set to `false` to disable one of the mappings
       scope_incremental = '<CR>',
-      node_incremental = '<TAB>',
-      node_decremental = '<S-TAB>',
+      node_incremental  = '<TAB>',
+      node_decremental  = '<S-TAB>',
     },
   },
   textobjects = {
@@ -49,19 +49,43 @@ require("nvim-treesitter.configs").setup{
         ["ia"] = "@parameter.inner",
         ["aa"] = "@parameter.outer",
       },
+      selection_modes = {
+        ['@function.outer'] = 'V',
+        ['@function.inner'] = 'V',
+      },
+      -- include_surrounding_whitespace = true,
+    },
+    swap = {
+      enable = true,
+      swap_next = {
+        ["<leader>w"] = "@parameter.inner",
+      },
+      swap_previous = {
+        ["<leader>W"] = "@parameter.inner",
+      },
     },
     move = {
       enable = true,
-      set_jumps = true, -- whether to set jumps in the jumplist
+      set_jumps = true,
       goto_next_start = {
         ["]f"] = "@function.outer",
-        ["]]"] = "@class.outer",
+        ["]c"] = "@class.outer",
         ["]b"] = "@block.outer",
+      },
+      goto_next_end = {
+        ["]F"] = "@function.outer",
+        ["]C"] = "@class.outer",
+        ["]B"] = "@block.outer",
       },
       goto_previous_start = {
         ["[f"] = "@function.outer",
         ["[b"] = "@block.outer",
         ["[["] = "@class.outer",
+      },
+      goto_previous_end = {
+        ["[F"] = "@function.outer",
+        ["[B"] = "@block.outer",
+        ["[C"] = "@class.outer",
       },
     },
   },
