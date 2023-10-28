@@ -6,54 +6,53 @@
   let s:plugs_path='~/.local/share/nvim/plugged'
   call plug#begin(s:plugs_path)
 
-  " must have
-  Plug '~/.fzf'
-  Plug 'junegunn/fzf.vim'
+  " wrapper for running tests
   Plug 'janko-m/vim-test'
-  Plug 'phaazon/hop.nvim'   " easymotion for neovim
-  Plug 'tpope/vim-surround' " delete/change/add parentheses/quotes/tags
+  " terminal manager for vim-test
+  Plug 'kassio/neoterm'
+  " easymotion for neovim
+  Plug 'phaazon/hop.nvim'
+  " delete/change/add parentheses/quotes/tags
+  Plug 'tpope/vim-surround'
+  " plugin to comment text in and out
   Plug 'b3nj5m1n/kommentary'
+  " snippets manager
+  Plug 'L3MON4D3/LuaSnip', {'tag': 'v1.*'}
+  " lsp
+  Plug 'neovim/nvim-lspconfig'
+  " framework for defining text objects, see https://github.com/kana/vim-textobj-user/wiki
+  Plug 'kana/vim-textobj-user'
+  " al/il for the current line
+  Plug 'kana/vim-textobj-line'
+  " appearance
+  Plug 'chriskempson/base16-vim'
+  " general utils
+  Plug 'nvim-lua/plenary.nvim'
+  " file system explorer
+  Plug 'preservim/nerdtree'
+  " generate github links
+  Plug 'knsh14/vim-github-link'
+  " manage tag files
+  Plug 'ludovicchabant/vim-gutentags'
+  " linting and formatting
+  Plug 'dense-analysis/ale'
+  " allows to create dirs automatically
+  Plug 'DataWraith/auto_mkdir'
+  " elignment plugin
   Plug 'junegunn/vim-easy-align'
 
   " interface to git
   Plug 'tpope/vim-fugitive'
+  Plug 'lewis6991/gitsigns.nvim'
 
-  " terminal manager for vim-test
-  Plug 'kassio/neoterm'
-
-  " snippets manager
-  Plug 'L3MON4D3/LuaSnip', {'tag': 'v1.*'}
-
-  " lsp
-  Plug 'neovim/nvim-lspconfig'
+  " the best fuzzy finder
+  Plug '~/.fzf'
+  Plug 'junegunn/fzf.vim'
 
   " treesitter-related staff
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
   Plug 'mfussenegger/nvim-treehopper'
-
-  " framework for defining text objects, see https://github.com/kana/vim-textobj-user/wiki
-  Plug 'kana/vim-textobj-user'
-  " al/il for the current line
-  Plug 'kana/vim-textobj-line'
-
-  " appearance
-  Plug 'chriskempson/base16-vim'
-
-  " general utils
-  Plug 'nvim-lua/plenary.nvim'
-
-  " file system explorer
-  Plug 'preservim/nerdtree'
-
-  " generate github links
-  Plug 'knsh14/vim-github-link'
-
-  " manage tag files
-  Plug 'ludovicchabant/vim-gutentags'
-
-  Plug 'DataWraith/auto_mkdir'
-  Plug 'dense-analysis/ale'
 
   Plug 'vimwiki/vimwiki'
 
@@ -126,7 +125,8 @@
 " Plugins Settings {{{
   " require lua modules {{{
     lua require('configs/treesitter')
-    lua require("configs/luasnip")
+    lua require('configs/luasnip')
+    lua require('configs/gitsigns')
   " }}}
 
   " hop {{{
@@ -367,6 +367,9 @@
   inoremap <C-l> <Right>
   inoremap <C-h> <Left>
 
+  " Format current line
+  nnoremap = V=
+
   " space open/closes folds
   nnoremap <space> za
 
@@ -458,7 +461,6 @@
 
   " fugitive
   nnoremap <Leader>gs :Git<CR>
-  nnoremap <Leader>gb :Git blame<CR>
   nnoremap <Leader>gd :Gdiff<CR>
 
   " easy align
