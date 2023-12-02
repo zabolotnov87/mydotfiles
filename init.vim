@@ -56,8 +56,6 @@
 
   Plug 'vimwiki/vimwiki'
 
-  Plug 'zbirenbaum/copilot.lua'
-
   call plug#end()
 " }}}
 
@@ -129,7 +127,6 @@
     lua require('configs/treesitter')
     lua require('configs/luasnip')
     lua require('configs/gitsigns')
-    lua require('configs/copilot')
   " }}}
 
   " hop {{{
