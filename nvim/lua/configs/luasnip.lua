@@ -22,6 +22,8 @@ ls.config.setup({store_selection_keys="<Tab>"})
 ruby = {
   s({trig="pry"}, {t("require 'pry'; ::Kernel.binding.pry")}),
 
+  s({trig="dc"}, {t("described_class")}),
+
   s({trig="d"}, {
     t("def "), i(1),
     t({"", "  "}), i(0),
