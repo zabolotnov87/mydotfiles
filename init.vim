@@ -32,8 +32,6 @@
   Plug 'preservim/nerdtree'
   " generate github links
   Plug 'knsh14/vim-github-link'
-  " manage tag files
-  Plug 'ludovicchabant/vim-gutentags'
   " linting and formatting
   Plug 'dense-analysis/ale'
   " allows to create dirs automatically
@@ -135,10 +133,6 @@
 
   " kommentary {{{
     lua require('kommentary.config').use_default_mappings()
-  " }}}
-
-  " gutentags {{{
-    let g:gutentags_ctags_exclude = ['*.js', '*.html', '*.erb', '*.rbi', '*.xml', '*.json', '*.ts']
   " }}}
 
   " nerdtree {{{
