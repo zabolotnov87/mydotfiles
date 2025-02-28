@@ -177,7 +177,6 @@
     augroup VimWikiLocal
       autocmd!
       autocmd FileType vimwiki set colorcolumn=0|set linebreak|set noexpandtab|set nolist
-      autocmd FileType vimwiki nmap f <Plug>VimwikiFollowLink
     augroup END
 
     " Settings for a local wiki:
