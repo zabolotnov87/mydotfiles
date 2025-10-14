@@ -41,7 +41,6 @@
 
   " interface to git
   Plug 'tpope/vim-fugitive'
-  Plug 'lewis6991/gitsigns.nvim'
 
   " the best fuzzy finder
   Plug '~/.fzf'
@@ -50,7 +49,6 @@
   " treesitter-related staff
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-  Plug 'mfussenegger/nvim-treehopper'
 
   Plug 'vimwiki/vimwiki'
 
@@ -124,7 +122,6 @@
   " require lua modules {{{
     lua require('configs/treesitter')
     lua require('configs/luasnip')
-    lua require('configs/gitsigns')
   " }}}
 
   " hop {{{
@@ -495,13 +492,6 @@
   inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
   snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
   snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
-  " " For changing choices in choiceNodes (not strictly necessary for a basic setup).
-  " imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
-  " smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
-
-  " treehopper
-  omap     <silent> m :<C-U>lua require('tsht').nodes()<CR>
-  xnoremap <silent> m :lua require('tsht').nodes()<CR>
 " }}}
 
 " Autogroups {{{
