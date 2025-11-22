@@ -453,6 +453,8 @@
   " fugitive
   nnoremap <Leader>gs :Git<CR>
   nnoremap <Leader>gd :Gdiff<CR>
+  nnoremap <Leader>gb :G blame<CR>
+
 
   " easy align
   xmap ga <Plug>(EasyAlign)
