@@ -1,11 +1,9 @@
 SHELL = bash
 
-.PHONY: fonts
+default: basic git fish fzf neovim tmux base16 done
 
-default: brew git fish fzf langs neovim tmux base16 fonts done
-
-brew:
-	./scripts/brew
+basic:
+	./scripts/basic
 
 git:
 	./scripts/git
@@ -15,9 +13,6 @@ fish:
 
 fzf:
 	./scripts/fzf
-
-langs:
-	./scripts/langs
 
 neovim:
 	./scripts/neovim
@@ -32,4 +27,4 @@ fonts:
 	./scripts/fonts
 
 done:
-	@printf "\nDone! Please, restart shell.\n"
+	@printf "\nDone! Please, restart the shell.\n"

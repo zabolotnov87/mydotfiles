@@ -2,16 +2,21 @@
 
 set -euo pipefail
 
-BASE=$(pwd)
+context='[tmux]'
 
-eval $(/opt/homebrew/bin/brew shellenv)
+log() {
+  echo "$context $*"
+}
 
-brew install tmux
-brew install reattach-to-user-namespace
+log "start"
 
-ln -sf $BASE/tmux.conf ~/.tmux.conf
+base=$(pwd)
+
+ln -sf $base/tmux.conf ~/.tmux.conf
 
 cat << EOF > ~/.tmux.conf.local
 set -g status-bg black
 set -g status-fg white
 EOF
+
+log "done"

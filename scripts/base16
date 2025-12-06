@@ -2,6 +2,14 @@
 
 set -euo pipefail
 
+context='[base16]'
+
+log() {
+  echo "$context $*"
+}
+
+log "start"
+
 BASE16_DIR=~/.config/base16
 FZF_DEFAULT_OPTS_FILE=~/tmp/fzf_default_opts
 
@@ -25,3 +33,5 @@ echo -e "if !exists('g:colors_name') || g:colors_name != 'base16-\$BASE16_THEME'
 EOF
 
 chmod +x $BASE16_DIR/hooks/fzf
+
+log "done"

@@ -2,24 +2,30 @@
 
 set -euo pipefail
 
-BASE=$(pwd)
+context='[git]'
 
-eval $(/opt/homebrew/bin/brew shellenv)
+log() {
+  echo "$context $*"
+}
 
-brew install git
+log "start"
 
-GIT_NAME='Sergey Zabolotnov'
-GIT_EMAIL='sergey.zabolotnov@gmail.com'
+base=$(pwd)
 
-ln -sf $BASE/gitignore ~/.gitignore
-ln -sf $BASE/gitconfig ~/.gitconfig
+git_name='Sergey Zabolotnov'
+git_email='sergey.zabolotnov@gmail.com'
+
+ln -sf $base/gitignore ~/.gitignore
+ln -sf $base/gitconfig ~/.gitconfig
 
 if [ ! -f ~/.gitconfig.user ]; then
   cat << EOF > ~/.gitconfig.user
 [user]
-  name = $GIT_NAME
-  email = $GIT_EMAIL
+  name = $git_name
+  email = $git_email
 [includeIf "gitdir:~/projects/"]
   path = ~/projects/.gitconfig
 EOF
 fi
+
+log "done"

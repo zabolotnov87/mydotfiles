@@ -1,0 +1,57 @@
+#!/bin/bash
+
+set -euo pipefail
+
+context='[basic]'
+
+log() {
+  echo "$context $*"
+}
+
+install_if_missing() {
+  local pkg="$1"
+  if brew list "$pkg" >/dev/null 2>&1; then
+    echo "$pkg already installed"
+  else
+    brew install "$pkg"
+  fi
+}
+
+log "start"
+
+base=$(pwd)
+
+xcode-select --install >/dev/null 2>&1 || log "dev tools are already installed"
+
+# Install homebrew
+which brew >/dev/null 2>&1 || bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+source <(/opt/homebrew/bin/brew shellenv)
+
+packages=(
+  rectangle # see ../RectangleConfig.json
+  coreutils
+  gpg
+  rg
+  tree
+  htop
+  universal-ctags
+  jq
+  kitty
+  font-fira-code
+  git
+  fish
+  neovim
+  tmux
+  reattach-to-user-namespace
+)
+
+for pkg in "${packages[@]}"; do
+    install_if_missing "$pkg"
+done
+
+# Configure kitty
+mkdir -p ~/.config/kitty
+ln -sf $base/kitty.conf ~/.config/kitty/kitty.conf
+
+log "done"
