@@ -121,20 +121,8 @@ set -gx LANG en_US.UTF-8
 mkdir -p ~/bin
 fish_add_path ~/bin
 
-if test -e ~/.cargo/bin
-  fish_add_path ~/.cargo/bin
-end
-
 # Remove greeting
 set fish_greeting
-
-# Configure direnv
-set -gx DIRENV_LOG_FORMAT ""
-eval (direnv hook fish)
-
-if test -e ~/.asdf/asdf.fish
-  source ~/.asdf/asdf.fish
-end
 
 # Setup base16 colorscheme (shell, fzf)
 set -l base16_dir ~/.config/base16
