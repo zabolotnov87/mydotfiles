@@ -10,6 +10,8 @@ log() {
 
 log "start"
 
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 base=$(pwd)
 
 mkdir -p ~/.config/nvim/lua

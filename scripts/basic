@@ -26,7 +26,7 @@ xcode-select --install >/dev/null 2>&1 || log "dev tools are already installed"
 # Install homebrew
 which brew >/dev/null 2>&1 || bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-source <(/opt/homebrew/bin/brew shellenv)
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 packages=(
   rectangle # see ../RectangleConfig.json

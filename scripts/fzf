@@ -10,10 +10,12 @@ log() {
 
 log "start"
 
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 if [ ! -d ~/.fzf ]; then
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 fi
 
-~/.fzf/install --all --no-bash --no-zsh
+fish -c "~/.fzf/install --all --no-bash --no-zsh"
 
 log "finish"
