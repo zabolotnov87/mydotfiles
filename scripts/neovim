@@ -16,6 +16,7 @@ base=$(pwd)
 
 mkdir -p ~/.config/nvim/lua
 
+ln -sf $base/plugs.vim ~/.config/nvim/plugs.vim
 ln -sf $base/init.vim ~/.config/nvim/init.vim
 
 if [ ! -d ~/.config/nvim/lua/configs ]; then
@@ -33,6 +34,6 @@ if [ ! -f $plug_vim ]; then
   curl -fLo $plug_vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
 
-nvim +PlugInstall +qall --headless
+nvim -u ~/.config/nvim/plugs.vim +PlugInstall +qall --headless
 
 log "done"
