@@ -98,9 +98,9 @@ function rn
   find . -type f -name $name -not -path './vendor/*' -print | xargs sed -i '' -e "s/$old/$new/g"
 end
 
-# if test -e /opt/homebrew/bin/brew
-#   source <(/opt/homebrew/bin/brew shellenv)
-# end
+if test -e /opt/homebrew/bin/brew
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+end
 
 # Configure fzf
 bind \cb fco
