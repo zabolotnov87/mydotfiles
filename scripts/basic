@@ -44,6 +44,7 @@ packages=(
   neovim
   tmux
   reattach-to-user-namespace
+  mise
 )
 
 for pkg in "${packages[@]}"; do
